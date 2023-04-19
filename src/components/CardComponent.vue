@@ -2,27 +2,19 @@
 
     <div>
         <h2>Card searcher</h2>
+
+        <button 
+          @click="firstMinus(), lastMinus()"
+          :disabled="first == 1">Left
+        </button>
+        <button 
+          @click="firstPlus(), lastPlus()">Right
+        </button>
         <input type="text" v-model="searchText" placeholder="Search card name">
-        <div>
-          <p v-for="card in searchCards" :key="card.id">
-            {{ card.name }}
-          </p>
+        <div v-for="card, index in searchCards" :key="card.id">
+          <p v-if="index > first && index < last"> {{ card.name }} </p>
+          <img v-if="index > first && index < last" :src="card.card_images[0].image_url" />
         </div>
-      </div>
-
-
-    <div class="cards__wrapper">
-        <h2>Magicians cards</h2>
-          <p class="cards__card" v-for="card in magicians" :key="card.id">
-            {{ card.name }}
-          </p>
-      </div>
-
-    <div class="cards__wrapper">
-        <h2>Monster Cards</h2>
-          <p class="cards__card" v-for="card in monsterCards" :key="card.id">
-            {{ card.name }}
-          </p>
       </div>
 
   </template>
@@ -33,6 +25,27 @@
   
   const cards = ref([]);
   const searchText = ref('');
+  const cardsPerPage = 10
+  const first = ref(1)
+  const last = ref(cardsPerPage)
+
+  const firstPlus = function() {
+    first.value += cardsPerPage
+  }
+
+  const firstMinus = function() {
+    first.value -= cardsPerPage
+  }
+
+  const lastPlus = function() {
+      last.value += cardsPerPage
+  }
+
+  const lastMinus = function()  {
+      last.value -= cardsPerPage
+  }
+
+  
   
   const fetchCards = async () => {
     try {
