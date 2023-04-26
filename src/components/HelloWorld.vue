@@ -8,7 +8,6 @@ let cardsArray = []
 axios.get('cards.json')
   .then(response => {
     cardsArray = response.data.data
-    console.log(cardsArray)
   })
   .catch(error => {
     console.log(error)
@@ -24,20 +23,5 @@ axios.get('cards.json')
 </template>
 
 <style scoped>
-
-.cards__wrapper {
-  height: auto;
-  border: 1px solid black;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-flow: row wrap;
-
-}
-
-.cards__card {
-  width: 30%;
-  border: 1px solid blue;
-}
 
 </style>

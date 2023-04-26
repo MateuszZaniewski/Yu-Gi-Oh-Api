@@ -1,19 +1,40 @@
 <template>
 
-    <div>
+    <div class="wrapper">
         <h2>Card searcher</h2>
 
-        <button 
+        <div class="inputWrapper">
+          <input v-model="searchCriteria" checked type="radio" id="allcards" name="cards" value="">
+          <label for="allcards">All Cards</label>
+          <input v-model="searchCriteria" type="radio" id="monsters" name="cards" value="Monster">
+          <label for="monsters">Monsters</label>
+          <input v-model="searchCriteria" type="radio" id="spells" name="cards" value="Spell Card">
+          <label for="spells">Spells</label>
+          <input v-model="searchCriteria" type="radio" id="traps" name="cards" value="Trap Card">
+          <label for="traps">Traps</label>
+        </div>
+
+        <div class="buttonsWrapper">
+          <button 
           @click="firstMinus(), lastMinus()"
-          :disabled="first == 1">Left
+          :disabled="first == 1">Previous
         </button>
         <button 
-          @click="firstPlus(), lastPlus()">Right
+          @click="firstPlus(), lastPlus()">Next
         </button>
         <input type="text" v-model="searchText" placeholder="Search card name">
-        <div v-for="card, index in searchCards" :key="card.id">
-          <p v-if="index > first && index < last"> {{ card.name }} </p>
-          <img v-if="index > first && index < last" :src="card.card_images[0].image_url" />
+        </div>
+        
+        
+        
+
+        
+        <div class="cards__wrapper" v-for="card, index in searchCards" :key="card.id">
+          <div class="cards__card">
+            <p v-if="index >= first && index < last"> {{ card.name }} </p>
+            <img v-if="index >= first && index < last" :src="card.card_images[0].image_url" />
+          </div>
+          
         </div>
       </div>
 
@@ -25,8 +46,9 @@
   
   const cards = ref([]);
   const searchText = ref('');
+  const searchCriteria = ref('')
   const cardsPerPage = 10
-  const first = ref(1)
+  const first = ref(-1)
   const last = ref(cardsPerPage)
 
   const firstPlus = function() {
@@ -59,35 +81,45 @@
   onMounted(() => {
     fetchCards();
   });
-  
-  const monsterCards = computed(() => {
-    return cards.value.filter(card => card.type.includes('Monster'));
-  });
-
-  const magicians = computed(() => {
-    return cards.value.filter(card => card.name.includes('Magician'))
-  })
 
   const searchCards = computed (() => {
-    return cards.value.filter(card => card.name.toLowerCase().includes(searchText.value.toLowerCase()));
+    const filteredCards = cards.value.filter(card => card.name.toLowerCase().includes(searchText.value.toLowerCase()));
+    const filteredCardsWithType = filteredCards.filter((cards => cards.type.includes(searchCriteria.value)))
+    return filteredCardsWithType;
   })
+
+
   </script>
 
-<style scoped>
+
+<style>
+
+h2 {
+  text-align: center;
+}
+
+.inputWrapper, .buttonsWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.buttonsWrapper {
+  padding-top: 1rem;
+}
 
 .cards__wrapper {
-    height: auto;
-    border: 1px solid black;
-    margin: 0;
-    padding: 0;
     display: flex;
     flex-flow: row wrap;
-  
+    width: 100%;
   }
   
   .cards__card {
-    width: 30%;
-    border: 1px solid blue;
+    width: fit-content;
+  }
+
+  .cards__card img {
+    height: 300px;
+    width: 300px;
   }
 
 </style>
