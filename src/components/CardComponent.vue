@@ -3,17 +3,6 @@
     <div class="wrapper">
         <h2>Card searcher</h2>
 
-        <div class="inputWrapper">
-          <input v-model="searchCriteria" checked type="radio" id="allcards" name="cards" value="">
-          <label for="allcards">All Cards</label>
-          <input v-model="searchCriteria" type="radio" id="monsters" name="cards" value="Monster">
-          <label for="monsters">Monsters</label>
-          <input v-model="searchCriteria" type="radio" id="spells" name="cards" value="Spell Card">
-          <label for="spells">Spells</label>
-          <input v-model="searchCriteria" type="radio" id="traps" name="cards" value="Trap Card">
-          <label for="traps">Traps</label>
-        </div>
-
         <div class="buttonsWrapper">
           <button 
           @click="firstMinus(), lastMinus()"
@@ -23,19 +12,33 @@
           @click="firstPlus(), lastPlus()">Next
         </button>
         <input type="text" v-model="searchText" placeholder="Search card name">
+        
+
+        <input v-model="desc" type="checkbox" id="checkDesc" name="desc" value="">
+          <label for="desc">Search in description</label>
+        </div>
+        <div class="cardCriteria">
+          <select v-model="searchCriteria">
+            <option disabled value="">Please select card type</option>
+            <option value="Monster">Monster Cards</option>
+            <option value="Spell Card">Spell Cards</option>
+            <option value="Trap">Trap Cards</option>
+          </select>
         </div>
         
         
         
 
-        
-        <div class="cards__wrapper" v-for="card, index in searchCards" :key="card.id">
-          <div class="cards__card">
-            <p v-if="index >= first && index < last"> {{ card.name }} </p>
-            <img v-if="index >= first && index < last" :src="card.card_images[0].image_url" />
-          </div>
+        <div class="cards__wrapper">
+          <div class="" v-for="card, index in searchCards" :key="card.id">
+            <div class="cards__card">
+              <p v-if="index >= first && index < last"> {{ card.name }} </p>
+              <img v-if="index >= first && index < last" :src="card.card_images[0].image_url" />
+            </div>
           
         </div>
+        </div>
+        
       </div>
 
   </template>
@@ -47,9 +50,11 @@
   const cards = ref([]);
   const searchText = ref('');
   const searchCriteria = ref('')
+  const search = ref('')
   const cardsPerPage = 10
   const first = ref(-1)
   const last = ref(cardsPerPage)
+  const desc = ref(false)
 
   const firstPlus = function() {
     first.value += cardsPerPage
@@ -83,9 +88,21 @@
   });
 
   const searchCards = computed (() => {
-    const filteredCards = cards.value.filter(card => card.name.toLowerCase().includes(searchText.value.toLowerCase()));
-    const filteredCardsWithType = filteredCards.filter((cards => cards.type.includes(searchCriteria.value)))
-    return filteredCardsWithType;
+    // if true search in description of a cards
+    if(desc.value) {
+      const filteredCards = cards.value.filter(card => card.desc.toLowerCase().includes(searchText.value.toLowerCase()));
+      return filteredCards
+
+    // if false search only in name of a cards
+    } else if(!desc.value) {
+      const filteredCards = cards.value.filter(card => card.name.toLowerCase().includes(searchText.value.toLowerCase()));
+      const filteredCardsWithType = filteredCards.filter((cards => cards.type.includes(searchCriteria.value)))
+      const filteredCardsWithRace = filteredCards.filter((cards => cards.race.includes(searchCriteria.value)))
+      return filteredCardsWithRace.length > 0 ? filteredCardsWithRace : filteredCardsWithType;
+    }
+
+
+    
   })
 
 
@@ -103,6 +120,10 @@ h2 {
   justify-content: center;
 }
 
+.inputWrapper label {
+  font-size: 1.8rem;
+}
+
 .buttonsWrapper {
   padding-top: 1rem;
 }
@@ -111,15 +132,24 @@ h2 {
     display: flex;
     flex-flow: row wrap;
     width: 100%;
+    gap: 20px;
+    justify-content: center;
   }
   
   .cards__card {
     width: fit-content;
+    cursor: pointer;
   }
 
   .cards__card img {
-    height: 300px;
-    width: 300px;
+    height: 100%;
+    width: 100%;
+  }
+
+  .cards__card p {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.4rem;
   }
 
 </style>
