@@ -4,12 +4,11 @@
         <h2>Card searcher</h2>
 
         <div class="buttonsWrapper">
-          <button 
-          @click="firstMinus(), lastMinus()"
-          :disabled="first == 1">Previous
+          <button :disabled="paginationStart == 0" @click="paginationStart -= 10, paginationEnd -= 10"
+          >Previous
         </button>
-        <button 
-          @click="firstPlus(), lastPlus()">Next
+        <button @click="paginationStart += 10, paginationEnd += 10"
+          >Next
         </button>
         <input type="text" v-model="searchText" placeholder="Search card name">
         
@@ -20,20 +19,19 @@
         <div class="cardCriteria">
           <select v-model="searchCriteria">
             <option disabled value="">Please select card type</option>
+            <option value="">All Cards</option>
             <option value="Monster">Monster Cards</option>
             <option value="Spell Card">Spell Cards</option>
             <option value="Trap">Trap Cards</option>
           </select>
         </div>
         
-        
-        
 
         <div class="cards__wrapper">
           <div class="" v-for="card, index in searchCards" :key="card.id">
             <div class="cards__card">
-              <p v-if="index >= first && index < last"> {{ card.name }} </p>
-              <img v-if="index >= first && index < last" :src="card.card_images[0].image_url" />
+              <p> {{ card.name }} </p>
+              <img :src="card.card_images[0].image_url" />
             </div>
           
         </div>
@@ -51,26 +49,13 @@
   const searchText = ref('');
   const searchCriteria = ref('')
   const search = ref('')
-  const cardsPerPage = 10
-  const first = ref(-1)
-  const last = ref(cardsPerPage)
+
+  const paginationStart = ref(0)
+  const paginationEnd = ref(10)
+
   const desc = ref(false)
 
-  const firstPlus = function() {
-    first.value += cardsPerPage
-  }
 
-  const firstMinus = function() {
-    first.value -= cardsPerPage
-  }
-
-  const lastPlus = function() {
-      last.value += cardsPerPage
-  }
-
-  const lastMinus = function()  {
-      last.value -= cardsPerPage
-  }
 
   
   
@@ -90,15 +75,19 @@
   const searchCards = computed (() => {
     // if true search in description of a cards
     if(desc.value) {
-      const filteredCards = cards.value.filter(card => card.desc.toLowerCase().includes(searchText.value.toLowerCase()));
-      return filteredCards
+
+      const filterByTypeFirst = cards.value.filter(card => card.type.toLowerCase().includes(searchCriteria.value.toLowerCase()))
+      const filterBySearchText = filterByTypeFirst.filter(card => card.desc.toLowerCase().includes(searchText.value.toLowerCase()))
+
+
+      return filterBySearchText.slice(paginationStart.value,paginationEnd.value)
 
     // if false search only in name of a cards
     } else if(!desc.value) {
       const filteredCards = cards.value.filter(card => card.name.toLowerCase().includes(searchText.value.toLowerCase()));
       const filteredCardsWithType = filteredCards.filter((cards => cards.type.includes(searchCriteria.value)))
       const filteredCardsWithRace = filteredCards.filter((cards => cards.race.includes(searchCriteria.value)))
-      return filteredCardsWithRace.length > 0 ? filteredCardsWithRace : filteredCardsWithType;
+      return filteredCardsWithRace.length > 0 ? filteredCardsWithRace.slice(paginationStart.value,paginationEnd.value) : filteredCardsWithType.slice(paginationStart.value,paginationEnd.value);
     }
 
 
