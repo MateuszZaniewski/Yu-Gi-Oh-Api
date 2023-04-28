@@ -75,7 +75,7 @@
   const searchCards = computed (() => {
     // if true search in description of a cards
     if(desc.value) {
-
+      //first filter by card type (monster,spell,trap) => then filter by searching text and return combination of this two conditions
       const filterByTypeFirst = cards.value.filter(card => card.type.toLowerCase().includes(searchCriteria.value.toLowerCase()))
       const filterBySearchText = filterByTypeFirst.filter(card => card.desc.toLowerCase().includes(searchText.value.toLowerCase()))
 
