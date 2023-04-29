@@ -1,40 +1,61 @@
 <template>
-
     <div class="wrapper">
         <h2>Card searcher</h2>
 
         <div class="buttonsWrapper">
-          <button :disabled="paginationStart == 0" @click="paginationStart -= 10, paginationEnd -= 10"
+          <button
+          :disabled="paginationStart == 0"
+          @click="paginationStart -= 10, paginationEnd -= 10"
           >Previous
-        </button>
-        <button @click="paginationStart += 10, paginationEnd += 10"
+          </button>
+
+          <button
+          @click="paginationStart += 10, paginationEnd += 10"
           >Next
-        </button>
-        <input type="text" v-model="searchText" placeholder="Search card name">
+          </button>
+          <input
+          type="text"
+          v-model="searchText"
+          placeholder="Search card name">
         
 
-        <input v-model="desc" type="checkbox" id="checkDesc" name="desc" value="">
+        <input
+          v-model="desc"
+          type="checkbox"
+          id="checkDesc"
+          name="desc"
+          value=""
+          @click="desc = !desc">
           <label for="desc">Search in description</label>
         </div>
         <div class="cardCriteria">
-          <select v-model="searchCriteria">
+          <select v-model="cardType">
             <option disabled value="">Please select card type</option>
             <option value="">All Cards</option>
             <option value="Monster">Monster Cards</option>
             <option value="Spell Card">Spell Cards</option>
             <option value="Trap">Trap Cards</option>
           </select>
+          </div>
+          <div>
+          <select v-model="cardAttribute">
+            <option disabled hidden value="">Please select card attribute</option>
+            <option selected value="">All attributes</option>
+            <option value="LIGHT">Light</option>
+            <option value="DARK">Dark</option>
+            <option value="EARTH">Earth</option>
+            <option value="FIRE">Fire</option>
+            <option value="WATER">Water</option>
+            <option value="WIND">Wind</option>
+            <option value="DIVINE">Divine</option>
+          </select>
         </div>
+
+
         
 
         <div class="cards__wrapper">
-          <div class="" v-for="card, index in searchCards" :key="card.id">
-            <div class="cards__card">
-              <p> {{ card.name }} </p>
-              <img :src="card.card_images[0].image_url" />
-            </div>
-          
-        </div>
+          <Card :message="searchCards"/>
         </div>
         
       </div>
@@ -44,25 +65,24 @@
   <script setup>
   import { ref, onMounted, computed } from 'vue';
   import axios from 'axios';
+  import Card from './Card.vue';
+
   
   const cards = ref([]);
   const searchText = ref('');
-  const searchCriteria = ref('')
-  const search = ref('')
+  const cardType = ref('')
+  const cardAttribute = ref('')
 
   const paginationStart = ref(0)
   const paginationEnd = ref(10)
 
   const desc = ref(false)
 
-
-
-  
-  
   const fetchCards = async () => {
     try {
       const response = await axios.get('cards.json');
       cards.value = response.data.data;
+      console.log(cards)
     } catch (error) {
       console.log(error);
     }
@@ -73,26 +93,13 @@
   });
 
   const searchCards = computed (() => {
-    // if true search in description of a cards
-    if(desc.value) {
-      //first filter by card type (monster,spell,trap) => then filter by searching text and return combination of this two conditions
-      const filterByTypeFirst = cards.value.filter(card => card.type.toLowerCase().includes(searchCriteria.value.toLowerCase()))
-      const filterBySearchText = filterByTypeFirst.filter(card => card.desc.toLowerCase().includes(searchText.value.toLowerCase()))
 
+      const fType = cards.value.filter(card => card.type.toLowerCase().includes(cardType.value.toLowerCase()))
+      const fSearch = fType.filter(card => card.name.toLowerCase().includes(searchText.value.toLowerCase()))
+      
 
-      return filterBySearchText.slice(paginationStart.value,paginationEnd.value)
-
-    // if false search only in name of a cards
-    } else if(!desc.value) {
-      const filteredCards = cards.value.filter(card => card.name.toLowerCase().includes(searchText.value.toLowerCase()));
-      const filteredCardsWithType = filteredCards.filter((cards => cards.type.includes(searchCriteria.value)))
-      const filteredCardsWithRace = filteredCards.filter((cards => cards.race.includes(searchCriteria.value)))
-      return filteredCardsWithRace.length > 0 ? filteredCardsWithRace.slice(paginationStart.value,paginationEnd.value) : filteredCardsWithType.slice(paginationStart.value,paginationEnd.value);
-    }
-
-
-    
-  })
+      return fSearch.slice(paginationStart.value,paginationEnd.value)
+    })
 
 
   </script>
