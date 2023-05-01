@@ -37,22 +37,8 @@
             <option value="Trap">Trap Cards</option>
           </select>
           </div>
-          <div>
-          <select v-model="cardAttribute">
-            <option disabled hidden value="">Please select card attribute</option>
-            <option selected value="">All attributes</option>
-            <option value="LIGHT">Light</option>
-            <option value="DARK">Dark</option>
-            <option value="EARTH">Earth</option>
-            <option value="FIRE">Fire</option>
-            <option value="WATER">Water</option>
-            <option value="WIND">Wind</option>
-            <option value="DIVINE">Divine</option>
-          </select>
-        </div>
 
-
-        
+          
 
         <div class="cards__wrapper">
           <Card :message="searchCards"/>
@@ -94,11 +80,21 @@
 
   const searchCards = computed (() => {
 
-      const fType = cards.value.filter(card => card.type.toLowerCase().includes(cardType.value.toLowerCase()))
-      const fSearch = fType.filter(card => card.name.toLowerCase().includes(searchText.value.toLowerCase()))
+      if(desc.value) {
+        const fSearch = cards.value.filter(card => 
+          card.desc.toLowerCase().includes(searchText.value.toLowerCase()) &&
+          card.type.toLowerCase().includes(cardType.value.toLowerCase()))
+        return fSearch.slice(paginationStart.value,paginationEnd.value)
+      }
+      else {
+        const fSearch = cards.value.filter(card => 
+          card.name.toLowerCase().includes(searchText.value.toLowerCase()) && 
+          card.type.toLowerCase().includes(cardType.value.toLowerCase()))
       
 
       return fSearch.slice(paginationStart.value,paginationEnd.value)
+      }
+      
     })
 
 
@@ -128,24 +124,8 @@ h2 {
     display: flex;
     flex-flow: row wrap;
     width: 100%;
-    gap: 20px;
+    gap: 5vh;
     justify-content: center;
-  }
-  
-  .cards__card {
-    width: fit-content;
-    cursor: pointer;
-  }
-
-  .cards__card img {
-    height: 100%;
-    width: 100%;
-  }
-
-  .cards__card p {
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.4rem;
   }
 
 </style>
