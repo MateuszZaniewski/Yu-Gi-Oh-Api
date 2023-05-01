@@ -9,6 +9,14 @@
                 <div class="information--others">
                     <div class="type others">
                         <span>Type</span>
+                        <img :src="card.attribute == 'DARK' ? DARK :
+                        card.attribute == 'LIGHT' ? LIGHT :
+                        card.attribute == 'DIVINE' ? DIVINE :
+                        card.attribute == 'EARTH' ? EARTH :
+                        card.attribute == 'FIRE' ? FIRE :
+                        card.attribute == 'WATER' ? WATER : 
+                        card.attribute == 'WIND' ? WIND :
+                        card.type == 'Spell Card' ? SPELL : TRAP">
                         <span class="others--info">{{ card.type ? card.type : 'N/A' }}</span>
                         
                     </div>
@@ -51,6 +59,25 @@
 
 const props = defineProps(['message'])
 console.log(props.message)
+
+import DARK from '../assets/DARK.png';
+import LIGHT from '../assets/LIGHT.png';
+import DIVINE from '../assets/DIVINE.png';
+import EARTH from '../assets/EARTH.png';
+import FIRE from '../assets/FIRE.png';
+import WATER from '../assets/WATER.png';
+import WIND from '../assets/WIND.png';
+import SPELL from '../assets/SPELL.svg'
+import TRAP from '../assets/TRAP.svg'
+
+const setupAtribute = (card) => {
+    return card.attribute == 'DARK' ? DARK :
+    card.attribute == 'LIGHT' ? LIGHT :
+    card.attribute == 'DIVINE' ? DIVINE :
+    card.attribute == 'EARTH' ? EARTH :
+    card.attribute == 'FIRE' ? FIRE :
+    card.attribute == 'WATER' ? WATER : WIND
+}
 
 </script>
 
