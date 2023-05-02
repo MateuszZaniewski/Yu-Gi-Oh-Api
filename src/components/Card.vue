@@ -140,7 +140,8 @@ import Dollar from '../assets/dollar.png'
 @media screen and (max-width: 1023px) {
 
   .cards__card {
-    width: 100vw;
+    width: 90%;
+    margin: 0 auto;
     display: flex;
     flex-flow: column;
     border-bottom: 1px solid grey;
@@ -156,6 +157,10 @@ import Dollar from '../assets/dollar.png'
     width: auto;
     display: flex;
     justify-content: center;
+  }
+
+  .card--image img {
+    width: 100%;
   }
 
   .card--information {
@@ -176,7 +181,7 @@ import Dollar from '../assets/dollar.png'
     display: flex;
     flex-flow: column nowrap;
     background-color: brown;
-    width: 30%;
+    width: 35%;
     padding: 10px 10px;
     border-radius: 0.3rem;
     color: white;
