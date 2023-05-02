@@ -43,6 +43,20 @@
         <div class="cards__wrapper">
           <Card :message="searchCards"/>
         </div>
+
+        <div class="downButtons">
+          <button
+          :disabled="paginationStart == 0"
+          @click="paginationStart -= 10, paginationEnd -= 10, ScrolltoTop()"
+          >Previous
+          </button>
+
+          <button
+          @click="paginationStart += 10, paginationEnd += 10, ScrolltoTop()"
+          >Next
+          </button>
+        </div>
+        
         
       </div>
 
@@ -98,6 +112,15 @@
     })
 
 
+  const ScrolltoTop = () => {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    })
+  }
+
+
   </script>
 
 
@@ -127,5 +150,16 @@ h2 {
     gap: 5vh;
     justify-content: center;
   }
+
+.downButtons {
+  display: flex;
+  justify-content: center;
+  padding: 2vh 0 2vh 0;
+  
+}
+
+.downButtons button {
+  font-size: 1.6rem;
+}
 
 </style>
