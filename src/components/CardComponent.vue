@@ -80,7 +80,7 @@
 
   const fetchCards = async () => {
     try {
-      const response = await axios.get('cards.json');
+      const response = await axios.get('https://db.ygoprodeck.com/api/v7/cardinfo.php');
       cards.value = response.data.data;
       console.log(cards)
     } catch (error) {
@@ -143,12 +143,20 @@ h2 {
   padding-top: 1rem;
 }
 
+.cardCriteria {
+  margin-top: 3vh;
+  font-size: 1.4rem;
+}
+
 .cards__wrapper {
     display: flex;
     flex-flow: row wrap;
     width: 100%;
     gap: 5vh;
     justify-content: center;
+    margin-top: 3vh;
+    max-width: 1440px;
+    margin: 0 auto;
   }
 
 .downButtons {

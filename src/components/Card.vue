@@ -5,7 +5,7 @@
                 <img :src="card.card_images[0].image_url" />
             </div>
             <div class="card--information">
-                <div class="information--name"><p>{{card.name}}</p></div>
+                <div class="information--name"><p>Name: {{card.name}}</p></div>
                 <div class="information--others">
 
 
@@ -96,7 +96,7 @@
 
 
                     <div class="description">
-                        <span>Card Text</span>
+                        <span>Card description:</span>
                         <p>{{ card.desc ? card.desc : N/A }}</p>
                     </div>
                 </div>
@@ -180,6 +180,8 @@ import Dollar from '../assets/dollar.png'
   .others {
     display: flex;
     flex-flow: column nowrap;
+    justify-content: center;
+    font-size: 0.8rem;
     background-color: brown;
     width: 35%;
     padding: 10px 10px;
@@ -190,7 +192,7 @@ import Dollar from '../assets/dollar.png'
   .others--info {
     font-weight: bold;
     padding-top: 5%;
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   .type--imageBox{
@@ -210,15 +212,21 @@ import Dollar from '../assets/dollar.png'
     display: flex;
     flex-flow: column;
     width: 100%;
+    align-items: flex-start;
   }
 
   .description span {
     text-align: center;
-    font-size: 1.6rem;
+    font-size: 1rem;
+    padding-bottom: 2vh;
   }
 
   .description p {
-    padding: 0 2rem 0 2rem;
+    margin: 0;
+    font-size: 1.1rem;
+    text-align: left;
+    padding-bottom: 3vh;
+    
   }
 }
 
@@ -227,6 +235,8 @@ import Dollar from '../assets/dollar.png'
     .cards__card {
     width: 100vw;
     display: flex;
+    padding-bottom: 3vh;
+    border-bottom: 1px solid grey;
   }
 
   .cards__card p {
@@ -246,6 +256,7 @@ import Dollar from '../assets/dollar.png'
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
+    background-color: rgb(245, 243, 243);
   }
 
   .information--others {
