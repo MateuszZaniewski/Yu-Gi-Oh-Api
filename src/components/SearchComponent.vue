@@ -3,8 +3,8 @@
     <section>
         <div class="search-field">
             <div class="searchbar">
-                <input type="text" :value="cardName" @input="updateValue($event.target.value)" placeholder="Enter keyword">
-                <span>X</span>
+                <input v-model="searchText" type="text" placeholder="Enter keyword">
+                <span @click="clear">X</span>
             </div>
             <div>
             <div class="search-type-select">
@@ -21,7 +21,88 @@
         </div>
 
         <div class="filter-field">
-            <span class="field-head">Search Filters <span>\/</span></span>
+            <span class="field-head">Search Filters <span @click="revealDropdownFilter()">\/</span></span>
+            <div class="dropdown-filters" :style="{display: reveal}">
+                <div class="simple-filters">
+                    <button>All Cards</button>
+                    <button>Monster Cards</button>
+                    <button>Spell Cards</button>
+                    <button>Trap Cards</button>
+                </div>
+                <div class="atribute-filters atribute-container">
+                    <div class="atribute-head"><span>Attribute</span></div>
+                    <div class="atribute-items">
+                        <button><img :src="DARK"/>DARK</button>
+                        <button><img :src="LIGHT"/>LIGHT</button>
+                        <button><img :src="EARTH"/>EARTH</button>
+                        <button><img :src="WATER"/>WATER</button>
+                        <button><img :src="FIRE"/>FIRE</button>
+                        <button><img :src="WIND"/>WIND</button>
+                        <button><img :src="DIVINE"/>DIVINE</button>
+                    </div>button
+                </div>
+                <div class="race-filters atribute-container">
+                    <div class="atribute-head"><span>Race</span></div>
+                    <div class="atribute-items">
+                        <button><img :src="Equip" />Equip</button>
+                        <button><img :src="Field" />Field</button>
+                        <button><img :src="QuickPlay" />Quick-spell</button>
+                        <button><img :src="Ritual" />Ritual</button>
+                        <button><img :src="Continuous" />Continous</button>
+                        <button><img :src="Counter" />Counter</button>
+                        <button>Normal</button>
+                    </div>
+                </div>
+                <div class="type-filters atribute-container">
+                    <div class="atribute-head"><span>Monster Type</span></div>
+                    <div class="atribute-items">
+                        <button>Spellcaster</button>
+                        <button>Dragon</button>
+                        <button>Zombie</button>
+                        <button>Warrior</button>
+                        <button>Beast-Warrior</button>
+                        <button>Beast</button>
+                        <button>Winged Beast</button>
+                        <button>Fiend</button>
+                        <button>Fairy</button>
+                        <button>Insect</button>
+                        <button>Dinosaur</button>
+                        <button>Reptile</button>
+                        <button>Fish</button>
+                        <button>Sea Serpent</button>
+                        <button>Aqua</button>
+                        <button>Pyro</button>
+                        <button>Thunder</button>
+                        <button>Rock</button>
+                        <button>Plant</button>
+                        <button>Machine</button>
+                        <button>Psychic</button>
+                        <button>Divine-Beast</button>
+                        <button>Wyrm</button>
+                        <button>Cyberse</button>
+                        <button>Creator-God</button>
+                    </div>
+                </div>
+                <div class="cardtype-filters atribute-container">
+                    <div class="atribute-head"><span>Card Type</span></div>
+                    <div class="atribute-items">
+                        <button>Normal</button>
+                        <button>Effect</button>
+                        <button>Ritual</button>
+                        <button>Fusion</button>
+                        <button>Synchro</button>
+                        <button>XYZ</button>
+                        <button>Pendulum</button>
+                        <button>Link</button>
+                        <button>Toon</button>
+                        <button>Spirit</button>
+                        <button>Union</button>
+                        <button>Gemini</button>
+                        <button>Tuner</button>
+                        <button>Flip</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -29,9 +110,44 @@
 
 <script setup>
 
-import { defineEmits, ref } from 'vue';
+import { ref } from 'vue';
+import DARK from '../assets/DARK.png';
+import LIGHT from '../assets/LIGHT.png';
+import DIVINE from '../assets/DIVINE.png';
+import EARTH from '../assets/EARTH.png';
+import FIRE from '../assets/FIRE.png';
+import WATER from '../assets/WATER.png';
+import WIND from '../assets/WIND.png';
+
+import Counter from '../assets/Counter.png';
+import Continuous from '../assets/Continuous.png';
+import QuickPlay from '../assets/Quick-Play.png';
+import Field from '../assets/Field.png';
+import Ritual from '../assets/Ritual.png';
+import Equip from '../assets/Equip.png';
+
+import Level from '../assets/level.png';
+import Atk from '../assets/swords.png';
+import Def from '../assets/shield.png';
 
 
+
+const searchText = ref('')
+const reveal = ref('block')
+
+
+// methods //
+const clear = () => {
+    searchText.value = ''
+}
+
+const revealDropdownFilter = () => {
+    if(reveal.value == 'block') {
+        reveal.value = 'none'
+    } else {
+        reveal.value = 'block'
+    }
+}
 
 
 // colors 
@@ -78,6 +194,7 @@ section {
             color: rgb(36, 35, 35);
             position: absolute;
             right: 0;
+            cursor: pointer;
         }
     }
     
@@ -106,11 +223,84 @@ section {
     display: flex;
     justify-content: center;
     color: white;
+    flex-flow: column nowrap;
 
     .field-head{
         margin: 0;
-        padding: 2vh 0;
+        padding: 3vh 0;
         text-align: center;
+        cursor: pointer;
+        border: 1px solid red;
+    }
+
+    .dropdown-filters {
+        
+        .simple-filters {
+            display: flex;
+            justify-content: space-around;
+            padding-bottom: 0.5rem;
+
+            button {
+                border-bottom: 1px solid transparent;
+                padding-bottom: 0.5rem;
+                width: 25%;
+                background-color: #2b4570;
+                border: none;
+                border-bottom: 1px solid #2b4570;
+                color: white;
+                cursor: pointer;
+            }
+
+            button:hover {
+                border-bottom: 1px solid orange;
+                font-weight: bold;
+            }
+            
+            button:active {
+                border-bottom: 1px solid orange;
+                font-weight: bold;
+            }
+        }
+
+        .atribute-container {
+            display: flex;
+            flex-flow: row nowrap;
+            background-color: white;
+
+            .atribute-head {
+                width: 10%;
+                background-color: #a8d0db;
+                margin: 0.25rem 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                span {
+                    font-size: 1.2rem;
+                    
+                }
+            }
+
+            .atribute-items {
+                width: 90%;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-around;
+                margin: 0.25rem 0;
+                color: black;
+                align-items: center;
+
+                button {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border: 1px solid green;
+                    background-color: #a8d0db;
+                    width: 13%;
+                }
+            }
+
+        }
     }
 }
 

@@ -1,29 +1,6 @@
 <template>
 
-  <section>
-    <div class="search-field">
-        <div class="searchbar">
-            <input type="text" v-model="searchText" placeholder="Enter keyword">
-            <span>X</span>
-        </div>
-        <div>
-        <div class="search-type-select">
-            <select>
-                <option selected value="CardName">Search by Card Name</option>
-                <option value="CardText">Search by Card Text</option>
-            </select>
-        </div>
-        </div>
-        <div class="search-button">
-            <button>Search</button>
-        </div>
-        
-    </div>
-
-    <div class="filter-field">
-        <span class="field-head">Search Filters <span>\/</span></span>
-    </div>
-</section>
+  <SearchComponent />
 
     <div class="wrapper">
 
@@ -91,6 +68,7 @@
   import { ref, onMounted, computed } from 'vue';
   import axios from 'axios';
   import Card from './Card.vue';
+  import SearchComponent from './SearchComponent.vue';
 
   
   const cards = ref([]);
