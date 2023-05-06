@@ -32,74 +32,74 @@
                 <div v-if="atributeBox" class="atribute-filters atribute-container">
                     <div class="atribute-head"><span>Attribute</span></div>
                     <div class="atribute-items">
-                        <button><img :src="DARK"/>DARK</button>
-                        <button><img :src="LIGHT"/>LIGHT</button>
-                        <button><img :src="EARTH"/>EARTH</button>
-                        <button><img :src="WATER"/>WATER</button>
-                        <button><img :src="FIRE"/>FIRE</button>
-                        <button><img :src="WIND"/>WIND</button>
-                        <button><img :src="DIVINE"/>DIVINE</button>
+                        <button ><img :src="DARK"/>DARK</button>
+                        <button ><img :src="LIGHT"/>LIGHT</button>
+                        <button ><img :src="EARTH"/>EARTH</button>
+                        <button ><img :src="WATER"/>WATER</button>
+                        <button ><img :src="FIRE"/>FIRE</button>
+                        <button ><img :src="WIND"/>WIND</button>
+                        <button ><img :src="DIVINE"/>DIVINE</button>
                     </div>
                 </div>
                 <div v-if="raceBox" class="race-filters atribute-container">
                     <div class="atribute-head"><span>Race</span></div>
                     <div class="atribute-items">
-                        <button><img :src="Equip" />Equip</button>
-                        <button><img :src="Field" />Field</button>
-                        <button><img :src="QuickPlay" />Quick-spell</button>
-                        <button><img :src="Ritual" />Ritual</button>
-                        <button><img :src="Continuous" />Continous</button>
-                        <button><img :src="Counter" />Counter</button>
-                        <button>Normal</button>
+                        <button ><img :src="Equip" />Equip</button>
+                        <button ><img :src="Field" />Field</button>
+                        <button ><img :src="QuickPlay" />Quick-spell</button>
+                        <button ><img :src="Ritual" />Ritual</button>
+                        <button ><img :src="Continuous" />Continous</button>
+                        <button ><img :src="Counter" />Counter</button>
+                        <button >Normal</button>
                     </div>
                 </div>
                 <div v-if="monsterTypeBox" class="type-filters atribute-container">
                     <div class="atribute-head"><span>Monster Type</span></div>
                     <div class="atribute-items">
-                        <button>Spellcaster</button>
-                        <button>Dragon</button>
-                        <button>Zombie</button>
-                        <button>Warrior</button>
-                        <button>Beast-Warrior</button>
-                        <button>Beast</button>
-                        <button>Winged Beast</button>
-                        <button>Fiend</button>
-                        <button>Fairy</button>
-                        <button>Insect</button>
-                        <button>Dinosaur</button>
-                        <button>Reptile</button>
-                        <button>Fish</button>
-                        <button>Sea Serpent</button>
-                        <button>Aqua</button>
-                        <button>Pyro</button>
-                        <button>Thunder</button>
-                        <button>Rock</button>
-                        <button>Plant</button>
-                        <button>Machine</button>
-                        <button>Psychic</button>
-                        <button>Divine-Beast</button>
-                        <button>Wyrm</button>
-                        <button>Cyberse</button>
-                        <button>Creator-God</button>
+                        <button >Spellcaster</button>
+                        <button >Dragon</button>
+                        <button >Zombie</button>
+                        <button >Warrior</button>
+                        <button >Beast-Warrior</button>
+                        <button >Beast</button>
+                        <button >Winged Beast</button>
+                        <button >Fiend</button>
+                        <button >Fairy</button>
+                        <button >Insect</button>
+                        <button >Dinosaur</button>
+                        <button >Reptile</button>
+                        <button >Fish</button>
+                        <button >Sea Serpent</button>
+                        <button >Aqua</button>
+                        <button >Pyro</button>
+                        <button >Thunder</button>
+                        <button >Rock</button>
+                        <button >Plant</button>
+                        <button >Machine</button>
+                        <button >Psychic</button>
+                        <button >Divine-Beast</button>
+                        <button >Wyrm</button>
+                        <button >Cyberse</button>
+                        <button >Creator-God</button>
                     </div>
                 </div>
                 <div v-if="cardTypeBox" class="cardtype-filters atribute-container">
                     <div class="atribute-head"><span>Card Type</span></div>
                     <div class="atribute-items">
-                        <button>Normal</button>
-                        <button>Effect</button>
-                        <button>Ritual</button>
-                        <button>Fusion</button>
-                        <button>Synchro</button>
-                        <button>XYZ</button>
-                        <button>Pendulum</button>
-                        <button>Link</button>
-                        <button>Toon</button>
-                        <button>Spirit</button>
-                        <button>Union</button>
-                        <button>Gemini</button>
-                        <button>Tuner</button>
-                        <button>Flip</button>
+                        <button >Normal</button>
+                        <button >Effect</button>
+                        <button >Ritual</button>
+                        <button >Fusion</button>
+                        <button >Synchro</button>
+                        <button >XYZ</button>
+                        <button >Pendulum</button>
+                        <button >Link</button>
+                        <button >Toon</button>
+                        <button >Spirit</button>
+                        <button >Union</button>
+                        <button >Gemini</button>
+                        <button >Tuner</button>
+                        <button >Flip</button>
                     </div>
                 </div>
                 <div v-if="levelBox" class="level-filters atribute-container">
@@ -143,7 +143,7 @@
 
 <script setup>
 
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import DARK from '../assets/DARK.png';
 import LIGHT from '../assets/LIGHT.png';
 import DIVINE from '../assets/DIVINE.png';
@@ -177,10 +177,20 @@ const atkBox = ref(true)
 const defBox = ref(true)
 
 
+const textArray = ['123', '444', '33412', '47770', '8972']
+console.log(textArray)
+
 // methods //
 const clear = () => {
     searchText.value = ''
 }
+
+const removeIfPresent = (array, item) => {
+        const index = array.indexOf(item)
+        if(index !== -1){
+            array.splice(index,1)
+        }
+    }
 
 const revealDropdownFilter = () => {
     if(reveal.value == 'block') {
@@ -223,9 +233,33 @@ const showSpellandTrapsFilter = () => {
 const levelArray = []
 const levelArrayMethod = () => {
     const buttonText = event.target.textContent;
-    console.log(buttonText)
-    levelArray.push(buttonText)
+    if(!levelArray.includes(buttonText)){
+        levelArray.push(buttonText)
+    } else {
+        removeIfPresent(levelArray, buttonText)
+    }
+    
+    // change color for click
+    const color = event.target.style.backgroundColor
+    event.target.style.backgroundColor = '#4C9F70'
+
+    // change color for unclick
+    if(color == 'rgb(76, 159, 112)') {
+        event.target.style.backgroundColor = '#496F5D'
+    }
+
+    const filterByLevel = () => {
+        return textArray.filter(item => {
+            for(let i = 0; i < levelArray.length; i++){
+                if(item.includes(levelArray[i])){
+                    return true
+                }
+            }
+            return false
+        })
+    }
     console.log(levelArray)
+    console.log(filterByLevel())
 }
 // $vista : #8ea4d2;
 // $glacious : #6279B8;
@@ -238,6 +272,16 @@ const levelArrayMethod = () => {
 <style lang="scss" scoped>
 
 @import '@/assets/_variables.scss';
+
+/* common classes */
+
+.checked {
+    background-color: $shamrockgreen;
+}
+
+.notChecked {
+    background-color: $hookergreen;
+}
 
 section {
     max-width: 1000px;
@@ -370,9 +414,9 @@ section {
                     display: flex;
                     align-items: center;
                     color: white;
+                    background-color: $hookergreen;
                     justify-content: center;
                     border: 1px solid green;
-                    background-color: $hookergreen;
                     width: 13%;
                 }
 
