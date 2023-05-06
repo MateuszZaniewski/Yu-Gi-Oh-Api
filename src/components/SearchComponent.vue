@@ -21,15 +21,15 @@
         </div>
 
         <div class="filter-field">
-            <span class="field-head">Search Filters <span @click="revealDropdownFilter()">\/</span></span>
+            <span @click="revealDropdownFilter()" class="field-head">Search Filters <span >\/</span></span>
             <div class="dropdown-filters" :style="{display: reveal}">
                 <div class="simple-filters">
-                    <button>All Cards</button>
-                    <button>Monster Cards</button>
-                    <button>Spell Cards</button>
-                    <button>Trap Cards</button>
+                    <button @click="showAllFilters">All Cards</button>
+                    <button @click="showMonsterFilters">Monster Cards</button>
+                    <button @click="showSpellandTrapsFilter">Spell Cards</button>
+                    <button @click="showSpellandTrapsFilter">Trap Cards</button>
                 </div>
-                <div class="atribute-filters atribute-container">
+                <div v-if="atributeBox" class="atribute-filters atribute-container">
                     <div class="atribute-head"><span>Attribute</span></div>
                     <div class="atribute-items">
                         <button><img :src="DARK"/>DARK</button>
@@ -39,9 +39,9 @@
                         <button><img :src="FIRE"/>FIRE</button>
                         <button><img :src="WIND"/>WIND</button>
                         <button><img :src="DIVINE"/>DIVINE</button>
-                    </div>button
+                    </div>
                 </div>
-                <div class="race-filters atribute-container">
+                <div v-if="raceBox" class="race-filters atribute-container">
                     <div class="atribute-head"><span>Race</span></div>
                     <div class="atribute-items">
                         <button><img :src="Equip" />Equip</button>
@@ -53,7 +53,7 @@
                         <button>Normal</button>
                     </div>
                 </div>
-                <div class="type-filters atribute-container">
+                <div v-if="monsterTypeBox" class="type-filters atribute-container">
                     <div class="atribute-head"><span>Monster Type</span></div>
                     <div class="atribute-items">
                         <button>Spellcaster</button>
@@ -83,7 +83,7 @@
                         <button>Creator-God</button>
                     </div>
                 </div>
-                <div class="cardtype-filters atribute-container">
+                <div v-if="cardTypeBox" class="cardtype-filters atribute-container">
                     <div class="atribute-head"><span>Card Type</span></div>
                     <div class="atribute-items">
                         <button>Normal</button>
@@ -100,6 +100,39 @@
                         <button>Gemini</button>
                         <button>Tuner</button>
                         <button>Flip</button>
+                    </div>
+                </div>
+                <div v-if="levelBox" class="level-filters atribute-container">
+                    <div class="atribute-head"><span>Level/ Rank</span></div>
+                    <div class="atribute-items">
+                        <button @click="levelArrayMethod">0</button>
+                        <button @click="levelArrayMethod">1</button>
+                        <button @click="levelArrayMethod">2</button>
+                        <button @click="levelArrayMethod">3</button>
+                        <button @click="levelArrayMethod">4</button>
+                        <button @click="levelArrayMethod">5</button>
+                        <button @click="levelArrayMethod">6</button>
+                        <button @click="levelArrayMethod">7</button>
+                        <button @click="levelArrayMethod">8</button>
+                        <button @click="levelArrayMethod">9</button>
+                        <button @click="levelArrayMethod">10</button>
+                        <button @click="levelArrayMethod">11</button>
+                        <button @click="levelArrayMethod">12</button>
+                        <button @click="levelArrayMethod">13</button>
+                    </div>
+                </div>
+                <div v-if="atkBox" class="attack-filters atribute-container">
+                    <div class="atribute-head"><span>Attack</span></div>
+                    <div class="atribute-items">
+                        <input type="number" placeholder="From"/>
+                        <input type="number" placeholder="To"/>
+                    </div>
+                </div>
+                <div v-if="defBox" class="defence-filters atribute-container">
+                    <div class="atribute-head"><span>Defence</span></div>
+                    <div class="atribute-items">
+                        <input type="number" placeholder="From"/>
+                        <input type="number" placeholder="To"/>
                     </div>
                 </div>
             </div>
@@ -135,6 +168,14 @@ import Def from '../assets/shield.png';
 const searchText = ref('')
 const reveal = ref('block')
 
+const atributeBox = ref(true)
+const raceBox = ref(true)
+const monsterTypeBox = ref(true)
+const cardTypeBox = ref(true)
+const levelBox = ref(true)
+const atkBox = ref(true)
+const defBox = ref(true)
+
 
 // methods //
 const clear = () => {
@@ -149,22 +190,58 @@ const revealDropdownFilter = () => {
     }
 }
 
+const showAllFilters = () => {
+    atributeBox.value = true
+    raceBox.value = true
+    monsterTypeBox.value = true
+    cardTypeBox.value = true
+    levelBox.value = true
+    atkBox.value = true
+    defBox.value = true
+}
 
-// colors 
-// #a8d0db - blue 
-// #2b4570 - marine blue
-// #7180ac - fiolet blue
-// #e49273 - pomarancz
-// #a37a74 - rdza
+const showMonsterFilters = () => {
+    atributeBox.value = true
+    raceBox.value = false
+    monsterTypeBox.value = true
+    cardTypeBox.value = true
+    levelBox.value = true
+    atkBox.value = true
+    defBox.value = true
+}
+
+const showSpellandTrapsFilter = () => {
+    atributeBox.value = false
+    raceBox.value = true
+    monsterTypeBox.value = false
+    cardTypeBox.value = false
+    levelBox.value = false
+    atkBox.value = false
+    defBox.value = false
+}
+
+const levelArray = []
+const levelArrayMethod = () => {
+    const buttonText = event.target.textContent;
+    console.log(buttonText)
+    levelArray.push(buttonText)
+    console.log(levelArray)
+}
+// $vista : #8ea4d2;
+// $glacious : #6279B8;
+// $vinblue : #49516F;
+// $hookergreen : #496F5D;
+// $shamrockgreen : #4C9F70
 
 </script>
 
 <style lang="scss" scoped>
 
+@import '@/assets/_variables.scss';
+
 section {
     max-width: 1000px;
     margin: 0 auto;
-    border: 1px solid #e49273;
 }
 
 .search-field {
@@ -172,7 +249,7 @@ section {
     align-items: center;
     justify-content: center;
     gap: 5vw;
-    background-color: #a8d0db;
+    background-color: $vista;
     padding: 0.5rem 0;
 
     .searchbar {
@@ -230,7 +307,7 @@ section {
         padding: 3vh 0;
         text-align: center;
         cursor: pointer;
-        border: 1px solid red;
+        border: 1px solid $glacious;
     }
 
     .dropdown-filters {
@@ -243,16 +320,17 @@ section {
             button {
                 border-bottom: 1px solid transparent;
                 padding-bottom: 0.5rem;
+                padding-top: 0.5rem;
                 width: 25%;
                 background-color: #2b4570;
                 border: none;
-                border-bottom: 1px solid #2b4570;
+                border-bottom: 5px solid #2b4570;
                 color: white;
                 cursor: pointer;
             }
 
             button:hover {
-                border-bottom: 1px solid orange;
+                border-bottom: 5px solid orange;
                 font-weight: bold;
             }
             
@@ -266,26 +344,24 @@ section {
             display: flex;
             flex-flow: row nowrap;
             background-color: white;
+            gap: 5px;
+            padding-bottom: 15px;
 
             .atribute-head {
                 width: 10%;
-                background-color: #a8d0db;
+                background-color: $vista;
                 margin: 0.25rem 0;
                 display: flex;
                 align-items: center;
                 justify-content: center;
 
-                span {
-                    font-size: 1.2rem;
-                    
-                }
             }
 
             .atribute-items {
                 width: 90%;
                 display: flex;
                 flex-wrap: wrap;
-                justify-content: space-around;
+                gap: 10px;
                 margin: 0.25rem 0;
                 color: black;
                 align-items: center;
@@ -293,10 +369,20 @@ section {
                 button {
                     display: flex;
                     align-items: center;
+                    color: white;
                     justify-content: center;
                     border: 1px solid green;
-                    background-color: #a8d0db;
+                    background-color: $hookergreen;
                     width: 13%;
+                }
+
+                button:hover {
+                    background-color: $shamrockgreen;
+                    cursor: pointer;
+                }
+
+                button:active {
+                    background-color: $shamrockgreen;
                 }
             }
 

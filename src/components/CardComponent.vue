@@ -133,7 +133,6 @@
 section {
     max-width: 1000px;
     margin: 0 auto;
-    border: 1px solid #e49273;
 }
 
 .search-field {
