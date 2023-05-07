@@ -66,55 +66,5 @@ const raceArrayMethod = () => {
 
 <style lang="scss" type>
 
-@import '@/assets/_variables.scss';
-.atribute-container {
-            display: flex;
-            flex-flow: row nowrap;
-            background-color: white;
-            gap: 5px;
-            padding-bottom: 15px;
-
-            .atribute-head {
-                width: 10%;
-                background-color: $vista;
-                margin: 0.25rem 0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-
-            }
-
-            .atribute-items {
-                width: 90%;
-                display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
-                margin: 0.25rem 0;
-                color: black;
-                align-items: center;
-
-                button {
-                    display: flex;
-                    align-items: center;
-                    color: white;
-                    background-color: $hookergreen;
-                    justify-content: center;
-                    border: 1px solid green;
-                    width: 13%;
-                }
-
-                button:hover {
-                    background-color: $shamrockgreen;
-                    cursor: pointer;
-                }
-
-                button:active {
-                    background-color: $shamrockgreen;
-                }
-            }
-
-        }
-
-
 
 </style>

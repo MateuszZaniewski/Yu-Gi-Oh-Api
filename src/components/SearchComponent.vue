@@ -15,7 +15,7 @@
             </div>
             </div>
             <div class="search-button">
-                <button>Search</button>
+                <button @click="searchCards">Search</button>
             </div>
             
         </div>
@@ -24,31 +24,21 @@
             <span @click="revealDropdownFilter()" class="field-head">Search Filters <span >\/</span></span>
             <div class="dropdown-filters" :style="{display: reveal}">
                 <div class="simple-filters">
-                    <button @click="showAllFilters">All Cards</button>
-                    <button @click="showMonsterFilters">Monster Cards</button>
-                    <button @click="showSpellandTrapsFilter">Spell Cards</button>
-                    <button @click="showSpellandTrapsFilter">Trap Cards</button>
+                    <button @click="showAllFilters, searchForAllCards()">All Cards</button>
+                    <button @click="showMonsterFilters, searchForMonsters()">Monster Cards</button>
+                    <button @click="showSpellandTrapsFilter, searchForSpells()">Spell Cards</button>
+                    <button @click="showSpellandTrapsFilter, searchForTraps()">Trap Cards</button>
                 </div>
-                <div v-if="atributeBox" class="atribute-filters atribute-container">
-                    <div class="atribute-head"><span>Attribute</span></div>
-                    <div class="atribute-items">
-                        <button >DARK</button>
-                        <button >LIGHT</button>
-                        <button >EARTH</button>
-                        <button >WATER</button>
-                        <button >FIRE</button>
-                        <button >WIND</button>
-                        <button >DIVINE</button>
-                    </div>
-                </div>
+                
+                <AtributeComponent v-if="atributeBox" @pass-atribute-array="handleAtributeArray" />
 
-                <RaceComponent @pass-race-array="handleRaceArray"/>
+                <RaceComponent v-if="raceBox" @pass-race-array="handleRaceArray"/>
 
-                <MonsterTypeComponent @pass-monstertype-array="handleMonstertypeArray"/>
+                <MonsterTypeComponent v-if="monsterTypeBox" @pass-monstertype-array="handleMonstertypeArray"/>
 
-                <CardTypeComponent @pass-cardtype-array="handleCardtypeArray" />
+                <CardTypeComponent v-if="cardTypeBox" @pass-cardtype-array="handleCardtypeArray" />
 
-                <LevelComponent @pass-level-array="handleLevelArray" />
+                <LevelComponent v-if="levelBox" @pass-level-array="handleLevelArray" />
 
                 <div v-if="atkBox" class="attack-filters atribute-container">
                     <div class="atribute-head"><span>Attack</span></div>
@@ -74,14 +64,17 @@
 
 <script setup>
 
-import { ref } from 'vue';
+import { ref, onMounted, computed } from 'vue';
+import axios from 'axios';
 import LevelComponent from './LevelComponent.vue'
 import CardTypeComponent from './CardTypeComponent.vue';
 import MonsterTypeComponent from './MonsterTypeComponent.vue'
 import RaceComponent from './RaceComponent.vue'
+import AtributeComponent from './AtributeComponent.vue'
 
 const searchText = ref('')
 const reveal = ref('block')
+const cards = ref([]);
 
 const atributeBox = ref(true)
 const raceBox = ref(true)
@@ -91,6 +84,11 @@ const levelBox = ref(true)
 const atkBox = ref(true)
 const defBox = ref(true)
 
+let levelArray = []
+let cardTypeArray = []
+let monstertypeArray = []
+let raceArray = []
+let atributeArray = []
 
 // methods //
 const clear = () => {
@@ -137,19 +135,92 @@ const showSpellandTrapsFilter = () => {
 
 const handleLevelArray = (array) => {
       console.log('Received array from levelComponent.vue:', array);
+      levelArray = array
     }
 
 const handleCardtypeArray = (array) => {
     console.log('Recived array from cardTypeComponent.vue:', array)
+    cardTypeArray = array
 }
 
 const handleMonstertypeArray = (array) => {
     console.log('Recived array from MonsterTypeComponent.vue', array)
+    monstertypeArray = array
 }
 
 const handleRaceArray = (array) => {
     console.log('Recived array from RaceArrayComponent.vue', array)
+    raceArray = array
 }
+
+const handleAtributeArray = (array) => {
+    console.log('Recived array from AtributeComponent.vue', array)
+    atributeArray = array
+}
+
+
+
+const fetchCards = async () => {
+    try {
+      const response = await axios.get('https://db.ygoprodeck.com/api/v7/cardinfo.php');
+      cards.value = response.data.data;
+      console.log(cards)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  onMounted(() => {
+    fetchCards();
+  });
+
+
+const searchForAllCards = () => {
+    const preFilter = cards.value.filter(card => card.type.toLowerCase().includes(''))
+    console.log(preFilter)
+}
+
+const searchForMonsters = () => {
+    const preFilter = cards.value.filter(card => card.type.toLowerCase().includes('monster'))
+    console.log(preFilter)
+}
+
+const searchForSpells = () => {
+    const preFilter = cards.value.filter(card => card.type.toLowerCase().includes('spell'))
+    console.log(preFilter)
+}
+
+const searchForTraps = () => {
+    const preFilter = cards.value.filter(card => card.type.toLowerCase().includes('trap'))  
+    console.log(preFilter)  
+}
+
+
+
+const searchCards = () => {
+
+    if(levelArray.length > 0) {
+        const filteredCards = cards.value.filter(card => 
+          card.type.toLowerCase().includes('monster'))
+        console.log(filteredCards)
+
+        const filteredLevels = filteredCards.filter(card => {
+            for(let i = 0; i < levelArray.length; i++){
+                if(card.level == levelArray[i]){
+                    return true
+                }
+                return false
+            }
+        })
+
+        console.log(filteredLevels)
+
+    }
+  
+}
+
+
+
 
 // $vista : #8ea4d2;
 // $glacious : #6279B8;
@@ -283,7 +354,7 @@ section {
 
             .atribute-head {
                 width: 10%;
-                background-color: $vista;
+                background-color: $glacious;
                 margin: 0.25rem 0;
                 display: flex;
                 align-items: center;
