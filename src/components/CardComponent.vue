@@ -1,6 +1,6 @@
 <template>
 
-  <SearchComponent />
+  <SearchComponent  />
 
     <div class="wrapper">
 

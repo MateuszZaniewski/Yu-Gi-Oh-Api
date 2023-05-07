@@ -32,95 +32,24 @@
                 <div v-if="atributeBox" class="atribute-filters atribute-container">
                     <div class="atribute-head"><span>Attribute</span></div>
                     <div class="atribute-items">
-                        <button ><img :src="DARK"/>DARK</button>
-                        <button ><img :src="LIGHT"/>LIGHT</button>
-                        <button ><img :src="EARTH"/>EARTH</button>
-                        <button ><img :src="WATER"/>WATER</button>
-                        <button ><img :src="FIRE"/>FIRE</button>
-                        <button ><img :src="WIND"/>WIND</button>
-                        <button ><img :src="DIVINE"/>DIVINE</button>
+                        <button >DARK</button>
+                        <button >LIGHT</button>
+                        <button >EARTH</button>
+                        <button >WATER</button>
+                        <button >FIRE</button>
+                        <button >WIND</button>
+                        <button >DIVINE</button>
                     </div>
                 </div>
-                <div v-if="raceBox" class="race-filters atribute-container">
-                    <div class="atribute-head"><span>Race</span></div>
-                    <div class="atribute-items">
-                        <button ><img :src="Equip" />Equip</button>
-                        <button ><img :src="Field" />Field</button>
-                        <button ><img :src="QuickPlay" />Quick-spell</button>
-                        <button ><img :src="Ritual" />Ritual</button>
-                        <button ><img :src="Continuous" />Continous</button>
-                        <button ><img :src="Counter" />Counter</button>
-                        <button >Normal</button>
-                    </div>
-                </div>
-                <div v-if="monsterTypeBox" class="type-filters atribute-container">
-                    <div class="atribute-head"><span>Monster Type</span></div>
-                    <div class="atribute-items">
-                        <button >Spellcaster</button>
-                        <button >Dragon</button>
-                        <button >Zombie</button>
-                        <button >Warrior</button>
-                        <button >Beast-Warrior</button>
-                        <button >Beast</button>
-                        <button >Winged Beast</button>
-                        <button >Fiend</button>
-                        <button >Fairy</button>
-                        <button >Insect</button>
-                        <button >Dinosaur</button>
-                        <button >Reptile</button>
-                        <button >Fish</button>
-                        <button >Sea Serpent</button>
-                        <button >Aqua</button>
-                        <button >Pyro</button>
-                        <button >Thunder</button>
-                        <button >Rock</button>
-                        <button >Plant</button>
-                        <button >Machine</button>
-                        <button >Psychic</button>
-                        <button >Divine-Beast</button>
-                        <button >Wyrm</button>
-                        <button >Cyberse</button>
-                        <button >Creator-God</button>
-                    </div>
-                </div>
-                <div v-if="cardTypeBox" class="cardtype-filters atribute-container">
-                    <div class="atribute-head"><span>Card Type</span></div>
-                    <div class="atribute-items">
-                        <button >Normal</button>
-                        <button >Effect</button>
-                        <button >Ritual</button>
-                        <button >Fusion</button>
-                        <button >Synchro</button>
-                        <button >XYZ</button>
-                        <button >Pendulum</button>
-                        <button >Link</button>
-                        <button >Toon</button>
-                        <button >Spirit</button>
-                        <button >Union</button>
-                        <button >Gemini</button>
-                        <button >Tuner</button>
-                        <button >Flip</button>
-                    </div>
-                </div>
-                <div v-if="levelBox" class="level-filters atribute-container">
-                    <div class="atribute-head"><span>Level/ Rank</span></div>
-                    <div class="atribute-items">
-                        <button @click="levelArrayMethod">0</button>
-                        <button @click="levelArrayMethod">1</button>
-                        <button @click="levelArrayMethod">2</button>
-                        <button @click="levelArrayMethod">3</button>
-                        <button @click="levelArrayMethod">4</button>
-                        <button @click="levelArrayMethod">5</button>
-                        <button @click="levelArrayMethod">6</button>
-                        <button @click="levelArrayMethod">7</button>
-                        <button @click="levelArrayMethod">8</button>
-                        <button @click="levelArrayMethod">9</button>
-                        <button @click="levelArrayMethod">10</button>
-                        <button @click="levelArrayMethod">11</button>
-                        <button @click="levelArrayMethod">12</button>
-                        <button @click="levelArrayMethod">13</button>
-                    </div>
-                </div>
+
+                <RaceComponent @pass-race-array="handleRaceArray"/>
+
+                <MonsterTypeComponent @pass-monstertype-array="handleMonstertypeArray"/>
+
+                <CardTypeComponent @pass-cardtype-array="handleCardtypeArray" />
+
+                <LevelComponent @pass-level-array="handleLevelArray" />
+
                 <div v-if="atkBox" class="attack-filters atribute-container">
                     <div class="atribute-head"><span>Attack</span></div>
                     <div class="atribute-items">
@@ -139,31 +68,17 @@
         </div>
     </section>
 
+    
+
 </template>
 
 <script setup>
 
-import { ref, computed } from 'vue';
-import DARK from '../assets/DARK.png';
-import LIGHT from '../assets/LIGHT.png';
-import DIVINE from '../assets/DIVINE.png';
-import EARTH from '../assets/EARTH.png';
-import FIRE from '../assets/FIRE.png';
-import WATER from '../assets/WATER.png';
-import WIND from '../assets/WIND.png';
-
-import Counter from '../assets/Counter.png';
-import Continuous from '../assets/Continuous.png';
-import QuickPlay from '../assets/Quick-Play.png';
-import Field from '../assets/Field.png';
-import Ritual from '../assets/Ritual.png';
-import Equip from '../assets/Equip.png';
-
-import Level from '../assets/level.png';
-import Atk from '../assets/swords.png';
-import Def from '../assets/shield.png';
-
-
+import { ref } from 'vue';
+import LevelComponent from './LevelComponent.vue'
+import CardTypeComponent from './CardTypeComponent.vue';
+import MonsterTypeComponent from './MonsterTypeComponent.vue'
+import RaceComponent from './RaceComponent.vue'
 
 const searchText = ref('')
 const reveal = ref('block')
@@ -177,20 +92,10 @@ const atkBox = ref(true)
 const defBox = ref(true)
 
 
-const textArray = ['123', '444', '33412', '47770', '8972']
-console.log(textArray)
-
 // methods //
 const clear = () => {
     searchText.value = ''
 }
-
-const removeIfPresent = (array, item) => {
-        const index = array.indexOf(item)
-        if(index !== -1){
-            array.splice(index,1)
-        }
-    }
 
 const revealDropdownFilter = () => {
     if(reveal.value == 'block') {
@@ -230,37 +135,22 @@ const showSpellandTrapsFilter = () => {
     defBox.value = false
 }
 
-const levelArray = []
-const levelArrayMethod = () => {
-    const buttonText = event.target.textContent;
-    if(!levelArray.includes(buttonText)){
-        levelArray.push(buttonText)
-    } else {
-        removeIfPresent(levelArray, buttonText)
-    }
-    
-    // change color for click
-    const color = event.target.style.backgroundColor
-    event.target.style.backgroundColor = '#4C9F70'
-
-    // change color for unclick
-    if(color == 'rgb(76, 159, 112)') {
-        event.target.style.backgroundColor = '#496F5D'
+const handleLevelArray = (array) => {
+      console.log('Received array from levelComponent.vue:', array);
     }
 
-    const filterByLevel = () => {
-        return textArray.filter(item => {
-            for(let i = 0; i < levelArray.length; i++){
-                if(item.includes(levelArray[i])){
-                    return true
-                }
-            }
-            return false
-        })
-    }
-    console.log(levelArray)
-    console.log(filterByLevel())
+const handleCardtypeArray = (array) => {
+    console.log('Recived array from cardTypeComponent.vue:', array)
 }
+
+const handleMonstertypeArray = (array) => {
+    console.log('Recived array from MonsterTypeComponent.vue', array)
+}
+
+const handleRaceArray = (array) => {
+    console.log('Recived array from RaceArrayComponent.vue', array)
+}
+
 // $vista : #8ea4d2;
 // $glacious : #6279B8;
 // $vinblue : #49516F;
@@ -269,7 +159,7 @@ const levelArrayMethod = () => {
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
 @import '@/assets/_variables.scss';
 
