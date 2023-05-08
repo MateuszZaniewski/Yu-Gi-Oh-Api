@@ -19,8 +19,7 @@
 import { defineEmits } from 'vue'
 
 const emits = defineEmits(['pass-race-array'])
-const races = ['Equip', 'Field', 'QuickPlay', 'Ritual', 'Continuous', 'Counter']
-
+const races = ['Equip', 'Field', 'Quick-Play', 'Ritual', 'Continuous', 'Counter']
 const raceArray = []
 
 
