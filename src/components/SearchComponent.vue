@@ -92,11 +92,11 @@ const levelBox = ref(true)
 const atkBox = ref(true)
 const defBox = ref(true)
 
-let levelArray = []
-let cardTypeArray = []
-let monstertypeArray = []
-let raceArray = []
-let atributeArray = []
+let levelArray = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13']
+let cardTypeArray = ['Normal', 'Effect', 'Ritual', 'Fusion', 'Synchro', 'XYZ', 'Pendulum', 'Link', 'Toon', 'Spirit' , 'Union' , 'Gemini' , 'Tuner', 'Flip']
+let monstertypeArray = ['Spellcaster', 'Dragon', 'Zombie', 'Warrior', 'Beast-Warrior', 'Beast', 'Winged Beast', 'Fiend', 'Fairy', 'Insect', 'Dinosaur', 'Reptile' , 'Fish', 'Sea Serpent' , 'Aqua' , 'Pyro' , 'Thunder' , 'Rock' , 'Plant' , 'Machine' , 'Psychic', 'Divine-Beast', 'Wyrm', 'Cyberse', 'Creator-God']
+let raceArray = ['Equip', 'Field', 'Quick-Play', 'Ritual', 'Continuous', 'Counter']
+let atributeArray = ['DARK', 'LIGHT', 'EARTH', 'WATER', 'FIRE', 'WIND', 'DIVINE']
 
 // methods //
 const clear = () => {
@@ -224,23 +224,32 @@ const searchForAllCards = () => {
 const searchForMonsters = () => {
     const preFilter = cards.value.filter(card => card.type.toLowerCase().includes('monster'))
 
-    const filterByLevel = levelArray.length > 0 ? preFilter.filter(card => {
+    const filterByLevel = preFilter.filter(card => {
         for(let i = 0; i < levelArray.length; i++){
-            if(card.level == levelArray[i]) {
+            if(card.level == levelArray[i]){
                 return true
             }
         }
-    }) : preFilter
-
-    const filterByAttribute = atributeArray > 0 ? filterByLevel.filter(card => {
+    }).filter(card => {
         for(let i = 0; i < atributeArray.length; i++){
-            if(card.attribute.toLowerCase().includes(atributeArray[i].toLowerCase())) {
+            if(card.attribute == atributeArray[i]){
                 return true
             }
         }
-    }) : filterByLevel
-
-    console.log(filterByAttribute)
+    }).filter(card => {
+        for(let i = 0; i < monstertypeArray.length; i++){
+            if(card.race == monstertypeArray[i]){
+                return true
+            }
+        }
+    }).filter(card => {
+        for(let i = 0; i < cardTypeArray.length; i++){
+            if(card.type == cardTypeArray[i]){
+                return true
+            }
+        }
+    })
+    console.log(filterByLevel)
 }
 
 const searchForSpells = () => {
