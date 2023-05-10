@@ -5,8 +5,6 @@
                     <div class="atribute-items">
                         <button @click="raceArrayMethod" v-for="race in races" :key="race">
                              {{ race }}</button>
-                        
-                        <button >Normal</button>
                     </div>
                 </div>
 
@@ -19,7 +17,7 @@
 import { defineEmits } from 'vue'
 
 const emits = defineEmits(['pass-race-array'])
-const races = ['Equip', 'Field', 'Quick-Play', 'Ritual', 'Continuous', 'Counter']
+const races = ['Equip', 'Field', 'Quick-Play', 'Ritual', 'Continuous', 'Counter', 'Normal']
 const raceArray = []
 
 

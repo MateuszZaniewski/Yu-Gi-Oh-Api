@@ -81,19 +81,6 @@
 
   const desc = ref(false)
 
-  const fetchCards = async () => {
-    try {
-      const response = await axios.get('https://db.ygoprodeck.com/api/v7/cardinfo.php');
-      cards.value = response.data.data;
-      console.log(cards)
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  
-  onMounted(() => {
-    fetchCards();
-  });
 
   const searchCards = computed (() => {
 

@@ -92,11 +92,11 @@ const levelBox = ref(true)
 const atkBox = ref(true)
 const defBox = ref(true)
 
-let levelArray = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13']
-let cardTypeArray = ['Normal', 'Effect', 'Ritual', 'Fusion', 'Synchro', 'XYZ', 'Pendulum', 'Link', 'Toon', 'Spirit' , 'Union' , 'Gemini' , 'Tuner', 'Flip']
-let monstertypeArray = ['Spellcaster', 'Dragon', 'Zombie', 'Warrior', 'Beast-Warrior', 'Beast', 'Winged Beast', 'Fiend', 'Fairy', 'Insect', 'Dinosaur', 'Reptile' , 'Fish', 'Sea Serpent' , 'Aqua' , 'Pyro' , 'Thunder' , 'Rock' , 'Plant' , 'Machine' , 'Psychic', 'Divine-Beast', 'Wyrm', 'Cyberse', 'Creator-God']
-let raceArray = ['Equip', 'Field', 'Quick-Play', 'Ritual', 'Continuous', 'Counter']
-let atributeArray = ['DARK', 'LIGHT', 'EARTH', 'WATER', 'FIRE', 'WIND', 'DIVINE']
+let levelArray = []
+let cardTypeArray = []
+let monstertypeArray = []
+let raceArray = []
+let atributeArray = []
 
 // methods //
 const clear = () => {
@@ -213,46 +213,72 @@ const fetchCards = async () => {
   });
 
 
-
+const setDefaultforArrays = () => {
+    if(levelArray.length == 0){levelArray = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13']}
+    if(cardTypeArray.length == 0){cardTypeArray = ['Normal', 'Effect', 'Ritual', 'Fusion', 'Synchro', 'XYZ', 'Pendulum', 'Link', 'Toon', 'Spirit' , 'Union' , 'Gemini' , 'Tuner', 'Flip']}
+    if(monstertypeArray == 0){monstertypeArray = ['Spellcaster', 'Dragon', 'Zombie', 'Warrior', 'Beast-Warrior', 'Beast', 'Winged Beast', 'Fiend', 'Fairy', 'Insect', 'Dinosaur', 'Reptile' , 'Fish', 'Sea Serpent' , 'Aqua' , 'Pyro' , 'Thunder' , 'Rock' , 'Plant' , 'Machine' , 'Psychic', 'Divine-Beast', 'Wyrm', 'Cyberse', 'Creator-God']}
+    if(raceArray.length == 0){raceArray = ['Equip', 'Field', 'Quick-Play', 'Ritual', 'Continuous', 'Counter']}
+    if(atributeArray.length == 0){atributeArray = ['DARK', 'LIGHT', 'EARTH', 'WATER', 'FIRE', 'WIND', 'DIVINE']}
+}
 
 
 const searchForAllCards = () => {
+
+    setDefaultforArrays()
+
     const preFilter = cards.value.filter(card => card.type.toLowerCase().includes(''))
+
     console.log(preFilter)
+
 }
 
 const searchForMonsters = () => {
+
+    setDefaultforArrays()
+
     const preFilter = cards.value.filter(card => card.type.toLowerCase().includes('monster'))
 
-    const filterByLevel = preFilter.filter(card => {
-        for(let i = 0; i < levelArray.length; i++){
-            if(card.level == levelArray[i]){
-                return true
-            }
-        }
-    }).filter(card => {
-        for(let i = 0; i < atributeArray.length; i++){
+    const atributeFilter = preFilter.filter(card => {
+        for(let i = 0 ; i < 30; i++){
             if(card.attribute == atributeArray[i]){
                 return true
             }
         }
-    }).filter(card => {
-        for(let i = 0; i < monstertypeArray.length; i++){
+    })
+
+    const raceFilter = atributeFilter.filter(card => {
+        for(let i = 0; i < 30; i++){
             if(card.race == monstertypeArray[i]){
                 return true
             }
         }
-    }).filter(card => {
-        for(let i = 0; i < cardTypeArray.length; i++){
-            if(card.type == cardTypeArray[i]){
+    })
+
+    const cardTypeFilter = raceFilter.filter(card => {
+        for(let i = 0; i < 30; i++){
+            if(card.type.includes(cardTypeArray[i])){
                 return true
             }
         }
     })
-    console.log(filterByLevel)
+    
+    const levelFilter = cardTypeFilter.filter(card => {
+        for(let i = 0; i < 30; i++){
+            if(card.level == levelArray[i]){
+                return true
+            }
+        }
+    })
+    
+    console.log(levelFilter)
 }
 
+
+
 const searchForSpells = () => {
+
+    setDefaultforArrays()
+
     const preFilter = cards.value.filter(card => card.type.toLowerCase().includes('spell')).filter(card => {
         if(raceArray.length > 0){
             for(let i = 0; i < raceArray.length; i++){
@@ -267,6 +293,9 @@ const searchForSpells = () => {
 }
 
 const searchForTraps = () => {
+
+    setDefaultforArrays()
+
     const preFilter = cards.value.filter(card => card.type.toLowerCase().includes('trap')).filter(card => {
         if(raceArray.length > 0){
             for(let i = 0; i < raceArray.length; i++){
@@ -279,33 +308,6 @@ const searchForTraps = () => {
     console.log(preFilter) 
 }
 
-
-
-const searchCards = () => {
-    console.log(levelArray)
-    if(levelArray.length > 0) {
-        const filteredCards = cards.value.filter(card => 
-          card.type.toLowerCase().includes('monster')).filter(card => {
-            for(let i = 0; i < levelArray.length; i++){
-                if(card.level == levelArray[i]){
-                    return true
-                }
-            }
-        })
-        console.log(filteredCards)
-
-    }
-  
-}
-
-
-
-
-// $vista : #8ea4d2;
-// $glacious : #6279B8;
-// $vinblue : #49516F;
-// $hookergreen : #496F5D;
-// $shamrockgreen : #4C9F70
 
 </script>
 
