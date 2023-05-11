@@ -8,9 +8,9 @@
             </div>
             <div>
             <div class="search-type-select">
-                <select>
-                    <option selected value="CardName">Search by Card Name</option>
-                    <option value="CardText">Search by Card Text</option>
+                <select v-model="searchByName">
+                    <option value="true" selected>Search by Card Name</option>
+                    <option value="false">Search by Card Text</option>
                 </select>
             </div>
             </div>
@@ -23,13 +23,13 @@
         </div>
 
         <div class="filter-field">
-            <span @click="revealDropdownFilter()" class="field-head">Search Filters <span >\/</span></span>
+            <span title="Click to show/hide filters" @click="revealDropdownFilter()" class="field-head">Search Filters <span >\/</span></span>
             <div class="dropdown-filters" :style="{display: reveal}">
                 <div class="simple-filters">
-                    <button @click="showAllFilters(), searchForAllCards()">All Cards</button>
-                    <button @click="showMonsterFilters(), searchForMonsters()">Monster Cards</button>
-                    <button @click="showSpellFilter(), searchForSpells()">Spell Cards</button>
-                    <button @click="showTrapsFilter(), searchForTraps()">Trap Cards</button>
+                    <button title="Show filters all cards" :class="{'select' : allCards}" @click="showAllFilters(), searchForAllCards()">All Cards</button>
+                    <button title="Show filters only monster cards" :class="{'select' : monsters}" @click="showMonsterFilters(), searchForMonsters()">Monster Cards</button>
+                    <button title="Show filters only spell cards" :class="{'select' : spells}" @click="showSpellFilter(), searchForSpells()">Spell Cards</button>
+                    <button title="Show filters only trap cards" :class="{'select' : traps}" @click="showTrapsFilter(), searchForTraps()">Trap Cards</button>
                 </div>
                 
                 <AtributeComponent v-if="atributeBox" @pass-atribute-array="handleAtributeArray" />
@@ -77,6 +77,8 @@ import AtributeComponent from './AtributeComponent.vue'
 const searchText = ref('')
 const reveal = ref('block')
 const cards = ref([]);
+let searchByName = ref('true')
+
 
 const allCards = ref(true)
 const monsters = ref(false)
@@ -226,19 +228,26 @@ const searchForAllCards = () => {
 
     setDefaultforArrays()
 
-    const preFilter = cards.value.filter(card => card.type.toLowerCase().includes(''))
+    const preFilter = cards.value.filter(card => 
+        searchByName.value == 'true' ? card.name.toLowerCase().includes(searchText.value.toLowerCase()) : card.desc.toLowerCase().includes(searchText.value.toLowerCase())  
+    )
 
     console.log(preFilter)
-
 }
+
+
 
 const searchForMonsters = () => {
 
     setDefaultforArrays()
 
-    const preFilter = cards.value.filter(card => card.type.toLowerCase().includes('monster'))
+    const preFilter = cards.value.filter(card => 
+        searchByName.value == 'true' ? card.name.toLowerCase().includes(searchText.value.toLowerCase()) : card.desc.toLowerCase().includes(searchText.value.toLowerCase())  
+    )
 
-    const atributeFilter = preFilter.filter(card => {
+    const preFilterType = preFilter.filter(card => card.type.toLowerCase().includes('monster'))
+
+    const atributeFilter = preFilterType.filter(card => {
         for(let i = 0 ; i < 30; i++){
             if(card.attribute == atributeArray[i]){
                 return true
@@ -279,7 +288,11 @@ const searchForSpells = () => {
 
     setDefaultforArrays()
 
-    const preFilter = cards.value.filter(card => card.type.toLowerCase().includes('spell')).filter(card => {
+    const preFilterType = cards.value.filter(card => 
+        searchByName.value == 'true' ? card.name.toLowerCase().includes(searchText.value.toLowerCase()) : card.desc.toLowerCase().includes(searchText.value.toLowerCase())  
+    )
+
+    const preFilter = preFilterType.filter(card => card.type.toLowerCase().includes('spell')).filter(card => {
         if(raceArray.length > 0){
             for(let i = 0; i < raceArray.length; i++){
                 if(card.race == raceArray[i]){
@@ -296,7 +309,11 @@ const searchForTraps = () => {
 
     setDefaultforArrays()
 
-    const preFilter = cards.value.filter(card => card.type.toLowerCase().includes('trap')).filter(card => {
+    const preFilterType = cards.value.filter(card => 
+        searchByName.value == 'true' ? card.name.toLowerCase().includes(searchText.value.toLowerCase()) : card.desc.toLowerCase().includes(searchText.value.toLowerCase())  
+    )
+
+    const preFilter = preFilterType.filter(card => card.type.toLowerCase().includes('trap')).filter(card => {
         if(raceArray.length > 0){
             for(let i = 0; i < raceArray.length; i++){
                 if(card.race == raceArray[i]){
@@ -379,7 +396,6 @@ section {
 
 }
 
-
 .filter-field {
     background-color: #2b4570;
     position: relative;
@@ -404,24 +420,24 @@ section {
             padding-bottom: 0.5rem;
 
             button {
-                border-bottom: 1px solid transparent;
                 padding-bottom: 0.5rem;
                 padding-top: 0.5rem;
-                width: 25%;
+                width: 15%;
                 background-color: #2b4570;
-                border: none;
-                border-bottom: 5px solid #2b4570;
+                border-top: none;
+                border-right: none;
+                border-left: none;
+                border-bottom: none;
                 color: white;
                 cursor: pointer;
             }
 
-            button:hover {
-                border-bottom: 5px solid orange;
-                font-weight: bold;
+            .select {
+                border-bottom: 2px solid orange;
             }
-            
-            button:active {
-                border-bottom: 1px solid orange;
+
+            button:hover {
+                border-bottom: 2px solid orange;
                 font-weight: bold;
             }
         }
@@ -439,7 +455,19 @@ section {
                 margin: 0.25rem 0;
                 display: flex;
                 align-items: center;
-                justify-content: center;
+                justify-content: space-evenly;
+
+                span {
+                    text-align: center;
+                }
+
+                .reset{
+                    color: #f52424;
+                    padding-left: 2px;
+                    padding-right: 2px;
+                    margin: 0;
+                    cursor: pointer;
+                }
 
             }
 

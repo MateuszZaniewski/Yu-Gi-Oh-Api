@@ -1,9 +1,9 @@
 <template>
 
 <div class="level-filters atribute-container">
-                    <div class="atribute-head"><span>Level/ Rank</span></div>
+                    <div class="atribute-head"><span>Level/ Rank</span><span @click="resetFilter" class="reset">X</span></div>
                     <div class="atribute-items">
-                        <button v-for="level in levels" @click="levelArrayMethod">{{ level }}</button>
+                        <button class="atribute-button" v-for="level in levels" @click="levelArrayMethod">{{ level }}</button>
                     </div>
                 </div>
 
@@ -51,6 +51,17 @@ const levelArrayMethod = () => {
 
     const passArray = () => emits('pass-level-array', levelArray)
     passArray()
+}
+
+const resetFilter = () => {
+    console.log('Filtr został zresetowany')
+    const buttons = document.querySelectorAll('.atribute-button')
+    buttons.forEach((button) => {
+        if(button.style.backgroundColor == 'rgb(76, 159, 112)'){
+            button.style.backgroundColor = 'rgb(73, 111, 93)'
+            levelArray.value = levels
+        }
+    })
 }
 
 </script>

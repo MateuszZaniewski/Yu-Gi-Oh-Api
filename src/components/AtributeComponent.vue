@@ -1,9 +1,9 @@
 <template>
 
 <div class="atribute-filters atribute-container">
-                    <div class="atribute-head"><span>Attribute</span></div>
+                    <div class="atribute-head"><span>Attribute</span><span @click="resetFilter" class="reset">X</span></div>
                     <div class="atribute-items">
-                        <button @click="AtributeArrayMethod" v-for="atribute in atributes" >{{ atribute }}</button>
+                        <button class="atribute-button" @click="AtributeArrayMethod" v-for="atribute in atributes" >{{ atribute }}</button>
                     </div>
                 </div>
 
@@ -57,6 +57,17 @@ const AtributeArrayMethod = () => {
     passArray()
 }
 
+const resetFilter = () => {
+    console.log('Filtr został zresetowany')
+    const buttons = document.querySelectorAll('.atribute-button')
+    buttons.forEach((button) => {
+        if(button.style.backgroundColor == 'rgb(76, 159, 112)'){
+            button.style.backgroundColor = 'rgb(73, 111, 93)'
+            atributeArray.value = atributes
+        }
+    })
+}
+
 </script>
 
 
@@ -76,8 +87,15 @@ const AtributeArrayMethod = () => {
                 margin: 0.25rem 0;
                 display: flex;
                 align-items: center;
-                justify-content: center;
+                justify-content: space-around;
 
+                .reset{
+                    color: #f52424;
+                    padding-left: 2px;
+                    padding-right: 2px;
+                    margin: 0;
+                    cursor: pointer;
+                }
             }
 
             .atribute-items {
