@@ -1,9 +1,9 @@
 <template>
 
 <div class="level-filters atribute-container">
-                    <div class="atribute-head"><span>Level/ Rank</span><span @click="resetFilter" class="reset">X</span></div>
+                    <div class="atribute-head"><span>Level/ Rank</span></div>
                     <div class="atribute-items">
-                        <button class="atribute-button" v-for="level in levels" @click="levelArrayMethod">{{ level }}</button>
+                        <button class="atribute-button" v-for="level in database.levels" @click="levelArrayMethod">{{ level }}</button>
                     </div>
                 </div>
 
@@ -11,9 +11,8 @@
 
 <script setup>
 import { defineEmits } from 'vue'
-
+import { database } from '../store/collectionDB'
 const emits = defineEmits(['pass-level-array'])
-const levels = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13']
 
 const levelArray = []
 
@@ -53,16 +52,6 @@ const levelArrayMethod = () => {
     passArray()
 }
 
-const resetFilter = () => {
-    console.log('Filtr został zresetowany')
-    const buttons = document.querySelectorAll('.atribute-button')
-    buttons.forEach((button) => {
-        if(button.style.backgroundColor == 'rgb(76, 159, 112)'){
-            button.style.backgroundColor = 'rgb(73, 111, 93)'
-            levelArray.value = levels
-        }
-    })
-}
 
 </script>
 

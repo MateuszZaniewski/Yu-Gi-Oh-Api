@@ -19,6 +19,9 @@
                  monsters ? searchForMonsters() :
                  spells ? searchForSpells() : searchForTraps()">Search</button>
             </div>
+            <div class="clear-button">
+                <button @click="resetFilter">Clear Filter</button>
+            </div>
             
         </div>
 
@@ -73,11 +76,13 @@ import CardTypeComponent from './CardTypeComponent.vue';
 import MonsterTypeComponent from './MonsterTypeComponent.vue'
 import RaceComponent from './RaceComponent.vue'
 import AtributeComponent from './AtributeComponent.vue'
+import { database } from '../store/collectionDB';
 
 const searchText = ref('')
 const reveal = ref('block')
 const cards = ref([]);
 let searchByName = ref('true')
+const reset = ref(false)
 
 
 const allCards = ref(true)
@@ -187,12 +192,20 @@ const handleMonstertypeArray = (array) => {
 }
 
 const handleRaceArray = (array) => {
+    console.log(database.reset)
     console.log('Recived array from RaceArrayComponent.vue', array)
+    if(database.reset){
+        array = []
+       database.reset = false
+    }
     raceArray = array
+    console.log(raceArray)
+    console.log(database.reset)
 }
 
 const handleAtributeArray = (array) => {
     console.log('Recived array from AtributeComponent.vue', array)
+    
     atributeArray = array
 }
 
@@ -326,6 +339,22 @@ const searchForTraps = () => {
 }
 
 
+const resetFilter = () => {
+    console.log('Filtr został zresetowany')
+    const buttons = document.querySelectorAll('.atribute-button')
+    buttons.forEach((button) => {
+        if(button.style.backgroundColor == 'rgb(76, 159, 112)'){
+            button.style.backgroundColor = 'rgb(73, 111, 93)'
+            raceArray.value = database.races
+            atributeArray.value = database.atributes
+            monstertypeArray.value = database.cardtypes
+            cardTypeArray.value = database.types
+            levelArray.value = database.levels
+        }
+    })
+}
+
+
 </script>
 
 <style lang="scss">
@@ -391,6 +420,15 @@ section {
         button {
             padding: 0.25rem 0.5rem;
             background-color: #e49273;
+        }
+    }
+
+    .clear-button {
+
+        button {
+            padding: 0.25rem 0.5rem;
+            background-color: $vinblue;
+            color: white;
         }
     }
 

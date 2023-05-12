@@ -1,9 +1,9 @@
 <template>
 
 <div class="race-filters atribute-container">
-                    <div class="atribute-head"><span>Race</span><span @click="resetFilter" class="reset">X</span></div>
+                    <div class="atribute-head"><span>Race</span></div>
                     <div class="atribute-items">
-                        <button class="atribute-button" @click="raceArrayMethod" v-for="race in races" :key="race">
+                        <button class="atribute-button" @click="raceArrayMethod" v-for="race in database.races" :key="race">
                              {{ race }}</button>
                     </div>
                 </div>
@@ -15,9 +15,8 @@
 <script setup>
 
 import { defineEmits } from 'vue'
-
+import { database } from '../store/collectionDB'
 const emits = defineEmits(['pass-race-array'])
-const races = ['Equip', 'Field', 'Quick-Play', 'Ritual', 'Continuous', 'Counter', 'Normal']
 const raceArray = []
 
 
@@ -37,6 +36,7 @@ const removeIfPresent = (array, item) => {
 
 const raceArrayMethod = () => {
     const buttonText = event.target.textContent;
+
     if(!raceArray.includes(buttonText)){
         raceArray.push(buttonText)
     } else {
@@ -55,17 +55,6 @@ const raceArrayMethod = () => {
 
     const passArray = () => emits('pass-race-array', raceArray)
     passArray()
-}
-
-const resetFilter = () => {
-    console.log('Filtr został zresetowany')
-    const buttons = document.querySelectorAll('.atribute-button')
-    buttons.forEach((button) => {
-        if(button.style.backgroundColor == 'rgb(76, 159, 112)'){
-            button.style.backgroundColor = 'rgb(73, 111, 93)'
-            raceArray.value = races
-        }
-    })
 }
 
 

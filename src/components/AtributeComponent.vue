@@ -1,9 +1,9 @@
 <template>
 
 <div class="atribute-filters atribute-container">
-                    <div class="atribute-head"><span>Attribute</span><span @click="resetFilter" class="reset">X</span></div>
+                    <div class="atribute-head"><span>Attribute</span></div>
                     <div class="atribute-items">
-                        <button class="atribute-button" @click="AtributeArrayMethod" v-for="atribute in atributes" >{{ atribute }}</button>
+                        <button class="atribute-button" @click="AtributeArrayMethod" v-for="atribute in database.atributes" >{{ atribute }}</button>
                     </div>
                 </div>
 
@@ -14,9 +14,9 @@
 <script setup>
 
 import { defineEmits } from 'vue'
+import { database } from '../store/collectionDB'
 
 const emits = defineEmits(['pass-atribute-array'])
-const atributes = ['DARK', 'LIGHT', 'EARTH', 'WATER', 'FIRE', 'WIND', 'DIVINE']
 
 const atributeArray = []
 
@@ -57,16 +57,6 @@ const AtributeArrayMethod = () => {
     passArray()
 }
 
-const resetFilter = () => {
-    console.log('Filtr został zresetowany')
-    const buttons = document.querySelectorAll('.atribute-button')
-    buttons.forEach((button) => {
-        if(button.style.backgroundColor == 'rgb(76, 159, 112)'){
-            button.style.backgroundColor = 'rgb(73, 111, 93)'
-            atributeArray.value = atributes
-        }
-    })
-}
 
 </script>
 

@@ -1,9 +1,9 @@
 <template>
 
 <div class="type-filters atribute-container">
-                    <div class="atribute-head"><span>Monster Type</span><span @click="resetFilter" class="reset">X</span></div>
+                    <div class="atribute-head"><span>Monster Type</span></div>
                     <div class="atribute-items">
-                        <button class="atribute-button" @click="monstertypeArrayMethod" v-for="type in types" >{{ type }}</button>
+                        <button class="atribute-button" @click="monstertypeArrayMethod" v-for="type in database.types" >{{ type }}</button>
                     </div>
                 </div>
 
@@ -15,9 +15,9 @@
 <script setup>
 
 import { defineEmits } from 'vue'
+import { database } from '../store/collectionDB'
 
 const emits = defineEmits(['pass-monstertype-array'])
-const types = ['Spellcaster', 'Dragon', 'Zombie', 'Warrior', 'Beast-Warrior', 'Beast', 'Winged Beast', 'Fiend', 'Fairy', 'Insect', 'Dinosaur', 'Reptile' , 'Fish', 'Sea Serpent' , 'Aqua' , 'Pyro' , 'Thunder' , 'Rock' , 'Plant' , 'Machine' , 'Psychic', 'Divine-Beast', 'Wyrm', 'Cyberse', 'Creator-God']
 
 const monstertypeArray = []
 
@@ -55,17 +55,6 @@ const monstertypeArrayMethod = () => {
 
     const passArray = () => emits('pass-monstertype-array', monstertypeArray)
     passArray()
-}
-
-const resetFilter = () => {
-    console.log('Filtr został zresetowany')
-    const buttons = document.querySelectorAll('.atribute-button')
-    buttons.forEach((button) => {
-        if(button.style.backgroundColor == 'rgb(76, 159, 112)'){
-            button.style.backgroundColor = 'rgb(73, 111, 93)'
-            monstertypeArray.value = types
-        }
-    })
 }
 
 </script>

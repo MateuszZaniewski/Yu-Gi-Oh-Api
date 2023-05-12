@@ -1,9 +1,9 @@
 <template>
 
 <div class="cardtype-filters atribute-container">
-                    <div class="atribute-head"><span>Card Type</span><span @click="resetFilter" class="reset">X</span></div>
+                    <div class="atribute-head"><span>Card Type</span></div>
                     <div class="atribute-items">
-                        <button class="atribute-button" v-for="type in types" @click="cardtypeArrayMethod"> {{ type }}</button>
+                        <button class="atribute-button" v-for="type in database.cardtypes" @click="cardtypeArrayMethod"> {{ type }}</button>
                     </div>
                 </div>
 
@@ -12,9 +12,8 @@
 
 <script setup>
 import { defineEmits } from 'vue'
+import { database } from '../store/collectionDB'
 const emits = defineEmits(['pass-cardtype-array'])
-
-const types = ['Normal', 'Effect', 'Ritual', 'Fusion', 'Synchro', 'XYZ', 'Pendulum', 'Link', 'Toon', 'Spirit' , 'Union' , 'Gemini' , 'Tuner', 'Flip']
 
 const cardArray = []
 
@@ -51,18 +50,6 @@ const removeIfPresent = (array, item) => {
     const passArray = () => emits('pass-cardtype-array', cardArray)
     passArray()
 }
-
-const resetFilter = () => {
-    console.log('Filtr został zresetowany')
-    const buttons = document.querySelectorAll('.atribute-button')
-    buttons.forEach((button) => {
-        if(button.style.backgroundColor == 'rgb(76, 159, 112)'){
-            button.style.backgroundColor = 'rgb(73, 111, 93)'
-            cardArray.value = types
-        }
-    })
-}
-
 
 
 </script>
