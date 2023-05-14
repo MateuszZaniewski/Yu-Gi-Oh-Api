@@ -13,12 +13,19 @@
 
 <script setup>
 
-import { defineEmits } from 'vue'
+import { defineEmits, ref } from 'vue'
 import { database } from '../store/collectionDB'
+import { useStore } from 'vuex';
+const store = useStore();
 
 const emits = defineEmits(['pass-atribute-array'])
 
-const atributeArray = []
+const atributeArray = ref([])
+
+function setdefault() {
+    store.commit('setdefault')
+    console.log(store.state.reset)
+}
 
 
 // function that remove selected level if it is present in levelArray
@@ -37,9 +44,15 @@ const removeIfPresent = (array, item) => {
 
 const AtributeArrayMethod = () => {
     const buttonText = event.target.textContent;
-    if(!atributeArray.includes(buttonText)){
-        atributeArray.push(buttonText)
-    } else {
+
+    if(store.state.reset == true){
+        atributeArray.value = []
+    }
+    console.log(atributeArray.value)
+
+    if(!atributeArray.value.includes(buttonText)){
+        atributeArray.value.push(buttonText)
+    } else if(atributeArray.value.includes(buttonText)){
         removeIfPresent(atributeArray, buttonText)
     }
     console.log(atributeArray)
@@ -52,6 +65,8 @@ const AtributeArrayMethod = () => {
     if(color == 'rgb(76, 159, 112)') {
         event.target.style.backgroundColor = '#496F5D'
     }
+
+    setdefault()
 
     const passArray = () => emits('pass-atribute-array', atributeArray)
     passArray()

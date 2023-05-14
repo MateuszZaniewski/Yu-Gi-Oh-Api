@@ -8,26 +8,41 @@
                     </div>
                 </div>
 
-
 </template>
 
 
 <script setup>
 
-import { defineEmits } from 'vue'
+import { defineEmits, ref } from 'vue'
 import { database } from '../store/collectionDB'
-const emits = defineEmits(['pass-race-array'])
-const raceArray = []
+import { useStore } from 'vuex';
 
+const emits = defineEmits(['pass-race-array'])
+const raceArray = ref([])
+
+const store = useStore();
+
+console.log(store.state.reset)
+
+const sayHello = ref('Hello')
+
+defineExpose({
+    sayHello
+})
 
 // function that remove selected level if it is present in levelArray
 
 const removeIfPresent = (array, item) => {
-        const index = array.indexOf(item)
+        const index = array.value.indexOf(item)
         if(index !== -1){
-            array.splice(index,1)
+            array.value.splice(index,1)
         }
     }
+
+function setdefault() {
+    store.commit('setdefault')
+    console.log(store.state.reset)
+}
 
 // function that takes a button text and place it in levelArray, then
 // check if that level exist in levelArray (if not add it, if yes remove it)
@@ -37,12 +52,16 @@ const removeIfPresent = (array, item) => {
 const raceArrayMethod = () => {
     const buttonText = event.target.textContent;
 
-    if(!raceArray.includes(buttonText)){
-        raceArray.push(buttonText)
-    } else {
+    if(store.state.reset == true){
+        raceArray.value = []
+    }
+    console.log(raceArray.value)
+
+    if(!raceArray.value.includes(buttonText)){
+        raceArray.value.push(buttonText)
+    } else if(raceArray.value.includes(buttonText)) {
         removeIfPresent(raceArray, buttonText)
     }
-    console.log(raceArray)
     
     // change color for click
     const color = event.target.style.backgroundColor
@@ -53,7 +72,9 @@ const raceArrayMethod = () => {
         event.target.style.backgroundColor = '#496F5D'
     }
 
-    const passArray = () => emits('pass-race-array', raceArray)
+    setdefault()
+
+    let passArray = () => emits('pass-race-array', raceArray)
     passArray()
 }
 

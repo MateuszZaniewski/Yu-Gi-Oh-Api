@@ -69,7 +69,7 @@
 
 <script setup>
 
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, provide } from 'vue';
 import axios from 'axios';
 import LevelComponent from './LevelComponent.vue'
 import CardTypeComponent from './CardTypeComponent.vue';
@@ -77,6 +77,9 @@ import MonsterTypeComponent from './MonsterTypeComponent.vue'
 import RaceComponent from './RaceComponent.vue'
 import AtributeComponent from './AtributeComponent.vue'
 import { database } from '../store/collectionDB';
+import { useStore } from 'vuex';
+
+sayHello()
 
 const searchText = ref('')
 const reveal = ref('block')
@@ -192,21 +195,17 @@ const handleMonstertypeArray = (array) => {
 }
 
 const handleRaceArray = (array) => {
-    console.log(database.reset)
     console.log('Recived array from RaceArrayComponent.vue', array)
-    if(database.reset){
-        array = []
-       database.reset = false
-    }
-    raceArray = array
-    console.log(raceArray)
-    console.log(database.reset)
+    raceArray = array.value
+    console.log(Array.from(raceArray))
+
 }
 
 const handleAtributeArray = (array) => {
     console.log('Recived array from AtributeComponent.vue', array)
     
-    atributeArray = array
+    atributeArray = array.value
+    console.log(Array.from(atributeArray))
 }
 
 
@@ -338,6 +337,15 @@ const searchForTraps = () => {
     console.log(preFilter) 
 }
 
+const store = useStore();
+console.log(store.state.reset)
+
+
+
+function resetFunction() {
+  store.commit('resetfunc');
+  console.log(store.state.reset)
+}
 
 const resetFilter = () => {
     console.log('Filtr został zresetowany')
@@ -352,6 +360,8 @@ const resetFilter = () => {
             levelArray.value = database.levels
         }
     })
+    resetFunction()
+
 }
 
 

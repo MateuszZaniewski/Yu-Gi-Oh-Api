@@ -12,9 +12,16 @@
 <script setup>
 import { defineEmits } from 'vue'
 import { database } from '../store/collectionDB'
+import { useStore } from 'vuex';
+const store = useStore();
 const emits = defineEmits(['pass-level-array'])
 
 const levelArray = []
+
+function setdefault() {
+    store.commit('setdefault')
+    console.log(store.state.reset)
+}
 
 // function that remove selected level if it is present in levelArray
 

@@ -13,9 +13,16 @@
 <script setup>
 import { defineEmits } from 'vue'
 import { database } from '../store/collectionDB'
+import { useStore } from 'vuex';
+const store = useStore();
 const emits = defineEmits(['pass-cardtype-array'])
 
 const cardArray = []
+
+function setdefault() {
+    store.commit('setdefault')
+    console.log(store.state.reset)
+}
 
 const removeIfPresent = (array, item) => {
         const index = array.indexOf(item)
