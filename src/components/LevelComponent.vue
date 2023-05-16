@@ -3,25 +3,19 @@
 <div class="level-filters atribute-container">
                     <div class="atribute-head"><span>Level/ Rank</span></div>
                     <div class="atribute-items">
-                        <button class="atribute-button" v-for="level in database.levels" @click="levelArrayMethod">{{ level }}</button>
+                        <button class="atribute-button" v-for="level in store.state.levels" @click="levelArrayMethod">{{ level }}</button>
                     </div>
                 </div>
 
 </template>
 
 <script setup>
-import { defineEmits } from 'vue'
-import { database } from '../store/collectionDB'
+import { defineEmits, ref } from 'vue'
 import { useStore } from 'vuex';
 const store = useStore();
 const emits = defineEmits(['pass-level-array'])
 
-const levelArray = []
-
-function setdefault() {
-    store.commit('setdefault')
-    console.log(store.state.reset)
-}
+const levelArray = ref([])
 
 // function that remove selected level if it is present in levelArray
 
@@ -39,12 +33,16 @@ const removeIfPresent = (array, item) => {
 
 const levelArrayMethod = () => {
     const buttonText = event.target.textContent;
-    if(!levelArray.includes(buttonText)){
-        levelArray.push(buttonText)
-    } else {
-        removeIfPresent(levelArray, buttonText)
+
+    if(store.state.resetLevel == true){
+        levelArray.value = []
     }
-    console.log(levelArray)
+
+    if(!levelArray.value.includes(buttonText)){
+        levelArray.value.push(buttonText)
+    } else if(levelArray.value.includes(buttonText)) {
+        removeIfPresent(levelArray.value, buttonText)
+    }
     
     // change color for click
     const color = event.target.style.backgroundColor
@@ -54,6 +52,8 @@ const levelArrayMethod = () => {
     if(color == 'rgb(76, 159, 112)') {
         event.target.style.backgroundColor = '#496F5D'
     }
+
+    store.commit('setDefaultForLevels')
 
     const passArray = () => emits('pass-level-array', levelArray)
     passArray()

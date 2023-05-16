@@ -20,7 +20,7 @@
                  spells ? searchForSpells() : searchForTraps()">Search</button>
             </div>
             <div class="clear-button">
-                <button @click="resetFilter">Clear Filter</button>
+                <button @click="resetFilter(), resetFunction()">Clear Filter</button>
             </div>
             
         </div>
@@ -63,6 +63,8 @@
         </div>
     </section>
 
+    <button @click="consoleFilters">Pokaż obecne filtry</button>
+
     
 
 </template>
@@ -76,16 +78,14 @@ import CardTypeComponent from './CardTypeComponent.vue';
 import MonsterTypeComponent from './MonsterTypeComponent.vue'
 import RaceComponent from './RaceComponent.vue'
 import AtributeComponent from './AtributeComponent.vue'
-import { database } from '../store/collectionDB';
 import { useStore } from 'vuex';
+const store = useStore();
 
-sayHello()
 
 const searchText = ref('')
 const reveal = ref('block')
 const cards = ref([]);
 let searchByName = ref('true')
-const reset = ref(false)
 
 
 const allCards = ref(true)
@@ -102,11 +102,11 @@ const levelBox = ref(true)
 const atkBox = ref(true)
 const defBox = ref(true)
 
-let levelArray = []
-let cardTypeArray = []
-let monstertypeArray = []
-let raceArray = []
-let atributeArray = []
+let levelArray = ref(store.state.levels)
+let cardTypeArray = ref(store.state.types)
+let monstertypeArray = ref(store.state.monsters)
+let raceArray = ref(store.state.races)
+let atributeArray = ref(store.state.atributes)
 
 // methods //
 const clear = () => {
@@ -177,21 +177,34 @@ const showTrapsFilter = () => {
     traps.value = true
 }
 
+const setDefaultforArrays = () => {
+    if(levelArray.length == 0){levelArray = store.state.levels}
+    if(cardTypeArray.length == 0){cardTypeArray = store.state.types}
+    if(monstertypeArray == 0){monstertypeArray = store.state.monsters}
+    if(raceArray.length == 0){raceArray = store.state.races}
+    if(atributeArray.length == 0){atributeArray = store.state.atributes}
+}
+
+setDefaultforArrays
+
 
 
 const handleLevelArray = (array) => {
       console.log('Received array from levelComponent.vue:', array);
-      levelArray = array
+      levelArray = array.value
+      console.log(Array.from(levelArray))
     }
 
 const handleCardtypeArray = (array) => {
     console.log('Recived array from cardTypeComponent.vue:', array)
-    cardTypeArray = array
+    cardTypeArray = array.value
+    console.log(Array.from(cardTypeArray))
 }
 
 const handleMonstertypeArray = (array) => {
     console.log('Recived array from MonsterTypeComponent.vue', array)
-    monstertypeArray = array
+    monstertypeArray = array.value
+    console.log(Array.from(monstertypeArray))
 }
 
 const handleRaceArray = (array) => {
@@ -208,6 +221,14 @@ const handleAtributeArray = (array) => {
     console.log(Array.from(atributeArray))
 }
 
+
+const consoleFilters = () => {
+    console.log('Atributes : ', atributeArray)
+    console.log('Races : ', raceArray)
+    console.log('Monsters : ', monstertypeArray)
+    console.log('Types : ', cardTypeArray)
+    console.log('Levels : ', levelArray)
+}
 
 
 // fetching cards from api = > https://db.ygoprodeck.com/api/v7/cardinfo.php
@@ -226,14 +247,6 @@ const fetchCards = async () => {
     fetchCards();
   });
 
-
-const setDefaultforArrays = () => {
-    if(levelArray.length == 0){levelArray = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13']}
-    if(cardTypeArray.length == 0){cardTypeArray = ['Normal', 'Effect', 'Ritual', 'Fusion', 'Synchro', 'XYZ', 'Pendulum', 'Link', 'Toon', 'Spirit' , 'Union' , 'Gemini' , 'Tuner', 'Flip']}
-    if(monstertypeArray == 0){monstertypeArray = ['Spellcaster', 'Dragon', 'Zombie', 'Warrior', 'Beast-Warrior', 'Beast', 'Winged Beast', 'Fiend', 'Fairy', 'Insect', 'Dinosaur', 'Reptile' , 'Fish', 'Sea Serpent' , 'Aqua' , 'Pyro' , 'Thunder' , 'Rock' , 'Plant' , 'Machine' , 'Psychic', 'Divine-Beast', 'Wyrm', 'Cyberse', 'Creator-God']}
-    if(raceArray.length == 0){raceArray = ['Equip', 'Field', 'Quick-Play', 'Ritual', 'Continuous', 'Counter']}
-    if(atributeArray.length == 0){atributeArray = ['DARK', 'LIGHT', 'EARTH', 'WATER', 'FIRE', 'WIND', 'DIVINE']}
-}
 
 
 const searchForAllCards = () => {
@@ -337,14 +350,8 @@ const searchForTraps = () => {
     console.log(preFilter) 
 }
 
-const store = useStore();
-console.log(store.state.reset)
-
-
-
 function resetFunction() {
-  store.commit('resetfunc');
-  console.log(store.state.reset)
+  store.commit('resetAllFilters');
 }
 
 const resetFilter = () => {
@@ -353,14 +360,18 @@ const resetFilter = () => {
     buttons.forEach((button) => {
         if(button.style.backgroundColor == 'rgb(76, 159, 112)'){
             button.style.backgroundColor = 'rgb(73, 111, 93)'
-            raceArray.value = database.races
-            atributeArray.value = database.atributes
-            monstertypeArray.value = database.cardtypes
-            cardTypeArray.value = database.types
-            levelArray.value = database.levels
-        }
+        }  
     })
-    resetFunction()
+    // call reset function - commit from store
+    resetFunction
+
+    if(store.state.atributes && store.state.races && store.state.monsters && store.state.types && store.state.levels){
+        raceArray = store.state.races
+        atributeArray = store.state.atributes
+        monstertypeArray = store.state.monsters
+        cardTypeArray = store.state.types
+        levelArray = store.state.levels
+    }
 
 }
 

@@ -3,7 +3,7 @@
 <div class="type-filters atribute-container">
                     <div class="atribute-head"><span>Monster Type</span></div>
                     <div class="atribute-items">
-                        <button class="atribute-button" @click="monstertypeArrayMethod" v-for="type in database.types" >{{ type }}</button>
+                        <button class="atribute-button" @click="monstertypeArrayMethod" v-for="type in store.state.monsters" >{{ type }}</button>
                     </div>
                 </div>
 
@@ -14,19 +14,13 @@
 
 <script setup>
 
-import { defineEmits } from 'vue'
-import { database } from '../store/collectionDB'
+import { defineEmits, ref } from 'vue'
 import { useStore } from 'vuex';
 const store = useStore();
 
 const emits = defineEmits(['pass-monstertype-array'])
 
-const monstertypeArray = []
-
-function setdefault() {
-    store.commit('setdefault')
-    console.log(store.state.reset)
-}
+const monstertypeArray = ref([])
 
 // function that remove selected level if it is present in levelArray
 
@@ -44,12 +38,17 @@ const removeIfPresent = (array, item) => {
 
 const monstertypeArrayMethod = () => {
     const buttonText = event.target.textContent;
-    if(!monstertypeArray.includes(buttonText)){
-        monstertypeArray.push(buttonText)
-    } else {
-        removeIfPresent(monstertypeArray, buttonText)
+
+    if(store.state.resetMonster == true){
+        monstertypeArray.value = []
     }
-    console.log(monstertypeArray)
+
+
+    if(!monstertypeArray.value.includes(buttonText)){
+        monstertypeArray.value.push(buttonText)
+    } else if(monstertypeArray.value.includes(buttonText)) {
+        removeIfPresent(monstertypeArray.value, buttonText)
+    }
     
     // change color for click
     const color = event.target.style.backgroundColor
@@ -59,6 +58,8 @@ const monstertypeArrayMethod = () => {
     if(color == 'rgb(76, 159, 112)') {
         event.target.style.backgroundColor = '#496F5D'
     }
+
+    store.commit('setDefaultForMonsters')
 
     const passArray = () => emits('pass-monstertype-array', monstertypeArray)
     passArray()
