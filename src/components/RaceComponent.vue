@@ -23,9 +23,9 @@ const raceArray = ref([])
 // function that remove selected level if it is present in levelArray
 
 const removeIfPresent = (array, item) => {
-        const index = array.value.indexOf(item)
+        const index = array.indexOf(item)
         if(index !== -1){
-            array.value.splice(index,1)
+            array.splice(index,1)
         }
     }
 

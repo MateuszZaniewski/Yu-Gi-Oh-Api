@@ -63,6 +63,8 @@
         </div>
     </section>
 
+    <Card />
+
     <button @click="consoleFilters">Pokaż obecne filtry</button>
 
     
@@ -78,6 +80,7 @@ import CardTypeComponent from './CardTypeComponent.vue';
 import MonsterTypeComponent from './MonsterTypeComponent.vue'
 import RaceComponent from './RaceComponent.vue'
 import AtributeComponent from './AtributeComponent.vue'
+import Card from './Card.vue'
 import { useStore } from 'vuex';
 const store = useStore();
 
@@ -251,8 +254,6 @@ const fetchCards = async () => {
 
 const searchForAllCards = () => {
 
-    setDefaultforArrays()
-
     const preFilter = cards.value.filter(card => 
         searchByName.value == 'true' ? card.name.toLowerCase().includes(searchText.value.toLowerCase()) : card.desc.toLowerCase().includes(searchText.value.toLowerCase())  
     )
@@ -264,7 +265,10 @@ const searchForAllCards = () => {
 
 const searchForMonsters = () => {
 
-    setDefaultforArrays()
+    atributeArray = (Array.from(atributeArray.value))
+    monstertypeArray = (Array.from(monstertypeArray.value))
+    cardTypeArray = (Array.from(cardTypeArray.value))
+    levelArray = (Array.from(levelArray.value))
 
     const preFilter = cards.value.filter(card => 
         searchByName.value == 'true' ? card.name.toLowerCase().includes(searchText.value.toLowerCase()) : card.desc.toLowerCase().includes(searchText.value.toLowerCase())  
@@ -272,13 +276,19 @@ const searchForMonsters = () => {
 
     const preFilterType = preFilter.filter(card => card.type.toLowerCase().includes('monster'))
 
+    console.log(preFilterType) // works
+
     const atributeFilter = preFilterType.filter(card => {
-        for(let i = 0 ; i < 30; i++){
-            if(card.attribute == atributeArray[i]){
-                return true
+        if(card.attribute !== undefined){
+            for(let i = 0; i < 30; i++){
+                if(card.attribute == atributeArray[i]){
+                    return true
+                }
             }
         }
     })
+
+    console.log(atributeFilter) // works
 
     const raceFilter = atributeFilter.filter(card => {
         for(let i = 0; i < 30; i++){
@@ -311,8 +321,6 @@ const searchForMonsters = () => {
 
 const searchForSpells = () => {
 
-    setDefaultforArrays()
-
     const preFilterType = cards.value.filter(card => 
         searchByName.value == 'true' ? card.name.toLowerCase().includes(searchText.value.toLowerCase()) : card.desc.toLowerCase().includes(searchText.value.toLowerCase())  
     )
@@ -331,8 +339,6 @@ const searchForSpells = () => {
 }
 
 const searchForTraps = () => {
-
-    setDefaultforArrays()
 
     const preFilterType = cards.value.filter(card => 
         searchByName.value == 'true' ? card.name.toLowerCase().includes(searchText.value.toLowerCase()) : card.desc.toLowerCase().includes(searchText.value.toLowerCase())  
@@ -504,6 +510,7 @@ section {
         .atribute-container {
             display: flex;
             flex-flow: row nowrap;
+            justify-content: space-around;
             background-color: white;
             gap: 5px;
             padding-bottom: 15px;
