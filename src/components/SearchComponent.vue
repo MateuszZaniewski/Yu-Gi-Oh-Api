@@ -29,10 +29,10 @@
             <span title="Click to show/hide filters" @click="revealDropdownFilter()" class="field-head">Search Filters <span >\/</span></span>
             <div class="dropdown-filters" :style="{display: reveal}">
                 <div class="simple-filters">
-                    <button title="Show filters all cards" :class="{'select' : allCards}" @click="showAllFilters(), searchForAllCards()">All Cards</button>
-                    <button title="Show filters only monster cards" :class="{'select' : monsters}" @click="showMonsterFilters(), searchForMonsters()">Monster Cards</button>
-                    <button title="Show filters only spell cards" :class="{'select' : spells}" @click="showSpellFilter(), searchForSpells()">Spell Cards</button>
-                    <button title="Show filters only trap cards" :class="{'select' : traps}" @click="showTrapsFilter(), searchForTraps()">Trap Cards</button>
+                    <button title="Show filters all cards" :class="{'select' : allCards}" @click="showAllFilters">All Cards</button>
+                    <button title="Show filters only monster cards" :class="{'select' : monsters}" @click="showMonsterFilters">Monster Cards</button>
+                    <button title="Show filters only spell cards" :class="{'select' : spells}" @click="showSpellFilter">Spell Cards</button>
+                    <button title="Show filters only trap cards" :class="{'select' : traps}" @click="showTrapsFilter">Trap Cards</button>
                 </div>
                 
                 <AtributeComponent v-if="atributeBox" @pass-atribute-array="handleAtributeArray" />
@@ -63,17 +63,17 @@
         </div>
     </section>
 
-    <Card />
+    
 
     <button @click="consoleFilters">Pokaż obecne filtry</button>
 
-    
+    <Card :preFilterProp="preFilter" :allCardsVal="allCards" :searchByWhat="searchByName" :searchText="searchText" />
 
 </template>
 
 <script setup>
 
-import { ref, onMounted, provide } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import LevelComponent from './LevelComponent.vue'
 import CardTypeComponent from './CardTypeComponent.vue';
@@ -97,19 +97,29 @@ const spells = ref(false)
 const traps = ref(false)
 
 
-const atributeBox = ref(true)
-const raceBox = ref(true)
-const monsterTypeBox = ref(true)
-const cardTypeBox = ref(true)
-const levelBox = ref(true)
-const atkBox = ref(true)
-const defBox = ref(true)
+const atributeBox = ref(false)
+const raceBox = ref(false)
+const monsterTypeBox = ref(false)
+const cardTypeBox = ref(false)
+const levelBox = ref(false)
+const atkBox = ref(false)
+const defBox = ref(false)
 
 let levelArray = ref(store.state.levels)
 let cardTypeArray = ref(store.state.types)
 let monstertypeArray = ref(store.state.monsters)
 let raceArray = ref(store.state.races)
 let atributeArray = ref(store.state.atributes)
+
+
+const preFilter = computed(() => {
+  return cards.value.filter((card) =>
+    searchByName.value
+      ? card.name.toLowerCase().includes(searchText.value.toLowerCase())
+      : card.desc.toLowerCase().includes(searchText.value.toLowerCase())
+  )
+})
+
 
 // methods //
 const clear = () => {
@@ -125,14 +135,14 @@ const revealDropdownFilter = () => {
 }
 
 const showAllFilters = () => {
-    atributeBox.value = true
-    raceBox.value = true
-    monsterTypeBox.value = true
-    cardTypeBox.value = true
-    levelBox.value = true
-    atkBox.value = true
-    defBox.value = true
-    allCards.value = true
+    atributeBox.value = false
+    raceBox.value = false
+    monsterTypeBox.value = false
+    cardTypeBox.value = false
+    levelBox.value = false
+    atkBox.value = false
+    defBox.value = false
+    allCards.value = false
     monsters.value = false
     spells.value = false
     traps.value = false
@@ -240,7 +250,6 @@ const fetchCards = async () => {
     try {
       const response = await axios.get('https://db.ygoprodeck.com/api/v7/cardinfo.php');
       cards.value = response.data.data;
-      console.log(cards)
     } catch (error) {
       console.log(error);
     }
@@ -250,111 +259,6 @@ const fetchCards = async () => {
     fetchCards();
   });
 
-
-
-const searchForAllCards = () => {
-
-    const preFilter = cards.value.filter(card => 
-        searchByName.value == 'true' ? card.name.toLowerCase().includes(searchText.value.toLowerCase()) : card.desc.toLowerCase().includes(searchText.value.toLowerCase())  
-    )
-
-    console.log(preFilter)
-}
-
-
-
-const searchForMonsters = () => {
-
-    atributeArray = (Array.from(atributeArray.value))
-    monstertypeArray = (Array.from(monstertypeArray.value))
-    cardTypeArray = (Array.from(cardTypeArray.value))
-    levelArray = (Array.from(levelArray.value))
-
-    const preFilter = cards.value.filter(card => 
-        searchByName.value == 'true' ? card.name.toLowerCase().includes(searchText.value.toLowerCase()) : card.desc.toLowerCase().includes(searchText.value.toLowerCase())  
-    )
-
-    const preFilterType = preFilter.filter(card => card.type.toLowerCase().includes('monster'))
-
-    console.log(preFilterType) // works
-
-    const atributeFilter = preFilterType.filter(card => {
-        if(card.attribute !== undefined){
-            for(let i = 0; i < 30; i++){
-                if(card.attribute == atributeArray[i]){
-                    return true
-                }
-            }
-        }
-    })
-
-    console.log(atributeFilter) // works
-
-    const raceFilter = atributeFilter.filter(card => {
-        for(let i = 0; i < 30; i++){
-            if(card.race == monstertypeArray[i]){
-                return true
-            }
-        }
-    })
-
-    const cardTypeFilter = raceFilter.filter(card => {
-        for(let i = 0; i < 30; i++){
-            if(card.type.includes(cardTypeArray[i])){
-                return true
-            }
-        }
-    })
-    
-    const levelFilter = cardTypeFilter.filter(card => {
-        for(let i = 0; i < 30; i++){
-            if(card.level == levelArray[i]){
-                return true
-            }
-        }
-    })
-    
-    console.log(levelFilter)
-}
-
-
-
-const searchForSpells = () => {
-
-    const preFilterType = cards.value.filter(card => 
-        searchByName.value == 'true' ? card.name.toLowerCase().includes(searchText.value.toLowerCase()) : card.desc.toLowerCase().includes(searchText.value.toLowerCase())  
-    )
-
-    const preFilter = preFilterType.filter(card => card.type.toLowerCase().includes('spell')).filter(card => {
-        if(raceArray.length > 0){
-            for(let i = 0; i < raceArray.length; i++){
-                if(card.race == raceArray[i]){
-                    return true
-                }
-            }
-        }
-    })
-    console.log(preFilter)
-
-}
-
-const searchForTraps = () => {
-
-    const preFilterType = cards.value.filter(card => 
-        searchByName.value == 'true' ? card.name.toLowerCase().includes(searchText.value.toLowerCase()) : card.desc.toLowerCase().includes(searchText.value.toLowerCase())  
-    )
-
-    const preFilter = preFilterType.filter(card => card.type.toLowerCase().includes('trap')).filter(card => {
-        if(raceArray.length > 0){
-            for(let i = 0; i < raceArray.length; i++){
-                if(card.race == raceArray[i]){
-                    return true
-                }
-            }
-        }
-    })
-    console.log(preFilter) 
-}
 
 function resetFunction() {
   store.commit('resetAllFilters');

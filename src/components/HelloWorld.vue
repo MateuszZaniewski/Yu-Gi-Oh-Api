@@ -1,13 +1,13 @@
 <script setup>
 
-import CardComponent from './CardComponent.vue';
+import SearchComponent from './SearchComponent.vue'
 
 
 </script>
 
 <template>
 
-<CardComponent />
+<SearchComponent  />
 
 </template>
 
