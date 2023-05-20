@@ -16,7 +16,7 @@ const store =  createStore({
             types : ['Normal', 'Effect', 'Ritual', 'Fusion', 'Synchro', 'XYZ', 'Pendulum', 'Link', 'Toon', 'Spirit' , 'Union' , 'Gemini' , 'Tuner', 'Flip'],
 
             resetLevel : false,
-            levels : ['0','1','2','3','4','5','6','7','8','9','10','11','12','13']
+            levels : ['0','1','2','3','4','5','6','7','8','9','10','11','12','13'],
         }
         
     },
@@ -47,7 +47,14 @@ const store =  createStore({
         },
         setDefaultForLevels(state) {
             state.resetLevel = false
-        }
+        },
+        preFilter(state) {
+            return cards.value.filter((card) =>
+              searchByName.value
+                ? card.name.toLowerCase().includes(searchText.value.toLowerCase())
+                : card.desc.toLowerCase().includes(searchText.value.toLowerCase())
+            )
+        },
     },
     actions: {
 

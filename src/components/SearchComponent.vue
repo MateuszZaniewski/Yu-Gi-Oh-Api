@@ -17,7 +17,7 @@
             <div class="search-button">
                 <button @click="allCards ? searchForAllCards() :
                  monsters ? searchForMonsters() :
-                 spells ? searchForSpells() : searchForTraps()">Search</button>
+                 spells ? searchForSpells() : searchForTraps(), updateChild()">Search</button>
             </div>
             <div class="clear-button">
                 <button @click="resetFilter(), resetFunction()">Clear Filter</button>
@@ -67,7 +67,7 @@
 
     <button @click="consoleFilters">Pokaż obecne filtry</button>
 
-    <Card :preFilterProp="preFilter" :allCardsVal="allCards" :searchByWhat="searchByName" :searchText="searchText" />
+    <Card :preFilterProp="preFilter" :allCardsVal="allCards" :searchByWhat="searchByName" :searchText="searchText" :levelArray.sync="levelArray"/>
 
 </template>
 
@@ -113,11 +113,7 @@ let atributeArray = ref(store.state.atributes)
 
 
 const preFilter = computed(() => {
-  return cards.value.filter((card) =>
-    searchByName.value
-      ? card.name.toLowerCase().includes(searchText.value.toLowerCase())
-      : card.desc.toLowerCase().includes(searchText.value.toLowerCase())
-  )
+  return cards.value
 })
 
 
@@ -283,7 +279,7 @@ const resetFilter = () => {
         levelArray = store.state.levels
     }
 
-}
+};
 
 
 </script>

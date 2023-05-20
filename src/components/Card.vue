@@ -4,13 +4,15 @@
     </div>
 
     <ul>
-      <li v-for="card in filtr">{{ card.name }}</li>
+      <li v-for="card in searchByNameOrDescription.slice(0,30)" :key="card.id">{{ card.name }}</li>
     </ul>
+
+    <button @click="show">SHow</button>
 </template>
 
 <script setup>
 
-import {watch, ref, computed} from 'vue'
+import {watch, computed} from 'vue'
 
 const props = defineProps({
   preFilterProp: {
@@ -28,47 +30,32 @@ const props = defineProps({
   searchText: {
     type: String,
     required: true
+  },
+  levelArray: {
+    type: Array,
+    required: true
   }
 });
 
-const myProp = ref(props.allCardsVal);
-
-
-const searchText = ref(props.searchText)
-console.log(props.searchByWhat)
-
-const textordesc = ref(props.searchByWhat)
-
-
-watch( () => props.allCardsVal,(newValue, oldValue) => {
-    myProp.value = newValue;
-    console.log(`myProp changed to ${newValue}`)
-    if(newValue){
-      console.log('Its true')
-    };
-  },
-  { deep: true }
-);
-
-watch( () => props.searchByWhat,(newValue, oldValue) => {
-  textordesc.value = newValue;
-    console.log(`myProp changed to ${newValue}`)
-    console.log(typeof newValue)
-    if(newValue){
-      console.log('Its true')
-    };
-  },
-  { deep: true }
-);
-
-
-const filtr = computed(() => {
-  return props.preFilterProp.filter((card) =>
-    textordesc == 'true'
-      ? card.name.toLowerCase().includes(searchText.value.toLowerCase())
-      : card.desc.toLowerCase().includes(searchText.value.toLowerCase())
-  )
+const searchByNameOrDescription = computed(() => {
+  return props.preFilterProp.filter(card => {
+    if(props.searchByWhat == 'true'){
+      return card.name.toLowerCase().includes(props.searchText.toLowerCase())
+    }
+    else if(props.searchByWhat == 'false'){
+      return card.desc.toLowerCase().includes(props.searchText.toLowerCase())
+    }
+  })
 })
+
+const show = () => {
+  console.log(props.levelArray)
+}
+
+
+
+// props.searchText - reaktywna zmienna przechowująca input
+// props.searchByWhat - reaktywna zmienna text or desc
 
 
 </script>
