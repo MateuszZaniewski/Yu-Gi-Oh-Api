@@ -58,10 +58,14 @@ const AtributeArrayMethod = () => {
         event.target.style.backgroundColor = '#496F5D'
     }
 
+    store.commit('addAtribute', buttonText)
+
     store.commit('setDefaultForAtributes')
 
     const passArray = () => emits('pass-atribute-array', atributeArray)
     passArray()
+
+    console.log(Array.from(store.state.selectedAtributes))
 }
 
 

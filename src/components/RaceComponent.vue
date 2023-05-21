@@ -57,10 +57,14 @@ const raceArrayMethod = () => {
         event.target.style.backgroundColor = '#496F5D'
     }
 
+    store.commit('addRace', buttonText)
+
     store.commit('setDefaultForRaces')
 
     let passArray = () => emits('pass-race-array', raceArray)
     passArray()
+
+    console.log(Array.from(store.state.selectedRaces))
 }
 
 

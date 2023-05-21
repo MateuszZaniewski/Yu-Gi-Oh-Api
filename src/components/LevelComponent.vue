@@ -53,10 +53,15 @@ const levelArrayMethod = () => {
         event.target.style.backgroundColor = '#496F5D'
     }
 
+    store.commit('addLevel', buttonText)
+
     store.commit('setDefaultForLevels')
 
     const passArray = () => emits('pass-level-array', levelArray)
     passArray()
+
+    console.log(Array.from(store.state.selectedLevels))
+
 }
 
 

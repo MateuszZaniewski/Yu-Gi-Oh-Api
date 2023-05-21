@@ -52,10 +52,14 @@ const cardtypeArrayMethod = () => {
         event.target.style.backgroundColor = '#496F5D'
     }
 
+    store.commit('addCardType', buttonText)
+
     store.commit('setDefaultForTypes')
 
     const passArray = () => emits('pass-cardtype-array', cardArray)
     passArray()
+
+    console.log(Array.from(store.state.selectedCardTypes))
 }
 
 

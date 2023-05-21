@@ -244,8 +244,17 @@ const consoleFilters = () => {
 
 const fetchCards = async () => {
     try {
-      const response = await axios.get('https://db.ygoprodeck.com/api/v7/cardinfo.php');
-      cards.value = response.data.data;
+        const response = await axios.get('https://db.ygoprodeck.com/api/v7/cardinfo.php');
+        const fetchedCards = response.data.data;
+
+    fetchedCards.forEach(card => {
+      if (!card.hasOwnProperty('attribute')) {
+        card.attribute = undefined;
+      }
+    });
+
+    cards.value = fetchedCards;
+    console.log(cards.value)
     } catch (error) {
       console.log(error);
     }
@@ -256,9 +265,13 @@ const fetchCards = async () => {
   });
 
 
+// make call to vuex and reset all arrays to empty
+
 function resetFunction() {
   store.commit('resetAllFilters');
 }
+
+// search for active buttons and set them to default state
 
 const resetFilter = () => {
     console.log('Filtr został zresetowany')

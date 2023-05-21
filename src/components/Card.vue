@@ -13,6 +13,8 @@
 <script setup>
 
 import {watch, computed} from 'vue'
+import { useStore } from 'vuex';
+const store = useStore();
 
 const props = defineProps({
   preFilterProp: {
@@ -37,10 +39,27 @@ const props = defineProps({
   }
 });
 
-const searchByNameOrDescription = computed(() => {
+  const searchByNameOrDescription = computed(() => {
+    return props.preFilterProp.filter(card => {
+      if(props.searchByWhat == 'true'){
+        return(
+          card.name.toLowerCase().includes(props.searchText.toLowerCase())
+        )
+      
+    }
+    else if(props.searchByWhat == 'false'){
+      return card.desc.toLowerCase().includes(props.searchText.toLowerCase())
+    }
+  })
+})
+
+const searchByNameOrDescriptionx = computed(() => {
   return props.preFilterProp.filter(card => {
     if(props.searchByWhat == 'true'){
-      return card.name.toLowerCase().includes(props.searchText.toLowerCase())
+      const filterByName = card.name.toLowerCase().includes(props.searchText.toLowerCase())
+      console.log(filterByName)
+      const filterByAtribute = filterByName.filter(card => card.attribute.includes(store.state.selectedAtributes))
+      return filterByAtribute
     }
     else if(props.searchByWhat == 'false'){
       return card.desc.toLowerCase().includes(props.searchText.toLowerCase())

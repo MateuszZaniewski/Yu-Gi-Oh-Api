@@ -58,11 +58,14 @@ const monstertypeArrayMethod = () => {
     if(color == 'rgb(76, 159, 112)') {
         event.target.style.backgroundColor = '#496F5D'
     }
+    store.commit('addMonsterType', buttonText)
 
     store.commit('setDefaultForMonsters')
 
     const passArray = () => emits('pass-monstertype-array', monstertypeArray)
     passArray()
+
+    console.log(Array.from(store.state.selectedMonsters))
 }
 
 </script>
