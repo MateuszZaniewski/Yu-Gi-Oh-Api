@@ -24,25 +24,55 @@ const store =  createStore({
             selectedLevels : [],
 
             isCleared : false,
+            allBox : true,
+            monstersBox : false,
+            spellsBox : false,
+            trapsBox : false,
         }
         
     },
     mutations: {
+        showAllFilters(state) {
+            state.allBox = true
+            state.monstersBox = false
+            state.spellsBox = false
+            state.trapsBox = false
+        },
+        showMonsterFilters(state) {
+            state.allBox = false
+            state.monstersBox = true
+            state.spellsBox = false
+            state.trapsBox = false
+        },
+        showSpellFilters(state){
+            state.allBox = false
+            state.monstersBox = false
+            state.spellsBox = true
+            state.trapsBox = false
+        },
+        showTrapsFilters(state) {
+            state.allBox = false
+            state.monstersBox = false
+            state.spellsBox = false
+            state.trapsBox = true
+        },
+
+
         resetAllFilters(state) {
             state.resetAtribute = true
-            state.selectedAtributes = []
+            state.selectedAtributes = state.atributes
             console.log('ResetAtribute = true')
             state.resetRace = true
-            state.selectedRaces = []
+            state.selectedRaces = state.races
             console.log('ResetRaces = true')
             state.resetMonster = true
-            state.selectedMonsters = []
+            state.selectedMonsters = state.monsters
             console.log('ResetMonster = true')
             state.resetType = true
-            state.selectedCardTypes = []
+            state.selectedCardTypes = state.types
             console.log('ResetType = true')
             state.resetLevel = true
-            state.selectedLevels = []
+            state.selectedLevels = state.levels
             console.log('ResetLevel = true')
         },
         setDefaultForAtributes(state) {
@@ -109,6 +139,32 @@ const store =  createStore({
                 if(index !== -1){
                     state.selectedAtributes.splice(index,1)
                 }
+            }
+        },
+
+        setDefaultForSelectedAtributes(state) {
+            if(state.selectedAtributes.length == 0){
+                state.selectedAtributes = state.atributes
+            }
+        },
+        setDefaultForSelectedMonsterTypes(state) {
+            if(state.selectedMonsters.length == 0){
+                state.selectedMonsters = state.monsters
+            }
+        },
+        setDefaultForSelectedCardTypes(state) {
+            if(state.selectedCardTypes.length == 0){
+                state.selectedCardTypes = state.types
+            }
+        },
+        setDefaultForSelectedLevels(state) {
+            if(state.selectedLevels.length == 0){
+                state.selectedLevels = state.levels
+            }
+        },
+        setDefaultForSelectedRaces(state) {
+            if(state.selectedRaces.leght == 0){
+                state.selectedLevels = state.levels
             }
         }
     },

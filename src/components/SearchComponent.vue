@@ -15,9 +15,9 @@
             </div>
             </div>
             <div class="search-button">
-                <button @click="allCards ? searchForAllCards() :
-                 monsters ? searchForMonsters() :
-                 spells ? searchForSpells() : searchForTraps(), updateChild()">Search</button>
+                <button @click="allCards ? [searchForAllCards(), setDefaultforArrays()] :
+                 monsters ? [searchForMonsters(), setDefaultforArrays()] :
+                 spells ? [searchForSpells(), setDefaultforArrays()] : [searchForTraps(), setDefaultforArrays()]">Search</button>
             </div>
             <div class="clear-button">
                 <button @click="resetFilter(), resetFunction()">Clear Filter</button>
@@ -30,7 +30,7 @@
             <div class="dropdown-filters" :style="{display: reveal}">
                 <div class="simple-filters">
                     <button title="Show filters all cards" :class="{'select' : allCards}" @click="showAllFilters">All Cards</button>
-                    <button title="Show filters only monster cards" :class="{'select' : monsters}" @click="showMonsterFilters">Monster Cards</button>
+                    <button title="Show filters only monster cards" :class="{'select' : monsters}" @click="showMonsterFilters">Monster Cards<img @click="expandMonsterFilters" class="downArrow" src="../assets/downArrow.png" /></button>
                     <button title="Show filters only spell cards" :class="{'select' : spells}" @click="showSpellFilter">Spell Cards</button>
                     <button title="Show filters only trap cards" :class="{'select' : traps}" @click="showTrapsFilter">Trap Cards</button>
                 </div>
@@ -67,7 +67,7 @@
 
     <button @click="consoleFilters">Pokaż obecne filtry</button>
 
-    <Card :preFilterProp="preFilter" :allCardsVal="allCards" :searchByWhat="searchByName" :searchText="searchText" :levelArray.sync="levelArray"/>
+    <Card :preFilterProp="preFilter" :searchByWhat="searchByName" :searchText="searchText"/>
 
 </template>
 
@@ -142,20 +142,27 @@ const showAllFilters = () => {
     monsters.value = false
     spells.value = false
     traps.value = false
+    store.commit('showAllFilters')
+    
 }
 
 const showMonsterFilters = () => {
-    atributeBox.value = true
-    raceBox.value = false
-    monsterTypeBox.value = true
-    cardTypeBox.value = true
-    levelBox.value = true
-    atkBox.value = true
-    defBox.value = true
     allCards.value = false
     monsters.value = true
     spells.value = false
     traps.value = false
+    raceBox.value = false
+    store.commit('showMonsterFilters')
+}
+
+const expandMonsterFilters = () => {
+    atributeBox.value = !atributeBox.value
+    raceBox.value = !raceBox.value
+    monsterTypeBox.value = !monsterTypeBox.value
+    cardTypeBox.value = !cardTypeBox.value
+    levelBox.value = !levelBox.value
+    atkBox.value = !atkBox.value
+    defBox.value = !defBox.value
 }
 
 const showSpellFilter = () => {
@@ -170,6 +177,7 @@ const showSpellFilter = () => {
     monsters.value = false
     spells.value = true
     traps.value = false
+    store.commit('showSpellFilters')
 }
 
 const showTrapsFilter = () => {
@@ -184,14 +192,15 @@ const showTrapsFilter = () => {
     monsters.value = false
     spells.value = false
     traps.value = true
+    store.commit('showTrapsFilters')
 }
 
 const setDefaultforArrays = () => {
-    if(levelArray.length == 0){levelArray = store.state.levels}
-    if(cardTypeArray.length == 0){cardTypeArray = store.state.types}
-    if(monstertypeArray == 0){monstertypeArray = store.state.monsters}
-    if(raceArray.length == 0){raceArray = store.state.races}
-    if(atributeArray.length == 0){atributeArray = store.state.atributes}
+    store.commit('setDefaultForSelectedAtributes')
+    store.commit('setDefaultForSelectedMonsterTypes')
+    store.commit('setDefaultForSelectedCardTypes')
+    store.commit('setDefaultForSelectedLevels')
+    store.commit('setDefaultForSelectedRaces')
 }
 
 setDefaultforArrays
@@ -249,7 +258,25 @@ const fetchCards = async () => {
 
     fetchedCards.forEach(card => {
       if (!card.hasOwnProperty('attribute')) {
-        card.attribute = undefined;
+        card.attribute = 'undefined';
+      }
+      if (!card.hasOwnProperty('name')) {
+        card.name = 'undefined';
+      }
+      if (!card.hasOwnProperty('race')) {
+        card.race = 'undefined';
+      }
+      if (!card.hasOwnProperty('type')) {
+        card.type = 'undefined';
+      }
+      if (!card.hasOwnProperty('atk')) {
+        card.atk = 'undefined';
+      }
+      if (!card.hasOwnProperty('def')) {
+        card.def = 'undefined';
+      }
+      if (!card.hasOwnProperty('level')) {
+        card.level = 'undefined';
       }
     });
 
@@ -309,6 +336,12 @@ const resetFilter = () => {
 
 .notChecked {
     background-color: $hookergreen;
+}
+
+.downArrow {
+    height: 15px;
+    width: 15px;
+    margin-left: 15px;
 }
 
 section {
