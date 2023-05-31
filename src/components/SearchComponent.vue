@@ -15,7 +15,7 @@
             </div>
             </div>
             <div class="search-button">
-                <button @click="">Search</button>
+                <button disabled @click="">Search</button>
             </div>
             <div class="clear-button">
                 <button @click="resetAciveButtons">Clear Filter</button>
@@ -217,29 +217,23 @@ setDefaultforArrays
 
 
 const handleLevelArray = (array) => {
-      console.log('Received array from levelComponent.vue:', array);
       levelArray = array.value
     }
 
 const handleCardtypeArray = (array) => {
-    console.log('Recived array from cardTypeComponent.vue:', array)
     cardTypeArray = array.value
 }
 
 const handleMonstertypeArray = (array) => {
-    console.log('Recived array from MonsterTypeComponent.vue', array)
     monstertypeArray = array.value
 }
 
 const handleRaceArray = (array) => {
-    console.log('Recived array from RaceArrayComponent.vue', array)
     raceArray = array.value
 
 }
 
 const handleAtributeArray = (array) => {
-    console.log('Recived array from AtributeComponent.vue', array)
-    
     atributeArray = array.value
 }
 
@@ -299,7 +293,7 @@ const fetchCards = async () => {
 // search for active buttons and set them to default state
 
 const resetAciveButtons = () => {
-    console.log('Przyciski zostały zresetowane')
+    console.log('Filtry zostały zresetowane')
     const buttons = document.querySelectorAll('.atribute-button')
     buttons.forEach((button) => {
         if(button.style.backgroundColor == 'rgb(76, 159, 112)'){
@@ -421,7 +415,7 @@ section {
             button {
                 padding-bottom: 0.5rem;
                 padding-top: 0.5rem;
-                width: 15%;
+                width: 20%;
                 background-color: #2b4570;
                 border-top: none;
                 border-right: none;

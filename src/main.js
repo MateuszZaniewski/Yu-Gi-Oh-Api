@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import store from './store'
+import Paginate from 'vuejs-paginate-next';
 
 import Cookies from 'js-cookie';
 
@@ -12,4 +13,5 @@ const app = createApp(App, {
     devtools: true
   });
 app.use(store)
+app.use(Paginate)
 app.mount('#app');

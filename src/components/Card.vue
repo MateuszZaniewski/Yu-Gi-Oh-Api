@@ -1,6 +1,6 @@
 <template>
     <ul>
-      <li v-for="card in searchByNameOrDescription.slice(0,30)" :key="card.id">
+      <li v-for="card in searchByNameOrDescription.slice(0,10)" :key="card.id">
       <div class="uniqueCard">
         <div>{{ card.name }}</div>
         <div>{{ card.attribute }}</div>
@@ -9,13 +9,28 @@
       </li>
     </ul>
 
-    <button @click="show">SHow</button>
+    <section class="paginationSection">
+      <div class="paginationWrapper">
+        <div></div>
+      </div>
+    </section>
+
+    <paginate
+  :page-count="20"
+  :prev-text="'Prev'"
+  :next-text="'Next'"
+  :container-class="'pagination'"
+>
+</paginate>
+
+
 </template>
 
 <script setup>
 
 import {computed} from 'vue'
 import { useStore } from 'vuex';
+import Paginate from 'vuejs-paginate-next';
 const store = useStore();
 
 const props = defineProps({
@@ -143,18 +158,10 @@ const searchByAttackAndDefenceOnly = (card) => {
          card.def >= props.defenceFrom && card.def <= props.defenceTo
 }
 
-const show = () => {
-  searchByLevelOnly()
-};
-
-
-// props.searchText - reaktywna zmienna przechowująca input
-// props.searchByWhat - reaktywna zmienna text or desc
-
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 @media screen and (max-width: 1023px) {
 
@@ -170,6 +177,7 @@ const show = () => {
   .uniqueCard {
     border: 1px solid black;
   }
+
 
 }
 
