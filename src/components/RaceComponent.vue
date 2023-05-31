@@ -39,14 +39,15 @@ const raceArrayMethod = () => {
 
     
     if(store.state.resetRace == true){
-        raceArray.value = []
+        raceArray.value = store.state.races
     }
 
-    if(!raceArray.value.includes(buttonText)){
+    if(!store.state.selectedRaces.includes(buttonText)){
         raceArray.value.push(buttonText)
     } else if(raceArray.value.includes(buttonText)) {
         removeIfPresent(raceArray.value, buttonText)
     }
+
     
     // change color for click
     const color = event.target.style.backgroundColor
@@ -63,8 +64,6 @@ const raceArrayMethod = () => {
 
     let passArray = () => emits('pass-race-array', raceArray)
     passArray()
-
-    console.log(Array.from(store.state.selectedRaces))
 }
 
 

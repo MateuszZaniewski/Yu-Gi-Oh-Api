@@ -15,12 +15,10 @@
             </div>
             </div>
             <div class="search-button">
-                <button @click="allCards ? [searchForAllCards(), setDefaultforArrays()] :
-                 monsters ? [searchForMonsters(), setDefaultforArrays()] :
-                 spells ? [searchForSpells(), setDefaultforArrays()] : [searchForTraps(), setDefaultforArrays()]">Search</button>
+                <button @click="">Search</button>
             </div>
             <div class="clear-button">
-                <button @click="resetFilter(), resetFunction()">Clear Filter</button>
+                <button @click="resetAciveButtons">Clear Filter</button>
             </div>
             
         </div>
@@ -48,15 +46,15 @@
                 <div v-if="atkBox" class="attack-filters atribute-container">
                     <div class="atribute-head"><span>Attack</span></div>
                     <div class="atribute-items">
-                        <input type="number" placeholder="From"/>
-                        <input type="number" placeholder="To"/>
+                        <input v-model="attackFrom" type="number" placeholder="From"/>
+                        <input v-model="attackTo" type="number" placeholder="To"/>
                     </div>
                 </div>
                 <div v-if="defBox" class="defence-filters atribute-container">
                     <div class="atribute-head"><span>Defence</span></div>
                     <div class="atribute-items">
-                        <input type="number" placeholder="From"/>
-                        <input type="number" placeholder="To"/>
+                        <input v-model="defenceFrom" type="number" placeholder="From"/>
+                        <input v-model="defenceTo" type="number" placeholder="To"/>
                     </div>
                 </div>
             </div>
@@ -67,7 +65,14 @@
 
     <button @click="consoleFilters">Pokaż obecne filtry</button>
 
-    <Card :preFilterProp="preFilter" :searchByWhat="searchByName" :searchText="searchText"/>
+    <Card 
+    :preFilterProp="preFilter" 
+    :searchByWhat="searchByName" 
+    :searchText="searchText"
+    :attackFrom="attackFrom"
+    :attackTo="attackTo"
+    :defenceFrom="defenceFrom"
+    :defenceTo="defenceTo"/>
 
 </template>
 
@@ -86,6 +91,10 @@ const store = useStore();
 
 
 const searchText = ref('')
+const attackFrom = ref(0)
+const attackTo = ref(15000)
+const defenceFrom = ref(0)
+const defenceTo = ref(15000)
 const reveal = ref('block')
 const cards = ref([]);
 let searchByName = ref('true')
@@ -210,25 +219,21 @@ setDefaultforArrays
 const handleLevelArray = (array) => {
       console.log('Received array from levelComponent.vue:', array);
       levelArray = array.value
-      console.log(Array.from(levelArray))
     }
 
 const handleCardtypeArray = (array) => {
     console.log('Recived array from cardTypeComponent.vue:', array)
     cardTypeArray = array.value
-    console.log(Array.from(cardTypeArray))
 }
 
 const handleMonstertypeArray = (array) => {
     console.log('Recived array from MonsterTypeComponent.vue', array)
     monstertypeArray = array.value
-    console.log(Array.from(monstertypeArray))
 }
 
 const handleRaceArray = (array) => {
     console.log('Recived array from RaceArrayComponent.vue', array)
     raceArray = array.value
-    console.log(Array.from(raceArray))
 
 }
 
@@ -236,7 +241,6 @@ const handleAtributeArray = (array) => {
     console.log('Recived array from AtributeComponent.vue', array)
     
     atributeArray = array.value
-    console.log(Array.from(atributeArray))
 }
 
 
@@ -292,33 +296,17 @@ const fetchCards = async () => {
   });
 
 
-// make call to vuex and reset all arrays to empty
-
-function resetFunction() {
-  store.commit('resetAllFilters');
-}
-
 // search for active buttons and set them to default state
 
-const resetFilter = () => {
-    console.log('Filtr został zresetowany')
+const resetAciveButtons = () => {
+    console.log('Przyciski zostały zresetowane')
     const buttons = document.querySelectorAll('.atribute-button')
     buttons.forEach((button) => {
         if(button.style.backgroundColor == 'rgb(76, 159, 112)'){
             button.style.backgroundColor = 'rgb(73, 111, 93)'
         }  
     })
-    // call reset function - commit from store
-    resetFunction
-
-    if(store.state.atributes && store.state.races && store.state.monsters && store.state.types && store.state.levels){
-        raceArray = store.state.races
-        atributeArray = store.state.atributes
-        monstertypeArray = store.state.monsters
-        cardTypeArray = store.state.types
-        levelArray = store.state.levels
-    }
-
+    store.commit('resetAllFilters')
 };
 
 

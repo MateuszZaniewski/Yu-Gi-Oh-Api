@@ -1,10 +1,12 @@
 <template>
-    <div>
-      <h1>Card Component</h1>
-    </div>
-
     <ul>
-      <li v-for="card in searchByNameOrDescription.slice(0,30)" :key="card.id">{{ card.name }}</li>
+      <li v-for="card in searchByNameOrDescription.slice(0,30)" :key="card.id">
+      <div class="uniqueCard">
+        <div>{{ card.name }}</div>
+        <div>{{ card.attribute }}</div>
+        <div>{{ card.race }}</div>
+      </div>
+      </li>
     </ul>
 
     <button @click="show">SHow</button>
@@ -29,6 +31,22 @@ const props = defineProps({
     type: String,
     required: true
   },
+  attackFrom: {
+    type: Number,
+    required: false,
+  },
+  attackTo: {
+    type: Number,
+    required: false,
+  },
+  defenceFrom: {
+    type: Number,
+    required: false,
+  },
+  defenceTo: {
+    type: Number,
+    required: false,
+  }
 });
 
 const searchByNameOrDescription = computed(() => {
@@ -44,9 +62,9 @@ const searchByNameOrDescription = computed(() => {
   else if(store.state.monstersBox){
     return props.preFilterProp.filter(card => {
     if (props.searchByWhat === 'true') {
-      return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && searchByLevelOnly(card) && searchByAtributeOnly(card) && searchByMonsterTypeOnly(card) && searchByCardTypeOnly(card);
+      return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && searchByLevelOnly(card) && searchByAtributeOnly(card) && searchByMonsterTypeOnly(card) && searchByCardTypeOnly(card) && searchByAttackAndDefenceOnly(card);
     } else if (props.searchByWhat === 'false') {
-      return card.desc.toLowerCase().includes(props.searchText.toLowerCase()) && searchByLevelOnly(card) && searchByAtributeOnly(card) && searchByMonsterTypeOnly(card) && searchByCardTypeOnly(card);
+      return card.desc.toLowerCase().includes(props.searchText.toLowerCase()) && searchByLevelOnly(card) && searchByAtributeOnly(card) && searchByMonsterTypeOnly(card) && searchByCardTypeOnly(card) && searchByAttackAndDefenceOnly(card);
     }
   });
   }
@@ -120,6 +138,11 @@ const searchBySpellOrTrapOnly = (card) => {
   selectedRacesArray.some(race => card.race.includes(race))
 }
 
+const searchByAttackAndDefenceOnly = (card) => {
+  return card.atk >= props.attackFrom && card.atk <= props.attackTo &&
+         card.def >= props.defenceFrom && card.def <= props.defenceTo
+}
+
 const show = () => {
   searchByLevelOnly()
 };
@@ -134,6 +157,19 @@ const show = () => {
 <style scoped>
 
 @media screen and (max-width: 1023px) {
+
+  *{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+  }
+
+
+  .uniqueCard {
+    border: 1px solid black;
+  }
 
 }
 

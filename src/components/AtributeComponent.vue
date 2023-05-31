@@ -64,8 +64,6 @@ const AtributeArrayMethod = () => {
 
     const passArray = () => emits('pass-atribute-array', atributeArray)
     passArray()
-
-    console.log(Array.from(store.state.selectedAtributes))
 }
 
 

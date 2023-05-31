@@ -59,21 +59,11 @@ const store =  createStore({
 
 
         resetAllFilters(state) {
-            state.resetAtribute = true
-            state.selectedAtributes = state.atributes
-            console.log('ResetAtribute = true')
-            state.resetRace = true
-            state.selectedRaces = state.races
-            console.log('ResetRaces = true')
-            state.resetMonster = true
-            state.selectedMonsters = state.monsters
-            console.log('ResetMonster = true')
-            state.resetType = true
-            state.selectedCardTypes = state.types
-            console.log('ResetType = true')
-            state.resetLevel = true
-            state.selectedLevels = state.levels
-            console.log('ResetLevel = true')
+            state.selectedAtributes = []
+            state.selectedCardTypes = []
+            state.selectedLevels = []
+            state.selectedMonsters = []
+            state.selectedRaces = []
         },
         setDefaultForAtributes(state) {
             state.resetAtribute = false
@@ -166,7 +156,7 @@ const store =  createStore({
             if(state.selectedRaces.leght == 0){
                 state.selectedLevels = state.levels
             }
-        }
+        },
     },
     actions: {
 

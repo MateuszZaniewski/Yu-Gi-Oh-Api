@@ -58,8 +58,6 @@ const cardtypeArrayMethod = () => {
 
     const passArray = () => emits('pass-cardtype-array', cardArray)
     passArray()
-
-    console.log(Array.from(store.state.selectedCardTypes))
 }
 
 

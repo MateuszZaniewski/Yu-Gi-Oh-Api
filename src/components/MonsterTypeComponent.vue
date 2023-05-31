@@ -64,8 +64,6 @@ const monstertypeArrayMethod = () => {
 
     const passArray = () => emits('pass-monstertype-array', monstertypeArray)
     passArray()
-
-    console.log(Array.from(store.state.selectedMonsters))
 }
 
 </script>

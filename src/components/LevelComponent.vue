@@ -60,8 +60,6 @@ const levelArrayMethod = () => {
     const passArray = () => emits('pass-level-array', levelArray)
     passArray()
 
-    console.log(Array.from(store.state.selectedLevels))
-
 }
 
 
