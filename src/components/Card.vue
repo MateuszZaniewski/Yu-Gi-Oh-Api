@@ -1,6 +1,19 @@
 <template>
+
+<div class="pagination">
     <ul>
-      <li v-for="card in searchByNameOrDescription.slice(0,10)" :key="card.id">
+        <button @click="prevPage" :disabled="currentPage === 10">Previous</button>
+        <li v-if="activePage > 1"><span>{{ activePage - 1 }}</span></li>
+        <li><span>{{ activePage }}</span></li>
+        <li><span>{{ activePage + 1 }}</span></li>
+        <li><span>{{ activePage + 2 }}</span></li>
+        <button @click="nextPage" :disabled="currentPage >= searchByNameOrDescription.length">Next</button>
+    </ul>
+    
+</div>
+
+    <ul>
+      <li v-for="card in searchByNameOrDescription.slice(startPoint,currentPage)" :key="card.id">
       <div class="uniqueCard">
         <div>{{ card.name }}</div>
         <div>{{ card.attribute }}</div>
@@ -9,28 +22,21 @@
       </li>
     </ul>
 
-    <section class="paginationSection">
-      <div class="paginationWrapper">
-        <div></div>
-      </div>
-    </section>
-
-    <paginate
-  :page-count="20"
-  :prev-text="'Prev'"
-  :next-text="'Next'"
-  :container-class="'pagination'"
->
-</paginate>
+    <div class="pagination">
+    <ul>
+        <button @click="prevPage" :disabled="currentPage === 10">Previous</button>
+        <button @click="nextPage" :disabled="currentPage >= searchByNameOrDescription.length">Next</button>
+    </ul>
+    
+</div>
 
 
 </template>
 
 <script setup>
 
-import {computed} from 'vue'
+import {computed, ref} from 'vue'
 import { useStore } from 'vuex';
-import Paginate from 'vuejs-paginate-next';
 const store = useStore();
 
 const props = defineProps({
@@ -61,8 +67,22 @@ const props = defineProps({
   defenceTo: {
     type: Number,
     required: false,
-  }
+  },
 });
+const startPoint = ref(0)
+const currentPage = ref(10)
+const activePage = ref(1)
+const nextPage = () => {
+  currentPage.value += 10
+  startPoint.value += 10
+  activePage.value++
+} 
+const prevPage = () => {
+  currentPage.value -= 10
+  startPoint.value -= 10
+  activePage.value--
+}
+
 
 const searchByNameOrDescription = computed(() => {
   if(store.state.allBox){
@@ -156,7 +176,7 @@ const searchBySpellOrTrapOnly = (card) => {
 const searchByAttackAndDefenceOnly = (card) => {
   return card.atk >= props.attackFrom && card.atk <= props.attackTo &&
          card.def >= props.defenceFrom && card.def <= props.defenceTo
-}
+};
 
 
 </script>
@@ -179,6 +199,17 @@ const searchByAttackAndDefenceOnly = (card) => {
   }
 
 
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    font-size: 1.5rem;
+
+    ul {
+        list-style: none;
+        display: flex;
+    }
 }
 
 

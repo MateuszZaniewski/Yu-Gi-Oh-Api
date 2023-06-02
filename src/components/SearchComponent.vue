@@ -98,6 +98,7 @@ const defenceTo = ref(15000)
 const reveal = ref('block')
 const cards = ref([]);
 let searchByName = ref('true')
+const cardsLength = ref(0)
 
 
 const allCards = ref(true)
@@ -119,6 +120,7 @@ let cardTypeArray = ref(store.state.types)
 let monstertypeArray = ref(store.state.monsters)
 let raceArray = ref(store.state.races)
 let atributeArray = ref(store.state.atributes)
+
 
 
 const preFilter = computed(() => {
@@ -280,6 +282,8 @@ const fetchCards = async () => {
 
     cards.value = fetchedCards;
     console.log(cards.value)
+    cardsLength.value = cards.value.length
+    console.log(cardsLength.value)
     } catch (error) {
       console.log(error);
     }

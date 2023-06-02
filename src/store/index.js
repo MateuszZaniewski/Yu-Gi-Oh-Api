@@ -28,6 +28,10 @@ const store =  createStore({
             monstersBox : false,
             spellsBox : false,
             trapsBox : false,
+
+            cardsLength : 100,
+            currentPage : 1,
+
         }
         
     },
