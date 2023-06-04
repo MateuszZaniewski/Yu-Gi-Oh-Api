@@ -1,14 +1,17 @@
 <template>
-
-<div class="pagination">
-    <ul>
-        <button @click="prevPage" :disabled="currentPage === 10">Previous</button>
-        <li v-if="activePage > 1"><span>{{ activePage - 1 }}</span></li>
-        <li><span>{{ activePage }}</span></li>
-        <li><span>{{ activePage + 1 }}</span></li>
-        <li><span>{{ activePage + 2 }}</span></li>
-        <button @click="nextPage" :disabled="currentPage >= searchByNameOrDescription.length">Next</button>
-    </ul>
+  <div class="pagination">
+      <ul class="pagination__list">
+        <button @click="pagesToStart">First</button>
+        <button @click="prevPage" :disabled="currentPage === 10">&lt;</button>
+        <li v-if="activePage !== 1">{{ activePage - 1 }}</li>
+        <li :class="{'activePage': innerTextMatch}">{{ activePage }}</li>
+        <li v-if="activePage + 1 != pagesLength +1 " > {{ activePage + 1 }}</li>
+        <li v-if="activePage === 1">{{ activePage + 2 }}</li>
+        <li v-if="pagesLength - activePage > 2">...</li>
+        <li v-if="pagesLength - activePage > 2">{{ pagesLength }}</li>
+        <button @click="nextPage" :disabled="currentPage >= searchByNameOrDescription.length">></button>
+        <button @click="pagesToEnd">Last</button>
+      </ul>
     
 </div>
 
@@ -69,9 +72,11 @@ const props = defineProps({
     required: false,
   },
 });
+const pagesLength = ref(null)
 const startPoint = ref(0)
 const currentPage = ref(10)
 const activePage = ref(1)
+const highLight = ref(1)
 const nextPage = () => {
   currentPage.value += 10
   startPoint.value += 10
@@ -83,10 +88,27 @@ const prevPage = () => {
   activePage.value--
 }
 
+const innerTextMatch = (number) => {
+  
+}
+
+const pagesToStart = () => {
+  currentPage.value = 10
+  startPoint.value = 0
+  activePage.value = 1
+}
+const pagesToEnd = () => {
+  activePage.value = pagesLength.value
+  startPoint.value = pagesLength.value * 10 - 10
+  currentPage.value = pagesLength.value * 10
+}
+
+
 
 const searchByNameOrDescription = computed(() => {
+  let filteredArray = [];
   if(store.state.allBox){
-    return props.preFilterProp.filter(card => {
+    filteredArray = props.preFilterProp.filter(card => {
       if (props.searchByWhat === 'true') {
       return card.name.toLowerCase().includes(props.searchText.toLowerCase());
     } else if (props.searchByWhat === 'false') {
@@ -95,7 +117,7 @@ const searchByNameOrDescription = computed(() => {
     })
   }
   else if(store.state.monstersBox){
-    return props.preFilterProp.filter(card => {
+    filteredArray = props.preFilterProp.filter(card => {
     if (props.searchByWhat === 'true') {
       return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && searchByLevelOnly(card) && searchByAtributeOnly(card) && searchByMonsterTypeOnly(card) && searchByCardTypeOnly(card) && searchByAttackAndDefenceOnly(card);
     } else if (props.searchByWhat === 'false') {
@@ -104,7 +126,7 @@ const searchByNameOrDescription = computed(() => {
   });
   }
   else if(store.state.spellsBox){
-    return props.preFilterProp.filter(card => {
+    filteredArray = props.preFilterProp.filter(card => {
       if(props.searchByWhat === 'true'){
         return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && searchBySpellOrTrapOnly(card) && card.type.toLowerCase().includes('spell')
 
@@ -115,7 +137,7 @@ const searchByNameOrDescription = computed(() => {
     });
   }
   else if(store.state.trapsBox){
-    return props.preFilterProp.filter(card => {
+    filteredArray = props.preFilterProp.filter(card => {
       if(props.searchByWhat === 'true'){
         return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && searchBySpellOrTrapOnly(card) && card.type.toLowerCase().includes('trap')
 
@@ -125,7 +147,11 @@ const searchByNameOrDescription = computed(() => {
       }
     });
   }
-  
+
+  pagesLength.value = Math.ceil(filteredArray.length/10);
+  console.log(pagesLength.value)
+  console.log(filteredArray)
+  return filteredArray;
 });
 
 const searchByLevelOnly = (card) => {
@@ -179,6 +205,10 @@ const searchByAttackAndDefenceOnly = (card) => {
 };
 
 
+
+
+
+
 </script>
 
 <style lang="scss" scoped>
@@ -209,8 +239,30 @@ const searchByAttackAndDefenceOnly = (card) => {
     ul {
         list-style: none;
         display: flex;
+        gap: 2vw;
+    }
+
+    li {
+      padding: 0.25rem 0.5rem;
+      color: rgb(56, 55, 55);
+    }
+
+    .activePage {
+      border: 1px solid #d0f5d0;
+      border-radius: 0.5rem;
+      background-color: #d0f5d0;
+      color: green;
+      font-weight: bold;
+      padding: 0.25rem 0.5rem;
+    }
+
+    button {
+      padding: 0.5rem 0.5rem;
+      font-weight: bold;
     }
 }
+
+
 
 
 </style>
