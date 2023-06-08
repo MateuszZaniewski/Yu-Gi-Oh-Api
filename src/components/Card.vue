@@ -3,10 +3,10 @@
       <ul class="pagination__list">
         <button @click="pagesToStart">First</button>
         <button @click="prevPage" :disabled="currentPage === 10">&lt;</button>
-        <li v-if="activePage !== 1">{{ activePage - 1 }}</li>
-        <li :class="{'activePage': innerTextMatch}">{{ activePage }}</li>
-        <li v-if="activePage + 1 != pagesLength +1 " > {{ activePage + 1 }}</li>
-        <li v-if="activePage === 1">{{ activePage + 2 }}</li>
+        <li v-if="activePage !== 1 && pagesLength == 1">{{ activePage - 1 }}</li>
+        <li class="activePage">{{ activePage }}</li>
+        <li v-if="activePage + 1 != pagesLength +1" > {{ activePage + 1 }}</li>
+        <li v-if="activePage === 1 && pagesLength > 2">{{ activePage + 2 }}</li>
         <li v-if="pagesLength - activePage > 2">...</li>
         <li v-if="pagesLength - activePage > 2">{{ pagesLength }}</li>
         <button @click="nextPage" :disabled="currentPage >= searchByNameOrDescription.length">></button>
@@ -15,12 +15,40 @@
     
 </div>
 
-    <ul>
-      <li v-for="card in searchByNameOrDescription.slice(startPoint,currentPage)" :key="card.id">
+    <ul class="card__wrapper">
+      <li class="card__card" v-for="card in searchByNameOrDescription.slice(startPoint,currentPage)" :key="card.id">
       <div class="uniqueCard">
-        <div>{{ card.name }}</div>
-        <div>{{ card.attribute }}</div>
-        <div>{{ card.race }}</div>
+
+        <div class="uniqueCard__image--wrapper">
+          <img :src="card.card_images[0].image_url"/>
+        </div>
+
+        <div class="uniqueCard__informations--wrapper">
+          <h2>{{ card.name }}</h2>
+          <div class="informations--details">
+            <img class="typeImage" :src="card.type == 'Spell Card' ? spellCardPath : card.type == 'Trap Card' ? trapCardPath : monsterCardPath" />
+            <span>{{ card.type == 'Spell Card' ? 'Spell Card' : card.type == 'Trap Card' ? 'Trap Card' : 'Monster Card' }}</span>
+            <img :src="card.race == 'Normal' ? normal : 
+            card.race == 'Continuous' ? continous :
+            card.race == 'Equip' ? equip :
+            card.race == 'Ritual' ? ritual :
+            card.race == 'Field' ? field :
+            card.race == 'Quick-Play' ? quickplay :
+            card.race == 'Normal' ? normal :
+            card.race == 'Continuous' ? continous :
+            card.race == 'Counter' ? counter :
+            card.attribute == 'DARK' ? dark :
+            card.attribute == 'LIGHT' ? light :
+            card.attribute == 'WATER' ? water :
+            card.attribute == 'FIRE' ? fire :
+            card.attribute == 'WIND' ? wind :
+            card.attribute == 'DIVINE' ? divine : earth"  />
+            <span>{{ card.race }}</span>
+          </div>
+          
+          <p>{{ card.desc }}</p>
+        </div>
+
       </div>
       </li>
     </ul>
@@ -38,7 +66,7 @@
 
 <script setup>
 
-import {computed, ref} from 'vue'
+import {computed, ref, watch} from 'vue'
 import { useStore } from 'vuex';
 const store = useStore();
 
@@ -76,7 +104,26 @@ const pagesLength = ref(null)
 const startPoint = ref(0)
 const currentPage = ref(10)
 const activePage = ref(1)
-const highLight = ref(1)
+import monsterCardPath from '../assets/Monster.jpg'
+import spellCardPath from '../assets/SpellCard.jpg'
+import trapCardPath from '../assets/TrapCard.jpg'
+import normal from '../assets/Normal.png'
+import continous from '../assets/Continuous.png'
+import counter from '../assets/Counter.png'
+import equip from '../assets/Equip.png'
+import field from '../assets/Field.png'
+import quickplay from '../assets/Quick-play.png'
+import ritual from '../assets/Ritual.png'
+import dark from '../assets/DARK.png'
+import light from '../assets/LIGHT.png'
+import divine from '../assets/DIVINE.png'
+import earth from '../assets/EARTH.png'
+import fire from '../assets/FIRE.png'
+import water from '../assets/WATER.png'
+import wind from '../assets/WIND.png'
+
+
+
 const nextPage = () => {
   currentPage.value += 10
   startPoint.value += 10
@@ -205,7 +252,11 @@ const searchByAttackAndDefenceOnly = (card) => {
 };
 
 
-
+watch(() => props.searchText, () => {
+      startPoint.value = 0
+      currentPage.value = 10
+      activePage.value = 1;
+    });
 
 
 
@@ -213,23 +264,13 @@ const searchByAttackAndDefenceOnly = (card) => {
 
 <style lang="scss" scoped>
 
-@media screen and (max-width: 1023px) {
-
-  *{
+*{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     list-style: none;
     text-decoration: none;
   }
-
-
-  .uniqueCard {
-    border: 1px solid black;
-  }
-
-
-}
 
 .pagination {
     display: flex;
@@ -262,6 +303,50 @@ const searchByAttackAndDefenceOnly = (card) => {
     }
 }
 
+
+.card__wrapper {
+  border: 1px solid blue;
+  display: flex;
+  flex-flow: column nowrap;
+  list-style: none;
+  gap: 2vw;
+
+  .card__card {
+    border: 1px solid red;
+   
+    
+
+    .uniqueCard {
+      display: flex;
+      flex-flow: row nowrap;
+
+      .uniqueCard__image--wrapper{
+        width: 20%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          height: 250px;
+          width: 170px;
+          border-radius: 0.5rem;
+        }
+      }
+
+      .uniqueCard__informations--wrapper{
+        width: 80%;
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+
+        .typeImage {
+          height: 20px;
+          width: 15px;
+        }
+      }
+    }
+  }
+}
 
 
 
