@@ -53,7 +53,7 @@ const cardtypeArrayMethod = () => {
     }
 
     store.commit('addCardType', buttonText)
-
+    store.commit('populateAllFiltersArray')
     store.commit('setDefaultForTypes')
 
     const passArray = () => emits('pass-cardtype-array', cardArray)

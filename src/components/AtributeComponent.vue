@@ -53,18 +53,20 @@ const AtributeArrayMethod = () => {
     const color = event.target.style.backgroundColor
     event.target.style.backgroundColor = '#4C9F70'
 
+
     // change color for unclick
     if(color == 'rgb(76, 159, 112)') {
         event.target.style.backgroundColor = '#496F5D'
     }
 
     store.commit('addAtribute', buttonText)
-
+    store.commit('populateAllFiltersArray')
     store.commit('setDefaultForAtributes')
+
 
     const passArray = () => emits('pass-atribute-array', atributeArray)
     passArray()
-}
+};
 
 
 </script>

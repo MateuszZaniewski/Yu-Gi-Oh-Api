@@ -127,6 +127,16 @@ const preFilter = computed(() => {
   return cards.value
 })
 
+const checkForAciveFilters = () => {
+    const htmlElements = document.querySelectorAll('.atribute-button')
+    console.log(htmlElements)
+
+    for(let i = 0 ; i < htmlElements.length ;i++){
+        if(store.state.allfiltersArray.includes(htmlElements[i].innerText)){
+            htmlElements[i].style.backgroundColor = '#4C9F70' 
+        }
+    }
+}
 
 // methods //
 const clear = () => {
@@ -154,6 +164,7 @@ const showAllFilters = () => {
     spells.value = false
     traps.value = false
     store.commit('showAllFilters')
+    checkForAciveFilters()
     
 }
 
@@ -164,6 +175,7 @@ const showMonsterFilters = () => {
     traps.value = false
     raceBox.value = false
     store.commit('showMonsterFilters')
+    checkForAciveFilters()
 }
 
 const expandMonsterFilters = () => {
@@ -189,6 +201,7 @@ const showSpellFilter = () => {
     spells.value = true
     traps.value = false
     store.commit('showSpellFilters')
+    checkForAciveFilters()
 }
 
 const showTrapsFilter = () => {
@@ -204,6 +217,7 @@ const showTrapsFilter = () => {
     spells.value = false
     traps.value = true
     store.commit('showTrapsFilters')
+    checkForAciveFilters()
 }
 
 const setDefaultforArrays = () => {

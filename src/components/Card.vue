@@ -26,27 +26,37 @@
         <div class="uniqueCard__informations--wrapper">
           <h2>{{ card.name }}</h2>
           <div class="informations--details">
-            <img class="typeImage" :src="card.type == 'Spell Card' ? spellCardPath : card.type == 'Trap Card' ? trapCardPath : monsterCardPath" />
-            <span>{{ card.type == 'Spell Card' ? 'Spell Card' : card.type == 'Trap Card' ? 'Trap Card' : 'Monster Card' }}</span>
-            <img :src="card.race == 'Normal' ? normal : 
-            card.race == 'Continuous' ? continous :
-            card.race == 'Equip' ? equip :
-            card.race == 'Ritual' ? ritual :
-            card.race == 'Field' ? field :
-            card.race == 'Quick-Play' ? quickplay :
-            card.race == 'Normal' ? normal :
-            card.race == 'Continuous' ? continous :
-            card.race == 'Counter' ? counter :
-            card.attribute == 'DARK' ? dark :
-            card.attribute == 'LIGHT' ? light :
-            card.attribute == 'WATER' ? water :
-            card.attribute == 'FIRE' ? fire :
-            card.attribute == 'WIND' ? wind :
-            card.attribute == 'DIVINE' ? divine : earth"  />
-            <span>{{ card.race }}</span>
+            <div>
+              <img class="typeImage" :src="card.type == 'Spell Card' ? spellCardPath : card.type == 'Trap Card' ? trapCardPath : monsterCardPath" />
+              <span>{{ card.type == 'Spell Card' ? 'Spell Card' : card.type == 'Trap Card' ? 'Trap Card' : 'Monster Card' }}</span>
+              <img :src="card.race == 'Normal' ? normal : 
+              card.race == 'Continuous' ? continous :
+              card.race == 'Equip' ? equip :
+              card.race == 'Ritual' ? ritual :
+              card.race == 'Field' ? field :
+              card.race == 'Quick-Play' ? quickplay :
+              card.race == 'Normal' ? normal :
+              card.race == 'Continuous' ? continous :
+              card.race == 'Counter' ? counter :
+              card.attribute == 'DARK' ? dark :
+              card.attribute == 'LIGHT' ? light :
+              card.attribute == 'WATER' ? water :
+              card.attribute == 'FIRE' ? fire :
+              card.attribute == 'WIND' ? wind :
+              card.attribute == 'DIVINE' ? divine : earth"  />
+              <span>{{ card.race }}</span>
+            </div>
+            <div v-if="card.atk !== 'undefined' && card.def !== 'undefined'">
+              <img :src="attack"/>
+              <span>{{ card.atk }}</span>
+              <img :src="defence"/>
+              <span>{{ card.def }}</span>
+            </div>
+            
+            
           </div>
           
-          <p>{{ card.desc }}</p>
+          <p class="card--description">{{ card.desc }}</p>
         </div>
 
       </div>
@@ -121,6 +131,8 @@ import earth from '../assets/EARTH.png'
 import fire from '../assets/FIRE.png'
 import water from '../assets/WATER.png'
 import wind from '../assets/WIND.png'
+import attack from '../assets/swords.png'
+import defence from '../assets/shield.png'
 
 
 
@@ -133,10 +145,6 @@ const prevPage = () => {
   currentPage.value -= 10
   startPoint.value -= 10
   activePage.value--
-}
-
-const innerTextMatch = (number) => {
-  
 }
 
 const pagesToStart = () => {
@@ -276,6 +284,8 @@ watch(() => props.searchText, () => {
     display: flex;
     justify-content: center;
     font-size: 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
 
     ul {
         list-style: none;
@@ -305,14 +315,15 @@ watch(() => props.searchText, () => {
 
 
 .card__wrapper {
-  border: 1px solid blue;
   display: flex;
   flex-flow: column nowrap;
   list-style: none;
   gap: 2vw;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding-top: 2vh;
 
   .card__card {
-    border: 1px solid red;
    
     
 
@@ -338,6 +349,31 @@ watch(() => props.searchText, () => {
         display: flex;
         flex-flow: column nowrap;
         align-items: center;
+
+        h2 {
+          padding: 1vh 0;
+        }
+
+        .card--description{
+          width: 80%;
+          margin: 0 auto;
+          padding-top: 2vh;
+          border-top: 1px solid grey;
+        }
+
+        .informations--details{
+          display: flex;
+          gap: 30px;
+          align-items: center;
+          padding-bottom: 2vh;
+
+          div{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+          }
+        }
 
         .typeImage {
           height: 20px;

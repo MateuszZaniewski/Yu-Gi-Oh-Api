@@ -54,7 +54,7 @@ const levelArrayMethod = () => {
     }
 
     store.commit('addLevel', buttonText)
-
+    store.commit('populateAllFiltersArray')
     store.commit('setDefaultForLevels')
 
     const passArray = () => emits('pass-level-array', levelArray)

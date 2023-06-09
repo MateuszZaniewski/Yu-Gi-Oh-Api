@@ -59,7 +59,7 @@ const raceArrayMethod = () => {
     }
 
     store.commit('addRace', buttonText)
-
+    store.commit('populateAllFiltersArray')
     store.commit('setDefaultForRaces')
 
     let passArray = () => emits('pass-race-array', raceArray)

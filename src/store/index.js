@@ -32,6 +32,8 @@ const store =  createStore({
             cardsLength : 100,
             currentPage : 1,
 
+            allfiltersArray : []
+
         }
         
     },
@@ -161,6 +163,15 @@ const store =  createStore({
                 state.selectedLevels = state.levels
             }
         },
+        populateAllFiltersArray(state) {
+            state.allfiltersArray.push(state.selectedAtributes)
+            state.allfiltersArray.push(state.selectedMonsters)
+            state.allfiltersArray.push(state.selectedCardTypes)
+            state.allfiltersArray.push(state.selectedLevels)
+            state.allfiltersArray.push(state.selectedRaces)
+            state.allfiltersArray = Array.from(new Set(state.allfiltersArray.flat()))
+            console.log(state.allfiltersArray)
+        }
     },
     actions: {
 
