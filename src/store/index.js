@@ -32,7 +32,12 @@ const store =  createStore({
             cardsLength : 100,
             currentPage : 1,
 
-            allfiltersArray : []
+            allfiltersArray : [],
+
+            ByAttackAscending : true,
+            ByAttackDescending: true,
+            ByDefenceAscending: true,
+            ByDefenceDescending: true,
 
         }
         
@@ -70,6 +75,7 @@ const store =  createStore({
             state.selectedLevels = []
             state.selectedMonsters = []
             state.selectedRaces = []
+            state.allfiltersArray = []
         },
         setDefaultForAtributes(state) {
             state.resetAtribute = false
@@ -171,6 +177,34 @@ const store =  createStore({
             state.allfiltersArray.push(state.selectedRaces)
             state.allfiltersArray = Array.from(new Set(state.allfiltersArray.flat()))
             console.log(state.allfiltersArray)
+        },
+        sortByAttackAscending(state) {
+            state.ByAttackAscending = true
+            state.ByAttackDescending = false
+            state.ByDefenceAscending = false
+            state.ByDefenceDescending = false
+
+        },
+        sortByAttackDescending(state) {
+            state.ByAttackAscending = false
+            state.ByAttackDescending = true
+            state.ByDefenceAscending = false
+            state.ByDefenceDescending = false
+
+        },
+        sortByDefenceAscending(state) {
+            state.ByAttackAscending = false
+            state.ByAttackDescending = false
+            state.ByDefenceAscending = true
+            state.ByDefenceDescending = false
+
+        },
+        sortByDefenceDescending(state) {
+            state.ByAttackAscending = false
+            state.ByAttackDescending = false
+            state.ByDefenceAscending = false
+            state.ByDefenceDescending = true
+
         }
     },
     actions: {

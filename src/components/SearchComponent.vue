@@ -18,7 +18,7 @@
                 <button disabled @click="">Search</button>
             </div>
             <div class="clear-button">
-                <button @click="resetAciveButtons">Clear Filter</button>
+                <button @click="resetAciveButtons(), clear()">Clear Filter</button>
             </div>
             
         </div>
@@ -59,11 +59,27 @@
                 </div>
             </div>
         </div>
+        <div>
+            <p>Sort by:</p>
+            <input @click="sortAtkAscending" type="radio" id="attackrise" name="sorting" value="AttackRise"
+             checked>
+            <label for="attackrise">Attack(asc.)</label>
+        </div>
+
+        <div>
+            <input @click="sortAtkDescending" type="radio" id="attackfall" name="sorting" value="AttackFall">
+            <label for="attackfall">Attack(desc.)</label>
+        </div>
+
+        <div>
+            <input @click="sortDefAscending" type="radio" id="defencerise" name="sorting" value="DefenceRise">
+            <label for="defencerise">Defence(asc.)</label>
+            </div>
+        <div>
+            <input @click="sortDefDescending" type="radio" id="defencefal" name="sorting" value="DefenceFall">
+            <label for="defencefal">Defence(desc.)</label>
+        </div>
     </section>
-
-    
-
-    <button @click="consoleFilters">Pokaż obecne filtry</button>
 
     <Card 
     :preFilterProp="preFilter" 
@@ -121,6 +137,18 @@ let monstertypeArray = ref(store.state.monsters)
 let raceArray = ref(store.state.races)
 let atributeArray = ref(store.state.atributes)
 
+const sortAtkAscending = () => {
+    store.commit('sortByAttackAscending')
+}
+const sortAtkDescending = () => {
+    store.commit('sortByAttackDescending')
+}
+const sortDefAscending = () => {
+    store.commit('sortByDefenceAscending')
+}
+const sortDefDescending = () => {
+    store.commit('sortByDefenceDescending')
+}
 
 
 const preFilter = computed(() => {
@@ -133,7 +161,7 @@ const checkForAciveFilters = () => {
 
     for(let i = 0 ; i < htmlElements.length ;i++){
         if(store.state.allfiltersArray.includes(htmlElements[i].innerText)){
-            htmlElements[i].style.backgroundColor = '#4C9F70' 
+            htmlElements[i].style.backgroundColor = 'rgb(76, 159, 112)' 
         }
     }
 }
@@ -202,9 +230,12 @@ const showSpellFilter = () => {
     traps.value = false
     store.commit('showSpellFilters')
     checkForAciveFilters()
+    
+    
 }
 
 const showTrapsFilter = () => {
+    checkForAciveFilters()
     atributeBox.value = false
     raceBox.value = true
     monsterTypeBox.value = false
@@ -217,7 +248,7 @@ const showTrapsFilter = () => {
     spells.value = false
     traps.value = true
     store.commit('showTrapsFilters')
-    checkForAciveFilters()
+    
 }
 
 const setDefaultforArrays = () => {

@@ -206,7 +206,11 @@ const searchByNameOrDescription = computed(() => {
   pagesLength.value = Math.ceil(filteredArray.length/10);
   console.log(pagesLength.value)
   console.log(filteredArray)
-  return filteredArray;
+  return store.state.ByAttackAscending ? filteredArray.sort((cardA, cardB) => cardA.atk - cardB.atk) :
+         store.state.ByAttackDescending ? filteredArray.sort((cardA, cardB) => cardA.atk - cardB.atk).reverse() :
+         store.state.ByDefenceAscending ? filteredArray.sort((cardA, cardB) => cardA.def - cardB.def) :
+         filteredArray.sort((cardA, cardB) => cardA.def - cardB.def).reverse() 
+
 });
 
 const searchByLevelOnly = (card) => {
@@ -341,6 +345,11 @@ watch(() => props.searchText, () => {
           height: 250px;
           width: 170px;
           border-radius: 0.5rem;
+          cursor: zoom-in;
+        }
+
+        img:hover {
+          scale: 1.7;
         }
       }
 
@@ -359,6 +368,7 @@ watch(() => props.searchText, () => {
           margin: 0 auto;
           padding-top: 2vh;
           border-top: 1px solid grey;
+          font-size: 1.2rem;
         }
 
         .informations--details{

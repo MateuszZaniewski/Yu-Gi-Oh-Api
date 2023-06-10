@@ -64,7 +64,21 @@ const raceArrayMethod = () => {
 
     let passArray = () => emits('pass-race-array', raceArray)
     passArray()
+
 }
+
+const checkForAciveFilters = () => {
+    const htmlElements = document.querySelectorAll('.atribute-button')
+    console.log(htmlElements)
+
+    for(let i = 0 ; i < htmlElements.length ;i++){
+        if(store.state.allfiltersArray.includes(htmlElements[i].innerText)){
+            htmlElements[i].style.backgroundColor = 'rgb(76, 159, 112)' 
+        }
+    }
+}
+
+checkForAciveFilters()
 
 
 </script>
