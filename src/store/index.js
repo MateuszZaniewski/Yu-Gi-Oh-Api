@@ -29,8 +29,6 @@ const store =  createStore({
             spellsBox : false,
             trapsBox : false,
 
-            cardsLength : 100,
-            currentPage : 1,
 
             allfiltersArray : [],
 
@@ -38,6 +36,8 @@ const store =  createStore({
             ByAttackDescending: true,
             ByDefenceAscending: true,
             ByDefenceDescending: true,
+
+            gotoPage : 1,
 
         }
         
@@ -205,7 +205,7 @@ const store =  createStore({
             state.ByDefenceAscending = false
             state.ByDefenceDescending = true
 
-        }
+        },
     },
     actions: {
 

@@ -14,9 +14,9 @@
                 </select>
             </div>
             </div>
-            <div class="search-button">
+            <!-- <div class="search-button">
                 <button disabled @click="">Search</button>
-            </div>
+            </div> -->
             <div class="clear-button">
                 <button @click="resetAciveButtons(), clear()">Clear Filter</button>
             </div>
@@ -59,26 +59,29 @@
                 </div>
             </div>
         </div>
-        <div>
+        <div v-if="monsters">
+            <div>
             <p>Sort by:</p>
-            <input @click="sortAtkAscending" type="radio" id="attackrise" name="sorting" value="AttackRise"
-             checked>
-            <label for="attackrise">Attack(asc.)</label>
-        </div>
-
-        <div>
-            <input @click="sortAtkDescending" type="radio" id="attackfall" name="sorting" value="AttackFall">
-            <label for="attackfall">Attack(desc.)</label>
-        </div>
-
-        <div>
-            <input @click="sortDefAscending" type="radio" id="defencerise" name="sorting" value="DefenceRise">
-            <label for="defencerise">Defence(asc.)</label>
+                <input @click="sortAtkAscending" type="radio" id="attackrise" name="sorting" value="AttackRise"
+                checked>
+                <label for="attackrise">Attack(asc.)</label>
             </div>
-        <div>
-            <input @click="sortDefDescending" type="radio" id="defencefal" name="sorting" value="DefenceFall">
-            <label for="defencefal">Defence(desc.)</label>
+
+            <div>
+                <input @click="sortAtkDescending" type="radio" id="attackfall" name="sorting" value="AttackFall">
+                <label for="attackfall">Attack(desc.)</label>
+            </div>
+
+            <div>
+                <input @click="sortDefAscending" type="radio" id="defencerise" name="sorting" value="DefenceRise">
+                <label for="defencerise">Defence(asc.)</label>
+                </div>
+            <div>
+                <input @click="sortDefDescending" type="radio" id="defencefal" name="sorting" value="DefenceFall">
+                <label for="defencefal">Defence(desc.)</label>
+            </div>
         </div>
+        
     </section>
 
     <Card 
@@ -88,7 +91,11 @@
     :attackFrom="attackFrom"
     :attackTo="attackTo"
     :defenceFrom="defenceFrom"
-    :defenceTo="defenceTo"/>
+    :defenceTo="defenceTo"
+    :allCards="allCards"
+    :monsters="monsters"
+    :spells="spells"
+    :traps="traps"/>
 
 </template>
 

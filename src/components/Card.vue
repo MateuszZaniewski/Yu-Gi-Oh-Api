@@ -12,7 +12,11 @@
         <button @click="nextPage" :disabled="currentPage >= searchByNameOrDescription.length">></button>
         <button @click="pagesToEnd">Last</button>
       </ul>
-    
+      <div class="gotoPage">
+        <span>Go to page: </span>
+        <input v-model="gotoPage" type="number">
+        <button @click="changePage">Go</button>
+      </div>
 </div>
 
     <ul class="card__wrapper">
@@ -64,12 +68,11 @@
     </ul>
 
     <div class="pagination">
-    <ul>
-        <button @click="prevPage" :disabled="currentPage === 10">Previous</button>
-        <button @click="nextPage" :disabled="currentPage >= searchByNameOrDescription.length">Next</button>
-    </ul>
-    
-</div>
+      <ul>
+          <button @click="prevPage" :disabled="currentPage === 10">Previous</button>
+          <button @click="nextPage" :disabled="currentPage >= searchByNameOrDescription.length">Next</button>
+      </ul>
+    </div>
 
 
 </template>
@@ -109,11 +112,29 @@ const props = defineProps({
     type: Number,
     required: false,
   },
+  allCards: {
+    type: Boolean,
+    required: false,
+  },
+  monsters: {
+    type: Boolean,
+    required: false,
+  },
+  spells: {
+    type: Boolean,
+    required: false,
+  },
+  traps: {
+    type: Boolean,
+    required: false,
+  },
 });
+
 const pagesLength = ref(null)
 const startPoint = ref(0)
 const currentPage = ref(10)
 const activePage = ref(1)
+const gotoPage = ref(1)
 import monsterCardPath from '../assets/Monster.jpg'
 import spellCardPath from '../assets/SpellCard.jpg'
 import trapCardPath from '../assets/TrapCard.jpg'
@@ -135,6 +156,20 @@ import attack from '../assets/swords.png'
 import defence from '../assets/shield.png'
 
 
+const changePage = computed(() => { 
+  if(gotoPage.value > pagesLength.value || gotoPage.value < 1 ) { 
+    alert('Strona nie istnieje')
+    currentPage.value = 10
+    startPoint.value = 0
+    activePage.value = 1
+    gotoPage.value = 1
+  }
+  else {
+    activePage.value = gotoPage.value
+    currentPage.value = gotoPage.value * 10
+    startPoint.value = gotoPage.value * 10 - 10
+  }
+})
 
 const nextPage = () => {
   currentPage.value += 10
@@ -270,6 +305,13 @@ watch(() => props.searchText, () => {
       activePage.value = 1;
     });
 
+watch([() => props.monsters, () => props.spells, () => props.allCards, () => props.traps], () => {
+  gotoPage.value = 1
+  startPoint.value = 0
+  currentPage.value = 10
+  activePage.value = 1;
+
+});
 
 
 </script>
@@ -314,6 +356,18 @@ watch(() => props.searchText, () => {
     button {
       padding: 0.5rem 0.5rem;
       font-weight: bold;
+    }
+
+    .gotoPage {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-left: 20px;
+      gap: 10px;
+      
+      input {
+        width: 50px;
+      }
     }
 }
 
