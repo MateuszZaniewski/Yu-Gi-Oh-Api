@@ -24,14 +24,14 @@
       <div class="uniqueCard">
 
         <div class="uniqueCard__image--wrapper">
-          <img :src="card.card_images[0].image_url"/>
+          <img :src="card.card_images[0].image_url" alt="cardImage"/>
         </div>
 
         <div class="uniqueCard__informations--wrapper">
           <h2>{{ card.name }}</h2>
           <div class="informations--details">
             <div>
-              <img class="typeImage" :src="card.type == 'Spell Card' ? spellCardPath : card.type == 'Trap Card' ? trapCardPath : monsterCardPath" />
+              <img class="typeImage" :src="card.type == 'Spell Card' ? spellCardPath : card.type == 'Trap Card' ? trapCardPath : monsterCardPath" alt="type of card" />
               <span>{{ card.type == 'Spell Card' ? 'Spell Card' : card.type == 'Trap Card' ? 'Trap Card' : 'Monster Card' }}</span>
               <img :src="card.race == 'Normal' ? normal : 
               card.race == 'Continuous' ? continous :
@@ -47,13 +47,13 @@
               card.attribute == 'WATER' ? water :
               card.attribute == 'FIRE' ? fire :
               card.attribute == 'WIND' ? wind :
-              card.attribute == 'DIVINE' ? divine : earth"  />
+              card.attribute == 'DIVINE' ? divine : earth"  alt="card race"/>
               <span>{{ card.race }}</span>
             </div>
             <div v-if="card.atk !== 'undefined' && card.def !== 'undefined'">
-              <img :src="attack"/>
+              <img :src="attack" alt="swords"/>
               <span>{{ card.atk }}</span>
-              <img :src="defence"/>
+              <img :src="defence" alt="shield"/>
               <span>{{ card.def }}</span>
             </div>
             
@@ -316,7 +316,9 @@ watch([() => props.monsters, () => props.spells, () => props.allCards, () => pro
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+
+@import '@/assets/_variables.scss';
 
 *{
     box-sizing: border-box;
@@ -332,6 +334,8 @@ watch([() => props.monsters, () => props.spells, () => props.allCards, () => pro
     font-size: 1.5rem;
     max-width: 1000px;
     margin: 0 auto;
+    padding-top: 2rem;
+    background-color: #F4F9E9;
 
     ul {
         list-style: none;
@@ -380,6 +384,7 @@ watch([() => props.monsters, () => props.spells, () => props.allCards, () => pro
   max-width: 1000px;
   margin: 0 auto;
   padding-top: 2vh;
+  background-color: #F4F9E9;
 
   .card__card {
    

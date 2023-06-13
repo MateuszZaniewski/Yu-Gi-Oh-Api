@@ -28,7 +28,7 @@
             <div class="dropdown-filters" :style="{display: reveal}">
                 <div class="simple-filters">
                     <button title="Show filters all cards" :class="{'select' : allCards}" @click="showAllFilters">All Cards</button>
-                    <button title="Show filters only monster cards" :class="{'select' : monsters}" @click="showMonsterFilters">Monster Cards<img @click="expandMonsterFilters" class="downArrow" src="../assets/downArrow.png" /></button>
+                    <button title="Show filters only monster cards" :class="{'select' : monsters}" @click="showMonsterFilters">Monster Cards<img @click="expandMonsterFilters" class="downArrow" src="../assets/downArrow.png" alt="arrow" /></button>
                     <button title="Show filters only spell cards" :class="{'select' : spells}" @click="showSpellFilter">Spell Cards</button>
                     <button title="Show filters only trap cards" :class="{'select' : traps}" @click="showTrapsFilter">Trap Cards</button>
                 </div>
@@ -59,7 +59,7 @@
                 </div>
             </div>
         </div>
-        <div v-if="monsters">
+        <div class="additionalFilters" v-if="monsters">
             <div>
             <p>Sort by:</p>
                 <input @click="sortAtkAscending" type="radio" id="attackrise" name="sorting" value="AttackRise"
@@ -169,6 +169,8 @@ const checkForAciveFilters = () => {
     for(let i = 0 ; i < htmlElements.length ;i++){
         if(store.state.allfiltersArray.includes(htmlElements[i].innerText)){
             htmlElements[i].style.backgroundColor = 'rgb(76, 159, 112)' 
+        } else {
+            htmlElements[i].style.backgroundColor = 'rgb(73, 111, 93)'
         }
     }
 }
@@ -199,7 +201,7 @@ const showAllFilters = () => {
     spells.value = false
     traps.value = false
     store.commit('showAllFilters')
-    checkForAciveFilters()
+    store.commit('resetAllFilters')
     
 }
 
@@ -210,6 +212,7 @@ const showMonsterFilters = () => {
     traps.value = false
     raceBox.value = false
     store.commit('showMonsterFilters')
+    store.commit('resetAllFilters')
     checkForAciveFilters()
 }
 
@@ -236,13 +239,12 @@ const showSpellFilter = () => {
     spells.value = true
     traps.value = false
     store.commit('showSpellFilters')
+    store.commit('resetAllFilters')
     checkForAciveFilters()
-    
     
 }
 
 const showTrapsFilter = () => {
-    checkForAciveFilters()
     atributeBox.value = false
     raceBox.value = true
     monsterTypeBox.value = false
@@ -255,7 +257,8 @@ const showTrapsFilter = () => {
     spells.value = false
     traps.value = true
     store.commit('showTrapsFilters')
-    
+    store.commit('resetAllFilters')
+    checkForAciveFilters()
 }
 
 const setDefaultforArrays = () => {
@@ -266,7 +269,7 @@ const setDefaultforArrays = () => {
     store.commit('setDefaultForSelectedRaces')
 }
 
-setDefaultforArrays
+setDefaultforArrays()
 
 
 
@@ -290,16 +293,6 @@ const handleRaceArray = (array) => {
 const handleAtributeArray = (array) => {
     atributeArray = array.value
 }
-
-
-const consoleFilters = () => {
-    console.log('Atributes : ', atributeArray)
-    console.log('Races : ', raceArray)
-    console.log('Monsters : ', monstertypeArray)
-    console.log('Types : ', cardTypeArray)
-    console.log('Levels : ', levelArray)
-}
-
 
 // fetching cards from api = > https://db.ygoprodeck.com/api/v7/cardinfo.php
 
@@ -366,6 +359,10 @@ const resetAciveButtons = () => {
 
 @import '@/assets/_variables.scss';
 
+* {
+    background-color: #F4F9E9;
+}
+
 /* common classes */
 
 .checked {
@@ -392,7 +389,7 @@ section {
     align-items: center;
     justify-content: center;
     gap: 5vw;
-    background-color: $vista;
+    background-color: #284B63;
     padding: 0.5rem 0;
 
     .searchbar {
@@ -426,14 +423,6 @@ section {
         }
     }
 
-    .search-button {
-
-        button {
-            padding: 0.25rem 0.5rem;
-            background-color: #e49273;
-        }
-    }
-
     .clear-button {
 
         button {
@@ -446,7 +435,7 @@ section {
 }
 
 .filter-field {
-    background-color: #2b4570;
+    background-color: #284B63;
     position: relative;
     display: flex;
     justify-content: center;
@@ -459,6 +448,11 @@ section {
         text-align: center;
         cursor: pointer;
         border: 1px solid $glacious;
+        background-color: #284B63;
+
+        span {
+            background-color: #284B63;
+        }
     }
 
     .dropdown-filters {
@@ -467,12 +461,13 @@ section {
             display: flex;
             justify-content: space-around;
             padding-bottom: 0.5rem;
+            background-color: #284B63;
 
             button {
                 padding-bottom: 0.5rem;
                 padding-top: 0.5rem;
                 width: 20%;
-                background-color: #2b4570;
+                background-color: #284B63;
                 border-top: none;
                 border-right: none;
                 border-left: none;
@@ -484,6 +479,10 @@ section {
             .select {
                 border-bottom: 2px solid orange;
             }
+
+            img {
+                    background-color: #284B63;
+                }
 
             button:hover {
                 border-bottom: 2px solid orange;
@@ -498,10 +497,11 @@ section {
             background-color: white;
             gap: 5px;
             padding-bottom: 15px;
+            background-color: #F4F9E9;
 
             .atribute-head {
                 width: 10%;
-                background-color: $glacious;
+                background-color: #284B63;
                 margin: 0.25rem 0;
                 display: flex;
                 align-items: center;
@@ -509,6 +509,7 @@ section {
 
                 span {
                     text-align: center;
+                    background-color: #284B63;
                 }
 
                 .reset{
@@ -529,6 +530,7 @@ section {
                 margin: 0.25rem 0;
                 color: black;
                 align-items: center;
+                background-color: #F4F9E9;
 
                 button {
                     display: flex;
@@ -552,6 +554,10 @@ section {
 
         }
     }
+}
+
+.additionalFilters {
+    background-color: #F4F9E9;
 }
 
 
