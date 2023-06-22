@@ -12,7 +12,7 @@
                 <h2>{{ card.name }}</h2>
             </div>
             <div class="favs">
-                <img class="default" @click="addtoFavs(event)" :src="store.state.favList.includes(card.name) ? Fav : notFav" />
+                <img class="default"  :src="store.state.favList.includes(card.name) ? Fav : notFav" />
             </div>
             
         </div>
@@ -21,18 +21,30 @@
       </ul>
 
       <section class="pagination">
-        <div class="firstPage moveFar">
+        <div 
+        @click="pagesToStart" 
+        class="firstPage moveFar">
             <img src="../assets/firstPage.png" />
         </div>
-        <div class="Prev moveLess">
+        <div 
+        @click="prevPage" 
+        class="Prev moveLess">
             <img src="../assets/prev.png" />
         </div>
-        <div class="currentPage pages activePage">{{ activePage }}</div>
-        <div class="nextPage pages">{{ activePage +1 }}</div>
-        <div class="Next moveLess">
+        <div 
+        class="currentPage pages activePage">
+        {{ activePage }}</div>
+        <div 
+        v-if="pagesLength > 1 && activePage != pagesLength" 
+        class="nextPage pages">{{ activePage +1 }}</div>
+        <div 
+        @click="nextPage" 
+        class="Next moveLess">
             <img src="../assets/next.png" />
         </div>
-        <div class="lastPage moveFar">
+        <div 
+        @click="pagesToEnd" 
+        class="lastPage moveFar">
             <img src="../assets/lastPage.png" />
         </div>
       </section>
@@ -121,25 +133,37 @@
   import Fav from "../assets/eyeAdded.png"
   
   const nextPage = () => {
-    currentPage.value += 10
-    startPoint.value += 10
-    activePage.value++
+    if(activePage.value + 1 <= pagesLength.value){
+      currentPage.value += 10
+      startPoint.value += 10
+      activePage.value++
+      console.log(activePage.value)
+      document.documentElement.scrollTop = 0
+    }
+      
   } 
+
   const prevPage = () => {
-    currentPage.value -= 10
-    startPoint.value -= 10
-    activePage.value--
+    if(currentPage.value !== 10){
+      currentPage.value -= 10
+      startPoint.value -= 10
+      activePage.value--
+      document.documentElement.scrollTop = 0
+    }
+    
   }
   
   const pagesToStart = () => {
     currentPage.value = 10
     startPoint.value = 0
     activePage.value = 1
+    document.documentElement.scrollTop = 0
   }
   const pagesToEnd = () => {
     activePage.value = pagesLength.value
     startPoint.value = pagesLength.value * 10 - 10
     currentPage.value = pagesLength.value * 10
+    document.documentElement.scrollTop = 0
   }
   
   
@@ -261,12 +285,6 @@
     activePage.value = 1;
   
   });
-
-
-  const addtoFavs = () => {
-    console.log(event)
-    
-  };
   
   
   </script>
@@ -281,6 +299,7 @@
       padding: 0;
       list-style: none;
       text-decoration: none;
+      background-color: #ECECEC;
     }
     
     .card__wrapper {
@@ -288,6 +307,7 @@
         flex-flow: row wrap;
         gap: 1.25rem;
         justify-content: center;
+        padding-bottom: 1.25rem;
 
 
         .card__card {
@@ -315,6 +335,7 @@
                     width: 100%;
                     display: flex;
                     flex-flow: row nowrap;
+                    justify-content: space-between;
 
                     .cardName {
                         width: fit-content;
@@ -331,7 +352,7 @@
                         display: flex;
                         flex-flow: row nowrap;
                         justify-content: flex-end;
-                        align-items: flex-end;
+                        align-items: flex-start;
 
                         img {
                             width: 40px;
@@ -350,6 +371,7 @@
     .pagination {
         display: flex;
         flex-flow: row nowrap;
+        justify-content: center;
         gap: 0.38rem;
         padding-bottom: 1.25rem;
 

@@ -316,7 +316,7 @@ watch([() => props.monsters, () => props.spells, () => props.allCards, () => pro
 
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 
 @import '@/assets/_variables.scss';
 

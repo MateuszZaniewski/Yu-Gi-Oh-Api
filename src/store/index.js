@@ -39,6 +39,9 @@ const store =  createStore({
 
             gotoPage : 1,
 
+            galleryActive : true,
+            listActive : false,
+
             favList : ['Dark Magician', "\"A\" Cell Breeding Device"],
 
         }
@@ -208,6 +211,14 @@ const store =  createStore({
             state.ByDefenceDescending = true
 
         },
+        showGallery(state) {
+            state.galleryActive = true
+            state.listActive = false
+        },
+        showList(state) {
+            state.galleryActive = false
+            state.listActive = true
+        }
     },
     actions: {
 

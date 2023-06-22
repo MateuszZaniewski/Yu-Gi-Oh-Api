@@ -12,8 +12,8 @@
 
 <section class="filters">
     <div class="filters-icons">
-        <img src="../assets/gallery.png" />
-        <img src="../assets/listInactive.png" />
+        <img @click="showGalleryMode" :src="store.state.galleryActive ? GalleryView : GalleryViewInactive" />
+        <img @click="showListMode" :src="store.state.listActive ? ListView : ListViewInactive" />
     </div>
     <div class="filters-button">
         <button @click="showFilters"><img src="../assets/filter.png" /> Filters</button>
@@ -51,6 +51,10 @@ import RaceComponent from './RaceComponent.vue'
 import AtributeComponent from './AtributeComponent.vue'
 import Card from './CardMobile.vue'
 import { useStore } from 'vuex';
+import GalleryView from '../assets/gallery.png'
+import GalleryViewInactive from '../assets/galleryInactive.png'
+import ListView from '../assets/list.png'
+import ListViewInactive from '../assets/listInactive.png'
 const store = useStore();
 
 
@@ -294,9 +298,17 @@ const resetAciveButtons = () => {
 };
 
 
+const showGalleryMode = () => {
+    store.commit('showGallery')
+}
+
+const showListMode = () => {
+    store.commit('showList')
+}
+
 const showFilters = () => {
     console.log('Filters expanded')
-}
+};
 
 
 
@@ -323,6 +335,8 @@ nav {
         color: white;
         background-color: #2D61AF;
         font-size: 1.875rem;
+        text-shadow: 0px 2px 3px #000000;
+        background-clip: text;
     }
 
 }
@@ -359,6 +373,7 @@ nav {
     justify-content: space-between;
     background-color: #2D61AF;
     padding-bottom: 1.25rem;
+    margin-bottom: 1rem;
     border-radius: 0 0 0.5rem 0.5rem;
     box-shadow: 0px 0px 0px 0px rgba(36, 26, 26, 0.10), 0px 1px 2px 0px rgba(36, 26, 26, 0.10), 0px 4px 4px 0px rgba(36, 26, 26, 0.09), 0px 10px 6px 0px rgba(36, 26, 26, 0.05), 0px 17px 7px 0px rgba(36, 26, 26, 0.01), 0px 26px 7px 0px rgba(36, 26, 26, 0.00);
 
