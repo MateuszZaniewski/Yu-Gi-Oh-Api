@@ -1,5 +1,12 @@
 // mixins 
 
+@mixin yugiohFont() {
+    @font-face {
+      font-family: 'yugioh';
+      src: url('../fonts/yu-gi-oh-matrix.ttf');
+      src: url('../font//yu-gi-oh-matrix-bold.ttf')
+    }
+  }
 
 // colors 
 

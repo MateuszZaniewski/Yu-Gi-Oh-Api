@@ -39,6 +39,8 @@ const store =  createStore({
 
             gotoPage : 1,
 
+            favList : ['Dark Magician', "\"A\" Cell Breeding Device"],
+
         }
         
     },
