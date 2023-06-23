@@ -1,14 +1,13 @@
 <script setup>
 
-import SearchComponent from './SearchComponent.vue'
-import SearchComponentMobile from './SeachComponentMobile.vue'
+import SearchComponentMobile from './SearchComponentMobile.vue'
 
 
 </script>
 
 <template>
+    
 <SearchComponentMobile />
-<!-- <SearchComponent  /> -->
 
 </template>
 

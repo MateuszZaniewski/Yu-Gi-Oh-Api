@@ -4,6 +4,7 @@ import HelloWorld from './components/HelloWorld.vue';
 </script>
 
 <template>
+
   <div>
     <HelloWorld />
   </div>
@@ -20,7 +21,7 @@ import HelloWorld from './components/HelloWorld.vue';
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  scroll-behavior: smooth;
+  scroll-behavior: smooth !important;
 }
 
 </style>
