@@ -2,7 +2,7 @@
 <nav>
     <img src="../assets/hamburger.png"/>
     <h1>Yu-Gi-Oh!</h1>
-    <img id="userFace" src="../assets/user.png" />
+    <img @click="handleSignOut" id="userFace" src="../assets/user.png" />
     
 </nav>
 
@@ -55,8 +55,10 @@ import GalleryView from '../assets/gallery.png'
 import GalleryViewInactive from '../assets/galleryInactive.png'
 import ListView from '../assets/list.png'
 import ListViewInactive from '../assets/listInactive.png'
+import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { useRouter } from 'vue-router';
 const store = useStore();
-
+const router = useRouter()
 
 const searchText = ref('')
 const attackFrom = ref(0)
@@ -101,6 +103,12 @@ const sortDefAscending = () => {
 const sortDefDescending = () => {
     store.commit('sortByDefenceDescending')
 }
+
+const handleSignOut = () => {
+        signOut(getAuth()).then(() => {
+            router.push('/signin')
+        })
+    }
 
 
 const preFilter = computed(() => {

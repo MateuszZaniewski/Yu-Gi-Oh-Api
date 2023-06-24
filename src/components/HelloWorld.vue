@@ -6,7 +6,7 @@ import SearchComponentMobile from './SearchComponentMobile.vue'
 </script>
 
 <template>
-    
+
 <SearchComponentMobile />
 
 </template>
