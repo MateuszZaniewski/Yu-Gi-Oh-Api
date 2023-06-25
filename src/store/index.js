@@ -32,10 +32,10 @@ const store =  createStore({
 
             allfiltersArray : [],
 
-            ByAttackAscending : true,
-            ByAttackDescending: true,
-            ByDefenceAscending: true,
-            ByDefenceDescending: true,
+            ByAttackAscending : false,
+            ByAttackDescending: false,
+            ByDefenceAscending: false,
+            ByDefenceDescending: false,
 
             gotoPage : 1,
 
@@ -81,6 +81,11 @@ const store =  createStore({
             state.selectedMonsters = []
             state.selectedRaces = []
             state.allfiltersArray = []
+            state.ByAttackAscending = false,
+            state.ByAttackDescending = false,
+            state.ByDefenceAscending = false,
+            state.ByDefenceDescending = false,
+            console.log('Filtry zostały zresetowane')
         },
         setDefaultForAtributes(state) {
             state.resetAtribute = false

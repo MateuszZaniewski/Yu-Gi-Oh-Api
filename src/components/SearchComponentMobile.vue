@@ -21,8 +21,35 @@
     
 </section>
 
+<section class="popupFilters">
+    <div class="popupFiltersWrapper">
+        <div class="topupSection">
+            <div class="topupLeft">
+                <img @click="hideFilters" src="../assets/close.png" />
+                <span>Filters</span>
+            </div>
+            <div class="topupRight">
+                <button @click="store.commit('resetAllFilters')">Clear Filters</button>
+            </div>
+        </div>
+        <span class="sortby">sort by</span>
+        <div class="sortByAttackandDefence">
+            <div class="sortByAttack">
+                <span>Attack</span>
+                <img @click="sortAtkAscending" :src="store.state.ByAttackAscending ? TopArrorActive : TopArrowInactive" />
+                <img @click="sortAtkDescending" :src="store.state.ByAttackDescending ? BottomArrowActive : BottomArrowInactive" />
+            </div>
+            <div class="sortByDefence">
+                <span>Defence</span>
+                <img @click="sortDefAscending" :src="store.state.ByDefenceAscending ? TopArrorActive : TopArrowInactive" />
+                <img @click="sortDefDescending" :src="store.state.ByDefenceDescending ? BottomArrowActive : BottomArrowInactive" />
+            </div>
+        </div>
+    </div>
+</section>
 
-<Card 
+
+<CardMobile 
     :preFilterProp="preFilter" 
     :searchByWhat="searchByName" 
     :searchText="searchText"
@@ -49,12 +76,16 @@ import CardTypeComponent from './CardTypeComponent.vue';
 import MonsterTypeComponent from './MonsterTypeComponent.vue'
 import RaceComponent from './RaceComponent.vue'
 import AtributeComponent from './AtributeComponent.vue'
-import Card from './CardMobile.vue'
+import CardMobile from './CardMobile.vue'
 import { useStore } from 'vuex';
 import GalleryView from '../assets/gallery.png'
 import GalleryViewInactive from '../assets/galleryInactive.png'
 import ListView from '../assets/list.png'
 import ListViewInactive from '../assets/listInactive.png'
+import TopArrowInactive from '../assets/topArrow.png'
+import TopArrorActive from '../assets/topArrowActive.png'
+import BottomArrowInactive from '../assets/bottomArrow.png'
+import BottomArrowActive from '../assets/bottomArrowActive.png'
 import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { useRouter } from 'vue-router';
 const store = useStore();
@@ -133,13 +164,6 @@ const clear = () => {
     searchText.value = ''
 }
 
-const revealDropdownFilter = () => {
-    if(reveal.value == 'block') {
-        reveal.value = 'none'
-    } else {
-        reveal.value = 'block'
-    }
-}
 
 const showAllFilters = () => {
     atributeBox.value = false
@@ -316,10 +340,16 @@ const showListMode = () => {
 
 const showFilters = () => {
     console.log('Filters expanded')
+    document.querySelector('.popupFilters').style.display = 'block'
 };
 
+const hideFilters = () => {
+    console.log('Filters hidden')
+    document.querySelector('.popupFilters').style.display = 'none'
+}
 
 
+;
 </script>
 
 
@@ -412,8 +442,83 @@ nav {
         color: white;
     }
     }
-    
 
+}
+
+.popupFilters {
+    position: absolute;
+    display: none;
+    top: 4rem;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 90%;
+    border-radius: 1rem;  
+    height: 100vh;
+    background-color: #FFFFFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.582);
+    border: 1px solid #FFFFFF;
+
+    * {
+        background-color: #FFFFFF;
+    }
+
+    .popupFiltersWrapper {
+        width: 90%;
+        height: 100%;
+        margin: 0 auto;
+        padding-top: 0.6rem;
+        
+
+        .topupSection {
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1.8rem;
+            
+            .topupLeft {
+                display: flex;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            img {
+                height: auto;
+                width: auto;
+            }
+
+            span {
+                font-size: 1.25rem;
+                font-weight: bold;
+            }
+
+            button {
+                border: none;
+                font-size: 0.9rem;
+                color: #4E4646;
+            }
+        }
+
+        .sortby {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .sortByAttackandDefence {
+            padding-top: 0.6rem;
+            display: flex;
+            justify-content: space-between;
+
+            .sortByAttack, .sortByDefence {
+                display: flex;
+                flex-flow: row nowrap;
+                justify-content: center;
+                align-items: center;
+                gap: 1rem;
+            }
+        }
+    }
 }
 
 </style>

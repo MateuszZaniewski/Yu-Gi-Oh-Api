@@ -8,7 +8,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Register,
+    component: MainView,
   },
   {
     path: '/register',
@@ -42,7 +42,8 @@ const getCurrentUser = () => {
       getAuth(),
       (user) => {
         removeListener();
-        resolve(user) 
+        resolve(user)
+        console.log(getAuth().currentUser)
       },
       reject
     )
@@ -56,7 +57,7 @@ router.beforeEach(async(to,from, next) => {
     }
     else {
       console.log('You dont have acces')
-      next('/')
+      next('/signin')
     }
   } else {
     next()
