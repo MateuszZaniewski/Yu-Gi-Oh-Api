@@ -45,6 +45,9 @@
                 <img @click="sortDefDescending" :src="store.state.ByDefenceDescending ? BottomArrowActive : BottomArrowInactive" />
             </div>
         </div>
+        <div class="atributeFilters">
+            <AtributeComponent />
+        </div>
     </div>
 </section>
 

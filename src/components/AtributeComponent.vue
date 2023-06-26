@@ -1,8 +1,8 @@
 <template>
 
 <div class="atribute-filters atribute-container">
-                    <div class="atribute-head"><span>Attribute</span></div>
-                    <div class="atribute-items">
+                    <div @click="openFilter" class="atribute-head"><span>Attribute</span><img :src="isOpen ? NavigateOpen : NavigateClosed" /></div>
+                    <div v-if="isOpen" class="atribute-items">
                         <button class="atribute-button" @click="AtributeArrayMethod" v-for="atribute in store.state.atributes" >{{ atribute }}</button>
                     </div>
                 </div>
@@ -16,20 +16,17 @@
 import { defineEmits, ref } from 'vue'
 import { useStore } from 'vuex';
 const store = useStore();
-
+import NavigateClosed from '../assets/navigateClosed.png'
+import NavigateOpen from '../assets/navigateOpen.png'
 const emits = defineEmits(['pass-atribute-array'])
+const isOpen = ref(false)
 
-const atributeArray = ref([])
-
+const openFilter = () => {
+    isOpen.value = !isOpen.value
+}
 
 // function that remove selected level if it is present in levelArray
 
-const removeIfPresent = (array, item) => {
-        const index = array.indexOf(item)
-        if(index !== -1){
-            array.splice(index,1)
-        }
-    }
 
 // function that takes a button text and place it in levelArray, then
 // check if that level exist in levelArray (if not add it, if yes remove it)
@@ -37,35 +34,11 @@ const removeIfPresent = (array, item) => {
 // then pass levelArray to its parent
 
 const AtributeArrayMethod = () => {
-    const buttonText = event.target.textContent;
+    const button = event.target
+    const buttonText = event.target.innerText
 
-    if(store.state.resetAtribute == true){
-        atributeArray.value = []
-    }
-
-    if(!atributeArray.value.includes(buttonText)){
-        atributeArray.value.push(buttonText)
-    } else if(atributeArray.value.includes(buttonText)){
-        removeIfPresent(atributeArray.value, buttonText)
-    }
+    button.classList.toggle('active')
     
-    // change color for click
-    const color = event.target.style.backgroundColor
-    event.target.style.backgroundColor = '#4C9F70'
-
-
-    // change color for unclick
-    if(color == 'rgb(76, 159, 112)') {
-        event.target.style.backgroundColor = '#496F5D'
-    }
-
-    store.commit('addAtribute', buttonText)
-    store.commit('populateAllFiltersArray')
-    store.commit('setDefaultForAtributes')
-
-
-    const passArray = () => emits('pass-atribute-array', atributeArray)
-    passArray()
 };
 
 
@@ -75,59 +48,38 @@ const AtributeArrayMethod = () => {
 <style lang="scss" scoped>
 
 @import '@/assets/_variables.scss';
-.atribute-container {
-            display: flex;
-            flex-flow: row nowrap;
-            background-color: white;
-            gap: 5px;
-            padding-bottom: 15px;
 
-            .atribute-head {
-                width: 10%;
-                background-color: $vista;
-                margin: 0.25rem 0;
-                display: flex;
-                align-items: center;
-                justify-content: space-around;
+.active {
+    background-color: #2D61AF;
+    border: 1px solid #2D61AF;
+    color: white;
+}
 
-                .reset{
-                    color: #f52424;
-                    padding-left: 2px;
-                    padding-right: 2px;
-                    margin: 0;
-                    cursor: pointer;
-                }
-            }
+.atribute-filters {
+    padding-top: 2.5rem;
 
-            .atribute-items {
-                width: 90%;
-                display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
-                margin: 0.25rem 0;
-                color: black;
-                align-items: center;
+    .atribute-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 1rem;
+    }
 
-                button {
-                    display: flex;
-                    align-items: center;
-                    color: white;
-                    background-color: $hookergreen;
-                    justify-content: center;
-                    border: 1px solid green;
-                    width: 13%;
-                }
-
-                button:hover {
-                    background-color: $shamrockgreen;
-                    cursor: pointer;
-                }
-
-                button:active {
-                    background-color: $shamrockgreen;
-                }
-            }
-
+    .atribute-items {
+        display: flex;
+        flex-flow: row wrap;
+        gap: 1rem;
+        .atribute-button{
+            font-size: 1rem;
+            padding: 8px 14px;
+            border-radius: 20px;
+            border: 1px solid #D9D9D9;
         }
+
+    }
+
+
+}
+
 
 </style>
