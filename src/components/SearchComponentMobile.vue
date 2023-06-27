@@ -46,7 +46,15 @@
             </div>
         </div>
         <div class="atributeFilters">
+            <MainCardTypes />
             <AtributeComponent />
+            <MonsterTypeComponent />
+            <CardTypeComponent />
+            <LevelComponent />
+            <SpellComponent />
+            <TrapComponent />
+            <AttackComponent />
+            <DefenceComponent />
         </div>
     </div>
 </section>
@@ -74,10 +82,15 @@
 
 import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
+import MainCardTypes from './MainCardTypesComponent.vue'
 import LevelComponent from './LevelComponent.vue'
 import CardTypeComponent from './CardTypeComponent.vue';
 import MonsterTypeComponent from './MonsterTypeComponent.vue'
 import RaceComponent from './RaceComponent.vue'
+import SpellComponent from './SpellTypesComponent.vue'
+import TrapComponent from './TrapTypesComponent.vue'
+import AttackComponent from './AttackComponent.vue'
+import DefenceComponent from './DefenceComponent.vue'
 import AtributeComponent from './AtributeComponent.vue'
 import CardMobile from './CardMobile.vue'
 import { useStore } from 'vuex';
@@ -457,7 +470,7 @@ nav {
     margin: auto;
     width: 90%;
     border-radius: 1rem;  
-    height: 100vh;
+    height: 200vh;
     background-color: #FFFFFF;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.582);
     border: 1px solid #FFFFFF;
@@ -520,6 +533,12 @@ nav {
                 align-items: center;
                 gap: 1rem;
             }
+        }
+
+        .atributeFilters {
+            display: flex;
+            flex-flow: column;
+            gap: 1rem;
         }
     }
 }

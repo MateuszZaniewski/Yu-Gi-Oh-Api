@@ -1,71 +1,89 @@
 <template>
 
-<div class="level-filters atribute-container">
-                    <div class="atribute-head"><span>Level/ Rank</span></div>
-                    <div class="atribute-items">
-                        <button class="atribute-button" v-for="level in store.state.levels" @click="levelArrayMethod">{{ level }}</button>
+    <div class="atribute-filters atribute-container">
+                        <div @click="openFilter" class="atribute-head"><span>Level / Rank</span><img :src="isOpen ? NavigateOpen : NavigateClosed" /></div>
+                        <div v-if="isOpen" class="atribute-items">
+                            <button class="atribute-button" @click="AtributeArrayMethod" v-for="level in store.state.levels" >{{ level }}</button>
+                        </div>
                     </div>
-                </div>
-
-</template>
-
-<script setup>
-import { defineEmits, ref } from 'vue'
-import { useStore } from 'vuex';
-const store = useStore();
-const emits = defineEmits(['pass-level-array'])
-
-const levelArray = ref([])
-
-// function that remove selected level if it is present in levelArray
-
-const removeIfPresent = (array, item) => {
-        const index = array.indexOf(item)
-        if(index !== -1){
-            array.splice(index,1)
-        }
-    }
-
-// function that takes a button text and place it in levelArray, then
-// check if that level exist in levelArray (if not add it, if yes remove it)
-// then change color of button to indicate its pressed
-// then pass levelArray to its parent
-
-const levelArrayMethod = () => {
-    const buttonText = event.target.textContent;
-
-    if(store.state.resetLevel == true){
-        levelArray.value = []
-    }
-
-    if(!levelArray.value.includes(buttonText)){
-        levelArray.value.push(buttonText)
-    } else if(levelArray.value.includes(buttonText)) {
-        removeIfPresent(levelArray.value, buttonText)
+    
+    
+    </template>
+    
+    
+    <script setup>
+    
+    import { defineEmits, ref } from 'vue'
+    import { useStore } from 'vuex';
+    const store = useStore();
+    import NavigateClosed from '../assets/navigateClosed.png'
+    import NavigateOpen from '../assets/navigateOpen.png'
+    const emits = defineEmits(['pass-atribute-array'])
+    const isOpen = ref(false)
+    
+    const openFilter = () => {
+        isOpen.value = !isOpen.value
     }
     
-    // change color for click
-    const color = event.target.style.backgroundColor
-    event.target.style.backgroundColor = '#4C9F70'
-
-    // change color for unclick
-    if(color == 'rgb(76, 159, 112)') {
-        event.target.style.backgroundColor = '#496F5D'
-    }
-
-    store.commit('addLevel', buttonText)
-    store.commit('populateAllFiltersArray')
-    store.commit('setDefaultForLevels')
-
-    const passArray = () => emits('pass-level-array', levelArray)
-    passArray()
-
-}
-
-
-</script>
-
-<style lang="scss" scoped>
-
-
-</style>
+    // function that remove selected level if it is present in levelArray
+    
+    
+    // function that takes a button text and place it in levelArray, then
+    // check if that level exist in levelArray (if not add it, if yes remove it)
+    // then change color of button to indicate its pressed
+    // then pass levelArray to its parent
+    
+    const AtributeArrayMethod = () => {
+        const button = event.target
+        const buttonText = event.target.innerText
+    
+        button.classList.toggle('active')
+        
+    };
+    
+    
+    </script>
+    
+    
+    <style lang="scss" scoped>
+    
+    @import '@/assets/_variables.scss';
+    
+    .active {
+            background-color: #2D61AF;
+            border: 1px solid #2D61AF;
+            color: white;
+        }
+        
+        .atribute-filters {
+            padding-bottom: 0.4rem;
+            border-bottom: 1px solid #AAA0A0;
+        
+            .atribute-head {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                
+            }
+        
+            .atribute-items {
+                display: flex;
+                flex-flow: row wrap;
+                gap: 1rem;
+                padding-bottom: 0.6rem;
+                padding-top: 1rem;
+                
+                .atribute-button{
+                    font-size: 1rem;
+                    padding: 8px 14px;
+                    border-radius: 20px;
+                    border: 1px solid #D9D9D9;
+                }
+        
+            }
+        
+        
+        }
+    
+    
+    </style>

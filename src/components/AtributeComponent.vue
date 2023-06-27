@@ -50,36 +50,40 @@ const AtributeArrayMethod = () => {
 @import '@/assets/_variables.scss';
 
 .active {
-    background-color: #2D61AF;
-    border: 1px solid #2D61AF;
-    color: white;
-}
-
-.atribute-filters {
-    padding-top: 2.5rem;
-
-    .atribute-head {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding-bottom: 1rem;
+        background-color: #2D61AF;
+        border: 1px solid #2D61AF;
+        color: white;
     }
-
-    .atribute-items {
-        display: flex;
-        flex-flow: row wrap;
-        gap: 1rem;
-        .atribute-button{
-            font-size: 1rem;
-            padding: 8px 14px;
-            border-radius: 20px;
-            border: 1px solid #D9D9D9;
+    
+    .atribute-filters {
+        padding-bottom: 0.4rem;
+        border-bottom: 1px solid #AAA0A0;
+    
+        .atribute-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            
         }
-
+    
+        .atribute-items {
+            display: flex;
+            flex-flow: row wrap;
+            gap: 1rem;
+            padding-bottom: 0.6rem;
+            padding-top: 1rem;
+            
+            .atribute-button{
+                font-size: 1rem;
+                padding: 8px 14px;
+                border-radius: 20px;
+                border: 1px solid #D9D9D9;
+            }
+    
+        }
+    
+    
     }
-
-
-}
 
 
 </style>

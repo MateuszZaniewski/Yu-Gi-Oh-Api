@@ -1,9 +1,9 @@
 <template>
 
     <div class="atribute-filters atribute-container">
-                        <div @click="openFilter" class="atribute-head"><span>Monster Effect</span><img :src="isOpen ? NavigateOpen : NavigateClosed" /></div>
+                        <div @click="openFilter" class="atribute-head"><span>Trap Types</span><img :src="isOpen ? NavigateOpen : NavigateClosed" /></div>
                         <div v-if="isOpen" class="atribute-items">
-                            <button class="atribute-button" @click="AtributeArrayMethod" v-for="type in store.state.types" >{{ type }}</button>
+                            <button class="atribute-button" @click="AtributeArrayMethod" v-for="trap in store.state.trapTypes" >{{ trap }}</button>
                         </div>
                     </div>
     

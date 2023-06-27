@@ -1,9 +1,9 @@
 <template>
 
     <div class="atribute-filters atribute-container">
-                        <div @click="openFilter" class="atribute-head"><span>Monster Effect</span><img :src="isOpen ? NavigateOpen : NavigateClosed" /></div>
+                        <div @click="openFilter" class="atribute-head"><span>Defence</span><img :src="isOpen ? NavigateOpen : NavigateClosed" /></div>
                         <div v-if="isOpen" class="atribute-items">
-                            <button class="atribute-button" @click="AtributeArrayMethod" v-for="type in store.state.types" >{{ type }}</button>
+                            <span>From</span><input class="from" placeholder="0" /><span>To</span><input class="to" placeholder="9999"/>
                         </div>
                     </div>
     
@@ -68,10 +68,11 @@
         
             .atribute-items {
                 display: flex;
-                flex-flow: row wrap;
+                flex-flow: row nowrap;
                 gap: 1rem;
                 padding-bottom: 0.6rem;
                 padding-top: 1rem;
+                align-items: center;
                 
                 .atribute-button{
                     font-size: 1rem;
@@ -79,6 +80,21 @@
                     border-radius: 20px;
                     border: 1px solid #D9D9D9;
                 }
+
+                span {
+                    font-size: 1rem;
+                }
+
+                input {
+                    width: 50%;
+                    border: none;
+                    border-bottom: 1px solid #4E4646;
+                    padding: 0.3rem 0.2rem;
+                    display: flex;
+                    align-items: center;
+                    text-align: center;
+                }
+
         
             }
         

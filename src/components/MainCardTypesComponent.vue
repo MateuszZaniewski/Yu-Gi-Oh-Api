@@ -1,9 +1,9 @@
 <template>
 
     <div class="atribute-filters atribute-container">
-                        <div @click="openFilter" class="atribute-head"><span>Monster Effect</span><img :src="isOpen ? NavigateOpen : NavigateClosed" /></div>
+                        <div @click="openFilter" class="atribute-head"><span>Card Type</span><img :src="isOpen ? NavigateOpen : NavigateClosed" /></div>
                         <div v-if="isOpen" class="atribute-items">
-                            <button class="atribute-button" @click="AtributeArrayMethod" v-for="type in store.state.types" >{{ type }}</button>
+                            <button class="atribute-button" @click="AtributeArrayMethod" v-for="type in store.state.mainCardTypes" >{{ type }}</button>
                         </div>
                     </div>
     
@@ -39,7 +39,7 @@
     
         button.classList.toggle('active')
         
-    };
+    }
     
     
     </script>
@@ -50,40 +50,41 @@
     @import '@/assets/_variables.scss';
     
     .active {
-            background-color: #2D61AF;
-            border: 1px solid #2D61AF;
-            color: white;
+        background-color: #2D61AF;
+        border: 1px solid #2D61AF;
+        color: white;
+    }
+    
+    .atribute-filters {
+        padding-top: 2.5rem;
+        padding-bottom: 0.4rem;
+        border-bottom: 1px solid #AAA0A0;
+    
+        .atribute-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            
         }
-        
-        .atribute-filters {
-            padding-bottom: 0.4rem;
-            border-bottom: 1px solid #AAA0A0;
-        
-            .atribute-head {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                
+    
+        .atribute-items {
+            display: flex;
+            flex-flow: row wrap;
+            gap: 1rem;
+            padding-bottom: 0.6rem;
+            padding-top: 1rem;
+            
+            .atribute-button{
+                font-size: 1rem;
+                padding: 8px 14px;
+                border-radius: 20px;
+                border: 1px solid #D9D9D9;
             }
-        
-            .atribute-items {
-                display: flex;
-                flex-flow: row wrap;
-                gap: 1rem;
-                padding-bottom: 0.6rem;
-                padding-top: 1rem;
-                
-                .atribute-button{
-                    font-size: 1rem;
-                    padding: 8px 14px;
-                    border-radius: 20px;
-                    border: 1px solid #D9D9D9;
-                }
-        
-            }
-        
-        
+    
         }
+    
+    
+    }
     
     
     </style>

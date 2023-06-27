@@ -3,6 +3,9 @@ import { createStore} from 'vuex'
 const store =  createStore({
     state() {
         return {
+            mainCardTypes : ['All Cards', 'Monster', 'Spell Card', 'Trap Card'],
+            selectedMainCardTypes : [],
+
             resetAtribute: false,
             atributes : ['DARK', 'LIGHT', 'EARTH', 'WATER', 'FIRE', 'WIND', 'DIVINE'],
             selectedAtributes : [],
@@ -10,6 +13,14 @@ const store =  createStore({
             resetRace : false,
             races : ['Equip', 'Field', 'Quick-Play', 'Ritual', 'Continuous', 'Counter', 'Normal'],
             selectedRaces : [],
+
+            spellType : false,
+            spellTypes : ['Equip', 'Field', 'Quick-Play', 'Ritual', 'Continuous', 'Normal'],
+            selectedSpellTypes : [],
+
+            trapType : false,
+            trapTypes : ['Normal', 'Counter', 'Continuous'],
+            selectedTrapTypes : [],
 
             resetMonster : false,
             monsters : ['Spellcaster', 'Dragon', 'Zombie', 'Warrior', 'Beast-Warrior', 'Beast', 'Winged Beast', 'Fiend', 'Fairy', 'Insect', 'Dinosaur', 'Reptile' , 'Fish', 'Sea Serpent' , 'Aqua' , 'Pyro' , 'Thunder' , 'Rock' , 'Plant' , 'Machine' , 'Psychic', 'Divine-Beast', 'Wyrm', 'Cyberse', 'Creator-God'],
