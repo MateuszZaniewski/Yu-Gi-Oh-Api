@@ -6,9 +6,10 @@
 
 @import '@/assets/_variables.scss';
 @include yugiohFont();
+@include latoFont();
 
 *{
-  font-family: 'yugioh', sans-serif;
+  font-family: 'yugioh', 'Lato', sans-serif;
   box-sizing: border-box;
   padding: 0;
   margin: 0;

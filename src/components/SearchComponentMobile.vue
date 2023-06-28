@@ -8,6 +8,10 @@
 
 <section class="searchBar">
     <input v-model="searchText" type="search" placeholder="Search">
+    <select v-model="searchByName" name="card">
+        <option selected value="true">in card name</option>
+        <option value="false">in card text</option>
+    </select>
 </section>
 
 <section class="filters">
@@ -60,7 +64,7 @@
 </section>
 
 
-<CardMobile 
+<CardMobile :class="{'blur' : store.state.filtersActive}" 
     :preFilterProp="preFilter" 
     :searchByWhat="searchByName" 
     :searchText="searchText"
@@ -357,6 +361,7 @@ const showListMode = () => {
 const showFilters = () => {
     console.log('Filters expanded')
     document.querySelector('.popupFilters').style.display = 'block'
+
 };
 
 const hideFilters = () => {
@@ -370,6 +375,10 @@ const hideFilters = () => {
 
 
 <style lang="scss">
+
+.blur {
+    filter: blur(5px);
+}
 
 
 nav {
@@ -396,6 +405,8 @@ nav {
 }
 
 .searchBar {
+    padding: 0 5%;
+    margin: 0 auto;
     display: flex;
     justify-content: center;
     background-color: #2D61AF;
@@ -406,7 +417,7 @@ nav {
         height: 2.7rem;
         width: 80%;
         margin: 0 auto;
-        border-radius: 1.5rem;
+        border-radius: 1.5rem 0 0 1.5rem;
         background-image: url('../assets/glass.png');
         background-repeat: no-repeat;
         background-position: 5%;
@@ -417,6 +428,19 @@ nav {
 
     input::-webkit-search-cancel-button {
         padding-right: 10%;
+    }
+
+    select {
+        border-left: 1px solid black;
+        border-radius: 0 1.5rem 1.5rem 0;
+        appearance: none;
+        width: 45%;
+        padding-left: 0.3rem;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 0.5rem center;
+        background-size: 1.5rem;
+        
     }
 }
 
@@ -480,6 +504,11 @@ nav {
     }
 
     .popupFiltersWrapper {
+
+        * {
+                font-family: "Lato", sans-serif;
+            }
+
         width: 90%;
         height: 100%;
         margin: 0 auto;
@@ -539,6 +568,7 @@ nav {
             display: flex;
             flex-flow: column;
             gap: 1rem;
+             
         }
     }
 }

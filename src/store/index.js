@@ -52,6 +52,7 @@ const store =  createStore({
 
             galleryActive : true,
             listActive : false,
+            filtersActive : false,
 
             favList : ['Dark Magician', "\"A\" Cell Breeding Device"],
 
@@ -234,6 +235,9 @@ const store =  createStore({
         showList(state) {
             state.galleryActive = false
             state.listActive = true
+        },
+        toggleFilters(state) {
+            state.filtersActive = !state.filtersActive
         }
     },
     actions: {

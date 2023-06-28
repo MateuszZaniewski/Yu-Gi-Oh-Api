@@ -1,5 +1,26 @@
 <template>
-      <ul class="card__wrapper">
+      <ul v-if="store.state.listActive" class="card_wrapperList">
+        <li class="card__card" v-for="card in searchByNameOrDescription.slice(startPoint,currentPage)" :key="card.id">
+        <div class="uniqueCard">
+  
+          <div class="uniqueCard__image--wrapper">
+            <img :src="card.card_images[0].image_url" alt="cardImage"/>
+          </div>
+  
+          <div class="uniqueCard__informations--wrapper">
+            <div class="cardName">
+                <h2>{{ card.name }}</h2>
+            </div>
+            <div class="favs">
+                <img class="default"  :src="store.state.favList.includes(card.name) ? Fav : notFav" />
+            </div>
+            
+        </div>
+        </div>
+        </li>
+      </ul>
+
+      <ul v-if="store.state.galleryActive" class="card__wrapperGallery">
         <li class="card__card" v-for="card in searchByNameOrDescription.slice(startPoint,currentPage)" :key="card.id">
         <div class="uniqueCard">
   
@@ -34,9 +55,9 @@
         <div 
         class="currentPage pages activePage">
         {{ activePage }}</div>
-        <div 
+        <!-- <div 
         v-if="pagesLength > 1 && activePage != pagesLength" 
-        class="nextPage pages">{{ activePage +1 }}</div>
+        class="nextPage pages">{{ activePage +1 }}</div> -->
         <div 
         @click="nextPage" 
         class="Next moveLess">
@@ -302,7 +323,7 @@
       background-color: #ECECEC;
     }
     
-    .card__wrapper {
+    .card__wrapperGallery {
         display: flex;
         flex-flow: row wrap;
         gap: 1.25rem;
