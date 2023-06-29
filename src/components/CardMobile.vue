@@ -1,21 +1,67 @@
 <template>
       <ul v-if="store.state.listActive" class="card_wrapperList">
-        <li class="card__card" v-for="card in searchByNameOrDescription.slice(startPoint,currentPage)" :key="card.id">
-        <div class="uniqueCard">
+        <li class="cardList" v-for="card in searchByNameOrDescription.slice(startPoint,currentPage)" :key="card.id">
+        <div class="uniqueCardList">
   
           <div class="uniqueCard__image--wrapper">
             <img :src="card.card_images[0].image_url" alt="cardImage"/>
           </div>
   
           <div class="uniqueCard__informations--wrapper">
+            <div class="favs">
+              <img class="default"  :src="store.state.favList.includes(card.name) ? Fav : notFav" />
+            </div>
             <div class="cardName">
                 <h2>{{ card.name }}</h2>
             </div>
-            <div class="favs">
-                <img class="default"  :src="store.state.favList.includes(card.name) ? Fav : notFav" />
+
+            <div v-if="card.type.includes('Monster') || card.type.includes('Token')" class="informationsWrapper">
+              <div>
+                <img src="../assets/level.png" />
+                <span>{{ card.level }}</span>
+              </div>
+              <div>
+                <img :src="card.attribute == 'DARK' ? dark :
+                  card.attribute == 'LIGHT' ? light :
+                  card.attribute == 'WATER' ? water :
+                  card.attribute == 'FIRE' ? fire :
+                  card.attribute == 'WIND' ? wind :
+                  card.attribute == 'DIVINE' ? divine : earth" />
+                <span>{{ card.attribute }}</span>
+              </div>
+              <div>
+                <img src="../assets/swords.png" />
+                <span>{{ card.atk }}</span>
+              </div>
+              <div>
+                <img src="../assets/shield.png" />
+                <span>{{ card.def }}</span>
+              </div>
+            </div>
+
+            <div v-if="card.type.includes('Spell') || card.type.includes('Trap')" class="informationsWrapper">
+              <div>
+                <img :src="card.type == 'Spell Card' ? spellCardPath : card.type == 'Trap Card' ? trapCardPath : monsterCardPath" alt="type of card" />
+                <span>{{ card.type == 'Spell Card' ? 'Spell Card' : card.type == 'Trap Card' ? 'Trap Card' : 'Monster Card' }}</span>
+              </div>
+              <div>
+                <img :src="card.race == 'Normal' ? normal : 
+                  card.race == 'Continuous' ? continous :
+                  card.race == 'Equip' ? equip :
+                  card.race == 'Ritual' ? ritual :
+                  card.race == 'Field' ? field :
+                  card.race == 'Quick-Play' ? quickplay :
+                  card.race == 'Normal' ? normal :
+                  card.race == 'Continuous' ? continous : counter"  alt="card race"/>
+                <span>{{ card.race }}</span>
+              </div>
+            </div>
+
+            <div>
+              <button>Learn more</button>
             </div>
             
-        </div>
+          </div>
         </div>
         </li>
       </ul>
@@ -385,6 +431,101 @@
                 }
             }
         }
+
+    }
+
+
+    // list 
+
+    .card_wrapperList {
+      display: flex;
+      flex-flow: column nowrap;
+      width: 90%;
+      margin: 0 auto;
+
+      .cardList {
+
+
+        .uniqueCardList {
+
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: center;
+          gap: 1.25rem;
+          padding-bottom: 2.25rem;
+
+          .uniqueCard__image--wrapper {
+
+            img {
+              height: 100%;
+              width: 42.308vw;
+            }
+          }
+
+          .uniqueCard__informations--wrapper {
+
+            display: flex;
+            flex-flow: column nowrap;
+            
+
+            .favs {
+              display: flex;
+              justify-content: flex-end;
+              padding-bottom: 0.75rem;
+
+              img {
+              height: 10vw;
+              width: 10vw;
+            }
+
+            }
+
+            .cardName {
+              padding-bottom: 1.88rem;
+
+              h2 {
+                font-size: 1rem;
+                text-align: left;
+              }
+            }
+
+
+            .informationsWrapper {
+              display: flex;
+              flex-flow: row wrap;
+              padding-bottom: .88rem;
+
+              div {
+                width: 50%;
+                padding-bottom: 1rem;
+
+                img {
+                  width: 0.9375rem;
+                  height: 0.875rem;
+                }
+
+                span {
+                  padding-left: 0.3rem;
+                }
+              }
+            }
+
+            button {
+              background-color: #005DB8;
+              color: white;
+              padding: 0.5625rem 1.875rem 0.625rem 1.875rem;
+              border-radius: 1.25rem;
+              border: none;
+            }
+          }
+
+        }
+
+
+        
+
+
+      }
 
     }
 

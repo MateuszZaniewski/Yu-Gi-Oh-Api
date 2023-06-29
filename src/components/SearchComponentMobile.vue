@@ -415,7 +415,7 @@ nav {
 
     input {
         height: 2.7rem;
-        width: 80%;
+        width: 70%;
         margin: 0 auto;
         border-radius: 1.5rem 0 0 1.5rem;
         background-image: url('../assets/glass.png');
@@ -434,7 +434,7 @@ nav {
         border-left: 1px solid black;
         border-radius: 0 1.5rem 1.5rem 0;
         appearance: none;
-        width: 45%;
+        width: 40%;
         padding-left: 0.3rem;
         background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
         background-repeat: no-repeat;
