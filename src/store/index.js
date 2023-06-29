@@ -54,7 +54,7 @@ const store =  createStore({
             listActive : false,
             filtersActive : false,
 
-            favList : ['Dark Magician', "\"A\" Cell Breeding Device"],
+            favList : ['Dark Magician'],
 
         }
         
@@ -238,6 +238,16 @@ const store =  createStore({
         },
         toggleFilters(state) {
             state.filtersActive = !state.filtersActive
+        },
+        addToFavs(state, payload) {
+            if(!state.favList.includes(payload)){
+                state.favList.push(payload)
+            } else {
+                const index = state.favList.indexOf(payload)
+                if(index !== -1){
+                    state.favList.splice(index,1)
+                }
+            }
         }
     },
     actions: {

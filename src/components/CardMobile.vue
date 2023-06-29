@@ -9,7 +9,7 @@
   
           <div class="uniqueCard__informations--wrapper">
             <div class="favs">
-              <img class="default"  :src="store.state.favList.includes(card.name) ? Fav : notFav" />
+              <img @click="addToFavs(card.name)" class="default"  :src="store.state.favList.includes(card.name) ? Fav : notFav"  />
             </div>
             <div class="cardName">
                 <h2>{{ card.name }}</h2>
@@ -57,7 +57,7 @@
               </div>
             </div>
 
-            <div>
+            <div class="learnMore">
               <button>Learn more</button>
             </div>
             
@@ -337,6 +337,10 @@
     return card.atk >= props.attackFrom && card.atk <= props.attackTo &&
            card.def >= props.defenceFrom && card.def <= props.defenceTo
   };
+
+  const addToFavs = (name) => {
+    store.commit('addToFavs', name)
+  }
   
   
   watch(() => props.searchText, () => {
@@ -474,8 +478,8 @@
               padding-bottom: 0.75rem;
 
               img {
-              height: 10vw;
-              width: 10vw;
+              height: 14vw;
+              width: 12vw;
             }
 
             }
@@ -498,10 +502,12 @@
               div {
                 width: 50%;
                 padding-bottom: 1rem;
+                display: flex;
+                align-items: center;
 
                 img {
-                  width: 0.9375rem;
-                  height: 0.875rem;
+                  width: 1.2375rem;
+                  height: 1.275rem;
                 }
 
                 span {
@@ -510,12 +516,18 @@
               }
             }
 
+            .learnMore {
+              margin: 0 auto;
+            }
+
             button {
               background-color: #005DB8;
               color: white;
               padding: 0.5625rem 1.875rem 0.625rem 1.875rem;
               border-radius: 1.25rem;
               border: none;
+              cursor: pointer;
+              
             }
           }
 

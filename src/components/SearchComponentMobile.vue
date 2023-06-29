@@ -63,8 +63,8 @@
     </div>
 </section>
 
-
-<CardMobile :class="{'blur' : store.state.filtersActive}" 
+<div class="visibleCards">
+    <CardMobile  
     :preFilterProp="preFilter" 
     :searchByWhat="searchByName" 
     :searchText="searchText"
@@ -76,6 +76,8 @@
     :monsters="monsters"
     :spells="spells"
     :traps="traps"/>
+</div>
+
 
 
 </template>
@@ -360,12 +362,14 @@ const showListMode = () => {
 
 const showFilters = () => {
     console.log('Filters expanded')
+    document.querySelector('.visibleCards').style.filter = 'blur(2px)'
     document.querySelector('.popupFilters').style.display = 'block'
 
 };
 
 const hideFilters = () => {
     console.log('Filters hidden')
+    document.querySelector('.visibleCards').style.filter = 'blur(0px)'
     document.querySelector('.popupFilters').style.display = 'none'
 }
 
@@ -487,6 +491,7 @@ nav {
 
 .popupFilters {
     position: absolute;
+    z-index: 99;
     display: none;
     top: 4rem;
     left: 0;
