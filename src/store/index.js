@@ -3,7 +3,7 @@ import { createStore} from 'vuex'
 const store =  createStore({
     state() {
         return {
-            mainCardTypes : ['All Cards', 'Monster', 'Spell Card', 'Trap Card'],
+            mainCardTypes : ['All Cards', 'Monster Cards', 'Spell Cards', 'Trap Cards'],
             selectedMainCardTypes : [],
 
             resetAtribute: false,
@@ -34,6 +34,7 @@ const store =  createStore({
             levels : ['0','1','2','3','4','5','6','7','8','9','10','11','12','13'],
             selectedLevels : [],
 
+            // do usunięcia - nie używane
             isCleared : false,
             allBox : true,
             monstersBox : false,
@@ -54,7 +55,17 @@ const store =  createStore({
             listActive : false,
             filtersActive : false,
 
-            favList : ['Dark Magician'],
+            favList : [],
+
+            mainCardTypeOpen : false,
+            attributeOpen : false,
+            monsterTypeOpen : false,
+            cardTypeOpen : false,
+            levelOpen : false,
+            spellOpen : false,
+            trapOpen : false,
+            attackOpen : false,
+            defenceOpen : false,
 
         }
         
@@ -113,6 +124,18 @@ const store =  createStore({
         },
         setDefaultForLevels(state) {
             state.resetLevel = false
+        },
+
+        addMainCardType(state, payload){
+            if(!state.selectedMainCardTypes.includes(payload)){
+                state.selectedMainCardTypes.push(payload)
+            } else {
+                const index = state.selectedMainCardTypes.indexOf(payload)
+                if(index !== -1){
+                    state.selectedMainCardTypes.splice(index,1)
+                }
+            }
+            console.log(state.selectedMainCardTypes, payload)
         },
 
         addLevel(state, payload){
@@ -248,7 +271,106 @@ const store =  createStore({
                     state.favList.splice(index,1)
                 }
             }
-        }
+        },
+        openAndCloseMainCardTypeFilter(state) {
+            state.mainCardTypeOpen = !state.mainCardTypeOpen
+            state.attributeOpen = false
+            state.monsterTypeOpen = false
+            state.cardTypeOpen = false
+            state.levelOpen = false
+            state.spellOpen = false
+            state.trapOpen = false
+            state.attackOpen = false
+            state.defenceOpen = false
+        },
+        openAndCloseAttributeFilter(state) {
+            state.mainCardTypeOpen = false
+            state.attributeOpen = !state.attributeOpen
+            state.monsterTypeOpen = false
+            state.cardTypeOpen = false
+            state.levelOpen = false
+            state.spellOpen = false
+            state.trapOpen = false
+            state.attackOpen = false
+            state.defenceOpen = false
+        },
+        openAndCloseMonsterTypeFilter(state) {
+            state.mainCardTypeOpen = false
+            state.attributeOpen = false
+            state.monsterTypeOpen = !state.monsterTypeOpen
+            state.cardTypeOpen = false
+            state.levelOpen = false
+            state.spellOpen = false
+            state.trapOpen = false
+            state.attackOpen = false
+            state.defenceOpen = false
+        },
+        openAndCloseCardTypeFilter(state) {
+            state.mainCardTypeOpen = false
+            state.attributeOpen = false
+            state.monsterTypeOpen = false
+            state.cardTypeOpen = !state.cardTypeOpen
+            state.levelOpen = false
+            state.spellOpen = false
+            state.trapOpen = false
+            state.attackOpen = false
+            state.defenceOpen = false
+        },
+        openAndCloseLevelFilter(state) {
+            state.mainCardTypeOpen = false
+            state.attributeOpen = false
+            state.monsterTypeOpen = false
+            state.cardTypeOpen = false
+            state.levelOpen = !state.levelOpen
+            state.spellOpen = false
+            state.trapOpen = false
+            state.attackOpen = false
+            state.defenceOpen = false
+        },
+        openAndCloseSpellFilter(state) {
+            state.mainCardTypeOpen = false
+            state.attributeOpen = false
+            state.monsterTypeOpen = false
+            state.cardTypeOpen = false
+            state.levelOpen = false
+            state.spellOpen = !state.spellOpen
+            state.trapOpen = false
+            state.attackOpen = false
+            state.defenceOpen = false
+        },
+        openAndCloseTrapFilter(state) {
+            state.mainCardTypeOpen = false
+            state.attributeOpen = false
+            state.monsterTypeOpen = false
+            state.cardTypeOpen = false
+            state.levelOpen = false
+            state.spellOpen = false
+            state.trapOpen = !state.trapOpen
+            state.attackOpen = false
+            state.defenceOpen = false
+        },
+        openAndCloseAttackFilter(state) {
+            state.mainCardTypeOpen = false
+            state.attributeOpen = false
+            state.monsterTypeOpen = false
+            state.cardTypeOpen = false
+            state.levelOpen = false
+            state.spellOpen = false
+            state.trapOpen = false
+            state.attackOpen = !state.attackOpen
+            state.defenceOpen = false
+        },
+        openAndCloseDefenceFilter(state) {
+            state.mainCardTypeOpen = false
+            state.attributeOpen = false
+            state.monsterTypeOpen = false
+            state.cardTypeOpen = false
+            state.levelOpen = false
+            state.spellOpen = false
+            state.trapOpen = false
+            state.attackOpen = false
+            state.defenceOpen = !state.defenceOpen
+        },
     },
     actions: {
 

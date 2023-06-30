@@ -79,7 +79,7 @@
                 <h2>{{ card.name }}</h2>
             </div>
             <div class="favs">
-                <img class="default"  :src="store.state.favList.includes(card.name) ? Fav : notFav" />
+                <img class="default" @click="addToFavs(card.name)"  :src="store.state.favList.includes(card.name) ? Fav : notFav" />
             </div>
             
         </div>
@@ -199,6 +199,8 @@
   import notFav from "../assets/eyeNotStarred.png"
   import Fav from "../assets/eyeAdded.png"
   
+// pagination methods 
+  
   const nextPage = () => {
     if(activePage.value + 1 <= pagesLength.value){
       currentPage.value += 10
@@ -234,6 +236,8 @@
   }
   
   
+
+// searching methods
   
   const searchByNameOrDescription = computed(() => {
     let filteredArray = [];
@@ -279,12 +283,11 @@
     }
   
     pagesLength.value = Math.ceil(filteredArray.length/10);
-    console.log(pagesLength.value)
-    console.log(filteredArray)
     return store.state.ByAttackAscending ? filteredArray.sort((cardA, cardB) => cardA.atk - cardB.atk) :
            store.state.ByAttackDescending ? filteredArray.sort((cardA, cardB) => cardA.atk - cardB.atk).reverse() :
            store.state.ByDefenceAscending ? filteredArray.sort((cardA, cardB) => cardA.def - cardB.def) :
-           filteredArray.sort((cardA, cardB) => cardA.def - cardB.def).reverse() 
+           store.state.ByDefenceDescending ? filteredArray.sort((cardA, cardB) => cardA.def - cardB.def).reverse() : filteredArray
+           
   
   });
   
@@ -469,7 +472,8 @@
           .uniqueCard__informations--wrapper {
 
             display: flex;
-            flex-flow: column nowrap;
+            flex-flow: column wrap;
+            
             
 
             .favs {
@@ -498,12 +502,11 @@
               display: flex;
               flex-flow: row wrap;
               padding-bottom: .88rem;
+              gap: 10px;
 
               div {
-                width: 50%;
+                width: 45%;
                 padding-bottom: 1rem;
-                display: flex;
-                align-items: center;
 
                 img {
                   width: 1.2375rem;

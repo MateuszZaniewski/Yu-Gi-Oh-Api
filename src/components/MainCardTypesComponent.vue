@@ -1,9 +1,9 @@
 <template>
 
     <div class="atribute-filters atribute-container">
-                        <div @click="openFilter" class="atribute-head"><span>Card Type</span><img :src="isOpen ? NavigateOpen : NavigateClosed" /></div>
-                        <div v-if="isOpen" class="atribute-items">
-                            <button class="atribute-button" @click="AtributeArrayMethod" v-for="type in store.state.mainCardTypes" >{{ type }}</button>
+                        <div @click="openFilter" class="atribute-head"><span>Card Type</span><img :src="store.state.mainCardTypeOpen ? NavigateOpen : NavigateClosed" /></div>
+                        <div v-if="store.state.mainCardTypeOpen" class="atribute-items">
+                            <button class="atribute-button MainCardTypeButton" @click="AtributeArrayMethod" v-for="type in store.state.mainCardTypes" >{{ type }}</button>
                         </div>
                     </div>
     
@@ -19,10 +19,9 @@
     import NavigateClosed from '../assets/navigateClosed.png'
     import NavigateOpen from '../assets/navigateOpen.png'
     const emits = defineEmits(['pass-atribute-array'])
-    const isOpen = ref(false)
     
     const openFilter = () => {
-        isOpen.value = !isOpen.value
+        store.commit('openAndCloseMainCardTypeFilter')
     }
     
     // function that remove selected level if it is present in levelArray
@@ -34,12 +33,19 @@
     // then pass levelArray to its parent
     
     const AtributeArrayMethod = () => {
+
         const button = event.target
         const buttonText = event.target.innerText
-    
+
         button.classList.toggle('active')
+
+        store.commit('addMainCardType', buttonText)
+
+
+        buttonText === 'All Cards' ? store.commit('showAllFilters') : buttonText === 'Monster Cards' ? store.commit('showMonsterFilters') : buttonText === 'Spell Cards' ? store.commit('showSpellFilters') : store.commit('showTrapsFilters')
         
-    }
+        
+    };
     
     
     </script>

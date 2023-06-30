@@ -1,8 +1,8 @@
 <template>
 
     <div class="atribute-filters atribute-container">
-                        <div @click="openFilter" class="atribute-head"><span>Attack</span><img :src="isOpen ? NavigateOpen : NavigateClosed" /></div>
-                        <div v-if="isOpen" class="atribute-items">
+                        <div @click="openFilter" class="atribute-head"><span>Attack</span><img :src="store.state.attackOpen ? NavigateOpen : NavigateClosed" /></div>
+                        <div v-if="store.state.attackOpen" class="atribute-items">
                             <span>From</span><input class="from" placeholder="0" /><span>To</span><input class="to" placeholder="9999"/>
                         </div>
                     </div>
@@ -19,10 +19,9 @@
     import NavigateClosed from '../assets/navigateClosed.png'
     import NavigateOpen from '../assets/navigateOpen.png'
     const emits = defineEmits(['pass-atribute-array'])
-    const isOpen = ref(false)
     
     const openFilter = () => {
-        isOpen.value = !isOpen.value
+        store.commit('openAndCloseAttackFilter')
     }
     
     // function that remove selected level if it is present in levelArray

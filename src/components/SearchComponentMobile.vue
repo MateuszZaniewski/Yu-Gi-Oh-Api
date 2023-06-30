@@ -314,13 +314,13 @@ const fetchCards = async () => {
         card.type = 'undefined';
       }
       if (!card.hasOwnProperty('atk')) {
-        card.atk = 'undefined';
+        card.atk = -1;
       }
       if (!card.hasOwnProperty('def')) {
-        card.def = 'undefined';
+        card.def = -1;
       }
       if (!card.hasOwnProperty('level')) {
-        card.level = 'undefined';
+        card.level = -1;
       }
     });
 
@@ -497,9 +497,10 @@ nav {
     left: 0;
     right: 0;
     margin: auto;
+    padding-bottom: 1rem;
     width: 90%;
     border-radius: 1rem;  
-    height: 200vh;
+    height: fit-content;
     background-color: #FFFFFF;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.582);
     border: 1px solid #FFFFFF;

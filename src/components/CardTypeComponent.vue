@@ -1,8 +1,8 @@
 <template>
 
     <div class="atribute-filters atribute-container">
-                        <div @click="openFilter" class="atribute-head"><span>Monster Effect</span><img :src="isOpen ? NavigateOpen : NavigateClosed" /></div>
-                        <div v-if="isOpen" class="atribute-items">
+                        <div @click="openFilter" class="atribute-head"><span>Monster Effect</span><img :src="store.state.cardTypeOpen ? NavigateOpen : NavigateClosed" /></div>
+                        <div v-if="store.state.cardTypeOpen" class="atribute-items">
                             <button class="atribute-button" @click="AtributeArrayMethod" v-for="type in store.state.types" >{{ type }}</button>
                         </div>
                     </div>
@@ -19,10 +19,9 @@
     import NavigateClosed from '../assets/navigateClosed.png'
     import NavigateOpen from '../assets/navigateOpen.png'
     const emits = defineEmits(['pass-atribute-array'])
-    const isOpen = ref(false)
     
     const openFilter = () => {
-        isOpen.value = !isOpen.value
+        store.commit('openAndCloseCardTypeFilter')
     }
     
     // function that remove selected level if it is present in levelArray
