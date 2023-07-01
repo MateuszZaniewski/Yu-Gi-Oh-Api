@@ -1,7 +1,18 @@
 <template>
 
     <div class="atribute-filters atribute-container">
-                        <div @click="openFilter" class="atribute-head"><span>Card Type</span><img :src="store.state.mainCardTypeOpen ? NavigateOpen : NavigateClosed" /></div>
+                        <div @click="openFilter" class="atribute-head">
+                            <div class="atribute-name-count">
+                                <span  class="atribute-name">Card Type</span>
+                                <div v-if="store.state.selectedMainCardTypes.length > 0" class="atribute-count-clear">
+                                    <span class="atribute-count">{{ store.state.selectedMainCardTypes.length }}</span>
+                                    <img src="../assets/close.png" @click="clearThisFilter">
+                                </div>
+                                
+                            </div>
+                            
+                            <img :src="store.state.mainCardTypeOpen ? NavigateOpen : NavigateClosed" />
+                        </div>
                         <div v-if="store.state.mainCardTypeOpen" class="atribute-items">
                             <button class="atribute-button MainCardTypeButton" @click="AtributeArrayMethod" v-for="type in store.state.mainCardTypes" >{{ type }}</button>
                         </div>
@@ -22,7 +33,13 @@
     
     const openFilter = () => {
         store.commit('openAndCloseMainCardTypeFilter')
-    }
+        const allButtons = document.querySelectorAll('.MainCardTypeButton')
+        allButtons.forEach((el) => {
+            if(store.state.selectedMainCardTypes.includes(el)){
+                el.classList.toggle('active')
+            }
+        })
+    };
     
     // function that remove selected level if it is present in levelArray
     
@@ -33,24 +50,25 @@
     // then pass levelArray to its parent
     
     const AtributeArrayMethod = () => {
-
+        const allButtons = document.querySelectorAll('.MainCardTypeButton')
         const button = event.target
         const buttonText = event.target.innerText
 
+
+        allButtons.forEach((el) => el.classList.remove('active'))
         button.classList.toggle('active')
-
         store.commit('addMainCardType', buttonText)
-
-
-        buttonText === 'All Cards' ? store.commit('showAllFilters') : buttonText === 'Monster Cards' ? store.commit('showMonsterFilters') : buttonText === 'Spell Cards' ? store.commit('showSpellFilters') : store.commit('showTrapsFilters')
-        
-        
+    
     };
+
+    const clearThisFilter = () => {
+        store.commit('resetMainCardType')
+    }
     
     
     </script>
-    
-    
+
+
     <style lang="scss" scoped>
     
     @import '@/assets/_variables.scss';
@@ -70,6 +88,37 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+
+
+            .atribute-name-count {
+                display: flex;
+                gap: 1rem;
+
+                .atribute-count-clear {
+                    background-color: #2D61AF;
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.25rem;
+                    font-size: 0.75rem;
+                    * {
+                        background-color: #2D61AF;
+                    }
+
+                    border: 1px solid #2D61AF;
+                    border-radius: 1.25rem;
+                    padding: 0.25rem 0.625rem;
+
+                    img {
+                        width: 0.9375rem;
+                        height: 0.9375rem;
+                    }
+                }
+
+                .atribute-count {
+                    
+                }
+            }
             
         }
     

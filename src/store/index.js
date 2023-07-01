@@ -127,15 +127,19 @@ const store =  createStore({
         },
 
         addMainCardType(state, payload){
-            if(!state.selectedMainCardTypes.includes(payload)){
+            if(state.selectedMainCardTypes.length == 0){
                 state.selectedMainCardTypes.push(payload)
             } else {
-                const index = state.selectedMainCardTypes.indexOf(payload)
-                if(index !== -1){
-                    state.selectedMainCardTypes.splice(index,1)
+                if(state.selectedMainCardTypes.includes(payload)){
+                    return
+                } else {
+                    state.selectedMainCardTypes = []
+                    state.selectedMainCardTypes.push(payload)
                 }
             }
-            console.log(state.selectedMainCardTypes, payload)
+        },
+        resetMainCardType(state) {
+            state.selectedMainCardTypes = []
         },
 
         addLevel(state, payload){

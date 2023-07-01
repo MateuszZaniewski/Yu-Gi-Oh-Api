@@ -241,7 +241,7 @@
   
   const searchByNameOrDescription = computed(() => {
     let filteredArray = [];
-    if(store.state.allBox){
+    if(store.state.selectedMainCardTypes.includes('All Cards') || store.state.selectedMainCardTypes.length == 0){
       filteredArray = props.preFilterProp.filter(card => {
         if (props.searchByWhat === 'true') {
         return card.name.toLowerCase().includes(props.searchText.toLowerCase());
@@ -250,7 +250,7 @@
       }
       })
     }
-    else if(store.state.monstersBox){
+    else if(store.state.selectedMainCardTypes.includes('Monster Cards')){
       filteredArray = props.preFilterProp.filter(card => {
       if (props.searchByWhat === 'true') {
         return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && searchByLevelOnly(card) && searchByAtributeOnly(card) && searchByMonsterTypeOnly(card) && searchByCardTypeOnly(card) && searchByAttackAndDefenceOnly(card);
@@ -259,7 +259,7 @@
       }
     });
     }
-    else if(store.state.spellsBox){
+    else if(store.state.selectedMainCardTypes.includes('Spell Cards')){
       filteredArray = props.preFilterProp.filter(card => {
         if(props.searchByWhat === 'true'){
           return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && searchBySpellOrTrapOnly(card) && card.type.toLowerCase().includes('spell')
@@ -270,7 +270,7 @@
         }
       });
     }
-    else if(store.state.trapsBox){
+    else if(store.state.selectedMainCardTypes.includes('Trap Cards')){
       filteredArray = props.preFilterProp.filter(card => {
         if(props.searchByWhat === 'true'){
           return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && searchBySpellOrTrapOnly(card) && card.type.toLowerCase().includes('trap')

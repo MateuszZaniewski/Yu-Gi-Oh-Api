@@ -187,78 +187,78 @@ const clear = () => {
 }
 
 
-const showAllFilters = () => {
-    atributeBox.value = false
-    raceBox.value = false
-    monsterTypeBox.value = false
-    cardTypeBox.value = false
-    levelBox.value = false
-    atkBox.value = false
-    defBox.value = false
-    allCards.value = false
-    monsters.value = false
-    spells.value = false
-    traps.value = false
-    store.commit('showAllFilters')
-    store.commit('resetAllFilters')
+// const showAllFilters = () => {
+//     atributeBox.value = false
+//     raceBox.value = false
+//     monsterTypeBox.value = false
+//     cardTypeBox.value = false
+//     levelBox.value = false
+//     atkBox.value = false
+//     defBox.value = false
+//     allCards.value = false
+//     monsters.value = false
+//     spells.value = false
+//     traps.value = false
+//     store.commit('showAllFilters')
+//     store.commit('resetAllFilters')
     
-}
+// }
 
-const showMonsterFilters = () => {
-    allCards.value = false
-    monsters.value = true
-    spells.value = false
-    traps.value = false
-    raceBox.value = false
-    store.commit('showMonsterFilters')
-    store.commit('resetAllFilters')
-    checkForAciveFilters()
-}
+// const showMonsterFilters = () => {
+//     allCards.value = false
+//     monsters.value = true
+//     spells.value = false
+//     traps.value = false
+//     raceBox.value = false
+//     store.commit('showMonsterFilters')
+//     store.commit('resetAllFilters')
+//     checkForAciveFilters()
+// }
 
-const expandMonsterFilters = () => {
-    atributeBox.value = !atributeBox.value
-    raceBox.value = !raceBox.value
-    monsterTypeBox.value = !monsterTypeBox.value
-    cardTypeBox.value = !cardTypeBox.value
-    levelBox.value = !levelBox.value
-    atkBox.value = !atkBox.value
-    defBox.value = !defBox.value
-}
+// const expandMonsterFilters = () => {
+//     atributeBox.value = !atributeBox.value
+//     raceBox.value = !raceBox.value
+//     monsterTypeBox.value = !monsterTypeBox.value
+//     cardTypeBox.value = !cardTypeBox.value
+//     levelBox.value = !levelBox.value
+//     atkBox.value = !atkBox.value
+//     defBox.value = !defBox.value
+// }
 
-const showSpellFilter = () => {
-    atributeBox.value = false
-    raceBox.value = true
-    monsterTypeBox.value = false
-    cardTypeBox.value = false
-    levelBox.value = false
-    atkBox.value = false
-    defBox.value = false
-    allCards.value = false
-    monsters.value = false
-    spells.value = true
-    traps.value = false
-    store.commit('showSpellFilters')
-    store.commit('resetAllFilters')
-    checkForAciveFilters()
+// const showSpellFilter = () => {
+//     atributeBox.value = false
+//     raceBox.value = true
+//     monsterTypeBox.value = false
+//     cardTypeBox.value = false
+//     levelBox.value = false
+//     atkBox.value = false
+//     defBox.value = false
+//     allCards.value = false
+//     monsters.value = false
+//     spells.value = true
+//     traps.value = false
+//     store.commit('showSpellFilters')
+//     store.commit('resetAllFilters')
+//     checkForAciveFilters()
     
-}
+// }
 
-const showTrapsFilter = () => {
-    atributeBox.value = false
-    raceBox.value = true
-    monsterTypeBox.value = false
-    cardTypeBox.value = false
-    levelBox.value = false
-    atkBox.value = false
-    defBox.value = false
-    allCards.value = false
-    monsters.value = false
-    spells.value = false
-    traps.value = true
-    store.commit('showTrapsFilters')
-    store.commit('resetAllFilters')
-    checkForAciveFilters()
-}
+// const showTrapsFilter = () => {
+//     atributeBox.value = false
+//     raceBox.value = true
+//     monsterTypeBox.value = false
+//     cardTypeBox.value = false
+//     levelBox.value = false
+//     atkBox.value = false
+//     defBox.value = false
+//     allCards.value = false
+//     monsters.value = false
+//     spells.value = false
+//     traps.value = true
+//     store.commit('showTrapsFilters')
+//     store.commit('resetAllFilters')
+//     checkForAciveFilters()
+// }
 
 const setDefaultforArrays = () => {
     store.commit('setDefaultForSelectedAtributes')
