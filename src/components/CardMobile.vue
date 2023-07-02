@@ -244,28 +244,28 @@
     if(store.state.selectedMainCardTypes.includes('All Cards') || store.state.selectedMainCardTypes.length == 0){
       filteredArray = props.preFilterProp.filter(card => {
         if (props.searchByWhat === 'true') {
-        return card.name.toLowerCase().includes(props.searchText.toLowerCase());
+        return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && searchByLevelOnly(card) && searchByAtributeOnly(card) && searchByMonsterTypeOnly(card) && searchByCardTypeOnly(card) && searchByAttackAndDefenceOnly(card);
       } else if (props.searchByWhat === 'false') {
-        return card.desc.toLowerCase().includes(props.searchText.toLowerCase());
+        return card.desc.toLowerCase().includes(props.searchText.toLowerCase()) && searchByLevelOnly(card) && searchByAtributeOnly(card) && searchByMonsterTypeOnly(card) && searchByCardTypeOnly(card) && searchByAttackAndDefenceOnly(card);
       }
       })
     }
     else if(store.state.selectedMainCardTypes.includes('Monster Cards')){
       filteredArray = props.preFilterProp.filter(card => {
       if (props.searchByWhat === 'true') {
-        return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && searchByLevelOnly(card) && searchByAtributeOnly(card) && searchByMonsterTypeOnly(card) && searchByCardTypeOnly(card) && searchByAttackAndDefenceOnly(card);
+        return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && searchByLevelOnly(card) && searchByAtributeOnly(card) && searchByMonsterTypeOnly(card) && searchByCardTypeOnly(card) && searchByAttackAndDefenceOnly(card) && searchBySpellOnly(card) && searchByTrapOnly(card);
       } else if (props.searchByWhat === 'false') {
-        return card.desc.toLowerCase().includes(props.searchText.toLowerCase()) && searchByLevelOnly(card) && searchByAtributeOnly(card) && searchByMonsterTypeOnly(card) && searchByCardTypeOnly(card) && searchByAttackAndDefenceOnly(card);
+        return card.desc.toLowerCase().includes(props.searchText.toLowerCase()) && searchByLevelOnly(card) && searchByAtributeOnly(card) && searchByMonsterTypeOnly(card) && searchByCardTypeOnly(card) && searchByAttackAndDefenceOnly(card) && searchBySpellOnly(card) && searchByTrapOnly(card);
       }
     });
     }
     else if(store.state.selectedMainCardTypes.includes('Spell Cards')){
-      filteredArray = props.preFilterProp.filter(card => {
+     filteredArray = props.preFilterProp.filter(card => {
         if(props.searchByWhat === 'true'){
-          return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && searchBySpellOrTrapOnly(card) && card.type.toLowerCase().includes('spell')
+          return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && searchBySpellOnly(card) && card.type.toLowerCase().includes('spell')
   
         } else if(props.searchByWhat === 'false') {
-          return card.desc.toLowerCase().includes(props.searchText.toLowerCase()) && searchBySpellOrTrapOnly(card) && card.type.toLowerCase().includes('spell')
+          return card.desc.toLowerCase().includes(props.searchText.toLowerCase()) && searchBySpellpOnly(card) && card.type.toLowerCase().includes('spell')
   
         }
       });
@@ -273,10 +273,10 @@
     else if(store.state.selectedMainCardTypes.includes('Trap Cards')){
       filteredArray = props.preFilterProp.filter(card => {
         if(props.searchByWhat === 'true'){
-          return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && searchBySpellOrTrapOnly(card) && card.type.toLowerCase().includes('trap')
+          return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && searchByTrapOnly(card) && card.type.toLowerCase().includes('trap')
   
         } else if(props.searchByWhat === 'false') {
-          return card.desc.toLowerCase().includes(props.searchText.toLowerCase()) && searchBySpellOrTrapOnly(card) && card.type.toLowerCase().includes('trap')
+          return card.desc.toLowerCase().includes(props.searchText.toLowerCase()) && searchByTrapOnly(card) && card.type.toLowerCase().includes('trap')
   
         }
       });
@@ -296,10 +296,11 @@
     const levelsArrayLength = selectedLevelsArray.length
     const preSelectedLevels = Array.from(store.state.preSelectedLevels)
 
-    if(levelsArrayLength === 0) {
-      return preSelectedLevels.some(level => card.level.toString() == (level))
-    } else {
-      return selectedLevelsArray.some(level => card.level.toString() == (level))
+    if(levelsArrayLength === 0){
+      return card.type.includes('Monster') && preSelectedLevels.some(level => card.level.toString() ==(level))
+    }
+    else {
+      return card.type.includes('Monster') && selectedLevelsArray.some(level => card.level.toString() == (level))
     }
   };
   
@@ -309,9 +310,10 @@
     const preSelectedAtributes = Array.from(store.state.preSelectedAtributes)
 
     if(atributesArrayLength === 0){
-      return preSelectedAtributes.some(atribute => card.attribute.includes(atribute))
-    } else {
-      return selectedAtributesArray.some(atribute => card.attribute.includes(atribute))
+      return card.type.includes('Monster') && preSelectedAtributes.some(atribute => card.attribute.includes(atribute))
+    }
+    else {
+      return card.type.includes('Monster') && selectedAtributesArray.some(atribute => card.attribute.includes(atribute))
     }
   }
   
@@ -321,9 +323,10 @@
     const preSelectedMonstersArray = Array.from(store.state.preSelectedMonsters)
   
     if(monstersArrayLength === 0){
-      return preSelectedMonstersArray.some(atribute => card.attribute.includes(atribute))
-    } else {
-      return selectedMonstersArray.some(atribute => card.attribute.includes(atribute))
+      return card.type.includes('Monster') && preSelectedMonstersArray.some(type => card.race.includes(type))
+    }
+    else {
+      return card.type.includes('Monster') && selectedMonstersArray.some(type => card.race.includes(type))
     }
   }
   
@@ -332,23 +335,37 @@
     const selectedCardTypesLength = selectedCardTypesArray.length
     const preSelectedCardTypesArray = Array.from(store.state.preSelectedCardTypes)
   
-    if(monstersArrayLength === 0){
-      return preSelectedCardTypesArray.some(atribute => card.attribute.includes(atribute))
-    } else {
-      return selectedCardTypesLength.some(atribute => card.attribute.includes(atribute))
+    if(selectedCardTypesLength === 0){
+      return card.type.includes('Monster') && preSelectedCardTypesArray.some(type => card.type.includes(type))
+    }
+    else {
+      return card.type.includes('Monster') && selectedCardTypesArray.some(type => card.type.includes(type))
     }
   }
   
-  const searchBySpellOrTrapOnly = (card) => {
-    const selectedRacesArray = Array.from(store.state.selectedRaces)
+  const searchByTrapOnly = (card) => {
+    const selectedRacesArray = Array.from(store.state.selectedTrapTypes)
     const selectedRacesLength = selectedRacesArray.length
     const preSelectedRacesArray = Array.from(store.state.preSelectedRaces)
 
     if(selectedRacesLength === 0){
-      return preSelectedRacesArray.some(atribute => card.attribute.includes(atribute))
+      return card.type.includes('Trap') && preSelectedRacesArray.some(type => card.race.includes(type))
     } else {
-      return selectedRacesArray.some(atribute => card.attribute.includes(atribute))
+      return card.type.includes('Trap') && selectedRacesArray.some(type => card.race.includes(type))
     }
+  }
+
+  const searchBySpellOnly = (card) => {
+    const selectedRacesArray = Array.from(store.state.selectedSpellTypes)
+    const selectedRacesLength = selectedRacesArray.length
+    const preSelectedRacesArray = Array.from(store.state.preSelectedRaces)
+
+    if(selectedRacesLength === 0){
+      return card.type.includes('Spell') && preSelectedRacesArray.some(type => card.race.includes(type))
+    } else {
+      return card.type.includes('Spell') && selectedRacesArray.some(type => card.race.includes(type))
+    }
+    
   }
   
   const searchByAttackAndDefenceOnly = (card) => {

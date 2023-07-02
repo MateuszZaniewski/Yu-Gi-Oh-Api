@@ -1,7 +1,9 @@
 <template>
 
     <div class="atribute-filters atribute-container">
-                            <div @click="openFilter" class="atribute-head">
+                            <div @click="!isMonsterCardSelected && openFilter()" class="atribute-head" 
+                            :class="{'disabled' : isMonsterCardSelected,
+                                     'enabled' : !isMonsterCardSelected}">
                                 <div class="atribute-name-count">
                                     <span  class="atribute-name">Trap Type</span>
                                     <div v-if="store.state.selectedTrapTypes.length > 0" class="atribute-count-clear">
@@ -11,7 +13,7 @@
                                     
                                 </div>
                                 
-                                <img :src="store.state.trapOpen ? NavigateOpen : NavigateClosed" />
+                                <img :src="store.state.spellOpen && !isMonsterCardSelected ? NavigateOpen : !store.state.spellOpen && !isMonsterCardSelected ? NavigateClosed : NavigateClosedDisabled"/>
                             </div>
                             <div v-show="store.state.trapOpen" class="atribute-items">
                                 <button class="atribute-button SpellButton" @click="AtributeArrayMethod" v-for="trap in store.state.trapTypes" :class="isButtonActive(trap)"  >{{ trap }}</button>
@@ -24,11 +26,12 @@
         
         <script setup>
         
-        import { defineEmits, ref } from 'vue'
+        import { computed, defineEmits, ref } from 'vue'
         import { useStore } from 'vuex';
         const store = useStore();
         import NavigateClosed from '../assets/navigateClosed.png'
         import NavigateOpen from '../assets/navigateOpen.png'
+        import NavigateClosedDisabled from '../assets/NavigateClosedDisabled.png'
         const emits = defineEmits(['pass-atribute-array'])
         
         const isButtonActive = (trap) => {
@@ -37,7 +40,7 @@
     
     
         const openFilter = () => {
-            if(!event.target.classList.contains('closeWhite')){
+            if(!event.target.classList.contains('closeWhite') ){
                 store.commit('openAndCloseTrapFilter')
             }
             
@@ -62,6 +65,10 @@
         const clearThisFilter = () => {
             store.commit('resetTraps')
         };
+
+        const isMonsterCardSelected = computed(() => {
+            return store.state.selectedMainCardTypes.includes('Monster Cards');
+        })
         
         
         </script>
@@ -70,6 +77,14 @@
         <style lang="scss" scoped>
         
         @import '@/assets/_variables.scss';
+
+        .disabled {
+            color : #D9D9D9;
+        }
+
+        .enabled {
+            color: black;
+        }
         
         .active {
             background-color: #2D61AF;

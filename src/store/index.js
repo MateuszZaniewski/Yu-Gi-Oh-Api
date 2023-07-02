@@ -228,22 +228,6 @@ const store =  createStore({
         resetAtributes(state) {
             state.selectedAtributes = []
         },
-
-        setDefaultForSelectedAtributes(state) {
-        
-        },
-        setDefaultForSelectedMonsterTypes(state) {
-            
-        },
-        setDefaultForSelectedCardTypes(state) {
-            
-        },
-        setDefaultForSelectedLevels(state) {
-            
-        },
-        setDefaultForSelectedRaces(state) {
-            
-        },
         populateAllFiltersArray(state) {
             state.allfiltersArray.push(state.selectedAtributes)
             state.allfiltersArray.push(state.selectedMonsters)

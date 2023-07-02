@@ -1,7 +1,9 @@
 <template>
 
 <div class="atribute-filters atribute-container">
-                        <div @click="openFilter" class="atribute-head">
+                        <div @click="!isMonsterCardSelected && openFilter()" class="atribute-head" 
+                             :class="{'disabled' : isMonsterCardSelected,
+                                      'enabled' : !isMonsterCardSelected}">
                             <div class="atribute-name-count">
                                 <span  class="atribute-name">Spell Type</span>
                                 <div v-if="store.state.selectedSpellTypes.length > 0" class="atribute-count-clear">
@@ -11,7 +13,7 @@
                                 
                             </div>
                             
-                            <img :src="store.state.spellOpen ? NavigateOpen : NavigateClosed" />
+                            <img :src="store.state.spellOpen && !isMonsterCardSelected ? NavigateOpen : !store.state.spellOpen && !isMonsterCardSelected ? NavigateClosed : NavigateClosedDisabled"/>
                         </div>
                         <div v-show="store.state.spellOpen" class="atribute-items">
                             <button class="atribute-button SpellButton" @click="AtributeArrayMethod" v-for="spell in store.state.spellTypes" :class="isButtonActive(spell)"  >{{ spell }}</button>
@@ -24,11 +26,12 @@
     
     <script setup>
     
-    import { defineEmits, ref } from 'vue'
+    import { defineEmits, ref, computed } from 'vue'
     import { useStore } from 'vuex';
     const store = useStore();
     import NavigateClosed from '../assets/navigateClosed.png'
     import NavigateOpen from '../assets/navigateOpen.png'
+    import NavigateClosedDisabled from '../assets/NavigateClosedDisabled.png'
     const emits = defineEmits(['pass-atribute-array'])
     
     const isButtonActive = (spell) => {
@@ -62,6 +65,10 @@
     const clearThisFilter = () => {
         store.commit('resetSpells')
     };
+
+    const isMonsterCardSelected = computed(() => {
+            return store.state.selectedMainCardTypes.includes('Monster Cards');
+        })
     
     
     </script>
@@ -75,6 +82,14 @@
         background-color: #2D61AF;
         border: 1px solid #2D61AF;
         color: white;
+    }
+
+    .disabled {
+            color : #D9D9D9;
+    }
+
+    .enabled {
+            color : black;
     }
     
     .atribute-filters {
