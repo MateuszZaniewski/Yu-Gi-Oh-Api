@@ -6,15 +6,15 @@
                                 <span  class="atribute-name">Card Type</span>
                                 <div v-if="store.state.selectedMainCardTypes.length > 0" class="atribute-count-clear">
                                     <span class="atribute-count">{{ store.state.selectedMainCardTypes.length }}</span>
-                                    <img src="../assets/close.png" @click="clearThisFilter">
+                                    <img class="closeWhite" src="../assets/closeWhite.png" @click="clearThisFilter">
                                 </div>
                                 
                             </div>
                             
                             <img :src="store.state.mainCardTypeOpen ? NavigateOpen : NavigateClosed" />
                         </div>
-                        <div v-if="store.state.mainCardTypeOpen" class="atribute-items">
-                            <button class="atribute-button MainCardTypeButton" @click="AtributeArrayMethod" v-for="type in store.state.mainCardTypes" >{{ type }}</button>
+                        <div v-show="store.state.mainCardTypeOpen" class="atribute-items">
+                            <button class="atribute-button MainCardTypeButton" @click="AtributeArrayMethod" v-for="type in store.state.mainCardTypes" :class="isButtonActive(type)" >{{ type }}</button>
                         </div>
                     </div>
     
@@ -30,13 +30,20 @@
     import NavigateClosed from '../assets/navigateClosed.png'
     import NavigateOpen from '../assets/navigateOpen.png'
     const emits = defineEmits(['pass-atribute-array'])
+
+    const isButtonActive = (type) => {
+    return store.state.selectedMainCardTypes.includes(type) ? 'active' : '';
+  };
     
     const openFilter = () => {
-        store.commit('openAndCloseMainCardTypeFilter')
+        if(!event.target.classList.contains('closeWhite')){
+            store.commit('openAndCloseMainCardTypeFilter')
+        }
+        
         const allButtons = document.querySelectorAll('.MainCardTypeButton')
         allButtons.forEach((el) => {
             if(store.state.selectedMainCardTypes.includes(el)){
-                el.classList.toggle('active')
+                el.classList.add('active')
             }
         })
     };
@@ -113,10 +120,6 @@
                         width: 0.9375rem;
                         height: 0.9375rem;
                     }
-                }
-
-                .atribute-count {
-                    
                 }
             }
             

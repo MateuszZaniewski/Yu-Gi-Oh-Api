@@ -294,46 +294,61 @@
   const searchByLevelOnly = (card) => {
     const selectedLevelsArray = Array.from(store.state.selectedLevels)
     const levelsArrayLength = selectedLevelsArray.length
-    
-    return levelsArrayLength === 0 ? 
-      store.state.levels.some(level => card.level.toString().includes(level)) : 
-      selectedLevelsArray.some(level => card.level.toString().includes(level))
+    const preSelectedLevels = Array.from(store.state.preSelectedLevels)
+
+    if(levelsArrayLength === 0) {
+      return preSelectedLevels.some(level => card.level.toString() == (level))
+    } else {
+      return selectedLevelsArray.some(level => card.level.toString() == (level))
+    }
   };
   
   const searchByAtributeOnly = (card) => {
     const selectedAtributesArray = Array.from(store.state.selectedAtributes)
     const atributesArrayLength = selectedAtributesArray.length
-  
-    return atributesArrayLength === 0 ?
-    store.state.atributes.some(atribute => card.attribute.includes(atribute)) :
-    selectedAtributesArray.some(atribute => card.attribute.includes(atribute))
+    const preSelectedAtributes = Array.from(store.state.preSelectedAtributes)
+
+    if(atributesArrayLength === 0){
+      return preSelectedAtributes.some(atribute => card.attribute.includes(atribute))
+    } else {
+      return selectedAtributesArray.some(atribute => card.attribute.includes(atribute))
+    }
   }
   
   const searchByMonsterTypeOnly = (card) => {
     const selectedMonstersArray = Array.from(store.state.selectedMonsters)
     const monstersArrayLength = selectedMonstersArray.length
+    const preSelectedMonstersArray = Array.from(store.state.preSelectedMonsters)
   
-    return monstersArrayLength === 0 ? 
-    store.state.monsters.some(race => card.race.includes(race)) :
-    selectedMonstersArray.some(race => card.race.includes(race))
+    if(monstersArrayLength === 0){
+      return preSelectedMonstersArray.some(atribute => card.attribute.includes(atribute))
+    } else {
+      return selectedMonstersArray.some(atribute => card.attribute.includes(atribute))
+    }
   }
   
   const searchByCardTypeOnly = (card) => {
     const selectedCardTypesArray = Array.from(store.state.selectedCardTypes)
     const selectedCardTypesLength = selectedCardTypesArray.length
+    const preSelectedCardTypesArray = Array.from(store.state.preSelectedCardTypes)
   
-    return selectedCardTypesLength === 0 ?
-    store.state.types.some(type => card.type.includes(type)) :
-    selectedCardTypesArray.some(type => card.type.includes(type))
+    if(monstersArrayLength === 0){
+      return preSelectedCardTypesArray.some(atribute => card.attribute.includes(atribute))
+    } else {
+      return selectedCardTypesLength.some(atribute => card.attribute.includes(atribute))
+    }
   }
   
   const searchBySpellOrTrapOnly = (card) => {
     const selectedRacesArray = Array.from(store.state.selectedRaces)
     const selectedRacesLength = selectedRacesArray.length
-  
-    return selectedRacesLength === 0 ?
-    store.state.races.some(race => card.race.includes(race)) :
-    selectedRacesArray.some(race => card.race.includes(race))
+    const preSelectedRacesArray = Array.from(store.state.preSelectedRaces)
+
+    if(selectedRacesLength === 0){
+      return preSelectedRacesArray.some(atribute => card.attribute.includes(atribute))
+    } else {
+      return selectedRacesArray.some(atribute => card.attribute.includes(atribute))
+    }
   }
   
   const searchByAttackAndDefenceOnly = (card) => {

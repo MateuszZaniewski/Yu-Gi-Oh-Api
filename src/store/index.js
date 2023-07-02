@@ -9,30 +9,37 @@ const store =  createStore({
             resetAtribute: false,
             atributes : ['DARK', 'LIGHT', 'EARTH', 'WATER', 'FIRE', 'WIND', 'DIVINE'],
             selectedAtributes : [],
+            preSelectedAtributes : ['DARK', 'LIGHT', 'EARTH', 'WATER', 'FIRE', 'WIND', 'DIVINE'],
 
             resetRace : false,
             races : ['Equip', 'Field', 'Quick-Play', 'Ritual', 'Continuous', 'Counter', 'Normal'],
             selectedRaces : [],
+            preSelectedRaces : ['Equip', 'Field', 'Quick-Play', 'Ritual', 'Continuous', 'Counter', 'Normal'],
 
             spellType : false,
             spellTypes : ['Equip', 'Field', 'Quick-Play', 'Ritual', 'Continuous', 'Normal'],
             selectedSpellTypes : [],
+            preSelectedSpellTypes : ['Equip', 'Field', 'Quick-Play', 'Ritual', 'Continuous', 'Normal'],
 
             trapType : false,
             trapTypes : ['Normal', 'Counter', 'Continuous'],
             selectedTrapTypes : [],
+            preSelectedTrapTypes : ['Normal', 'Counter', 'Continuous'],
 
             resetMonster : false,
             monsters : ['Spellcaster', 'Dragon', 'Zombie', 'Warrior', 'Beast-Warrior', 'Beast', 'Winged Beast', 'Fiend', 'Fairy', 'Insect', 'Dinosaur', 'Reptile' , 'Fish', 'Sea Serpent' , 'Aqua' , 'Pyro' , 'Thunder' , 'Rock' , 'Plant' , 'Machine' , 'Psychic', 'Divine-Beast', 'Wyrm', 'Cyberse', 'Creator-God'],
             selectedMonsters : [],
+            preSelectedMonsters : ['Spellcaster', 'Dragon', 'Zombie', 'Warrior', 'Beast-Warrior', 'Beast', 'Winged Beast', 'Fiend', 'Fairy', 'Insect', 'Dinosaur', 'Reptile' , 'Fish', 'Sea Serpent' , 'Aqua' , 'Pyro' , 'Thunder' , 'Rock' , 'Plant' , 'Machine' , 'Psychic', 'Divine-Beast', 'Wyrm', 'Cyberse', 'Creator-God'],
 
             resetType : false,
             types : ['Normal', 'Effect', 'Ritual', 'Fusion', 'Synchro', 'XYZ', 'Pendulum', 'Link', 'Toon', 'Spirit' , 'Union' , 'Gemini' , 'Tuner', 'Flip'],
             selectedCardTypes : [],
+            preSelectedCardTypes : ['Normal', 'Effect', 'Ritual', 'Fusion', 'Synchro', 'XYZ', 'Pendulum', 'Link', 'Toon', 'Spirit' , 'Union' , 'Gemini' , 'Tuner', 'Flip'],
 
             resetLevel : false,
             levels : ['0','1','2','3','4','5','6','7','8','9','10','11','12','13'],
             selectedLevels : [],
+            preSelectedLevels : ['0','1','2','3','4','5','6','7','8','9','10','11','12','13'],
 
             // do usunięcia - nie używane
             isCleared : false,
@@ -98,12 +105,13 @@ const store =  createStore({
 
 
         resetAllFilters(state) {
+            state.selectedMainCardTypes = []
             state.selectedAtributes = []
+            state.selectedMonsters = []
             state.selectedCardTypes = []
             state.selectedLevels = []
-            state.selectedMonsters = []
-            state.selectedRaces = []
-            state.allfiltersArray = []
+            state.selectedSpellTypes = []
+            state.selectedTrapTypes = []
             state.ByAttackAscending = false,
             state.ByAttackDescending = false,
             state.ByDefenceAscending = false,
@@ -143,14 +151,17 @@ const store =  createStore({
         },
 
         addLevel(state, payload){
-                if(!state.selectedLevels.includes(payload)){
-                    state.selectedLevels.push(payload)
-                } else {
-                    const index = state.selectedLevels.indexOf(payload)
-                    if(index !== -1){
-                        state.selectedLevels.splice(index,1)
-                    }
+            if(!state.selectedLevels.includes(payload)){
+                state.selectedLevels.push(payload)
+            } else {
+                const index = state.selectedLevels.indexOf(payload)
+                if(index !== -1){
+                    state.selectedLevels.splice(index,1)
                 }
+            }
+        },
+        resetLevels(state) {
+            state.selectedLevels = []
         },
         addCardType(state, payload){
             if(!state.selectedCardTypes.includes(payload)){
@@ -162,6 +173,9 @@ const store =  createStore({
                 }
             }
         },
+        resetCardTypes(state) {
+            state.selectedCardTypes = []
+        },
         addMonsterType(state, payload){
             if(!state.selectedMonsters.includes(payload)){
                 state.selectedMonsters.push(payload)
@@ -172,15 +186,34 @@ const store =  createStore({
                 }
             }
         },
-        addRace(state, payload){
-            if(!state.selectedRaces.includes(payload)){
-                state.selectedRaces.push(payload)
+        resetMonsterTypes(state){
+            state.selectedMonsters = []
+        },
+        addSpell(state, payload){
+            if(!state.selectedSpellTypes.includes(payload)){
+                state.selectedSpellTypes.push(payload)
             } else {
-                const index = state.selectedRaces.indexOf(payload)
+                const index = state.selectedSpellTypes.indexOf(payload)
                 if(index !== -1){
-                    state.selectedRaces.splice(index,1)
+                    state.selectedSpellTypes.splice(index,1)
                 }
             }
+        },
+        resetSpells(state) {
+            state.selectedSpellTypes = []
+        },
+        addTrap(state, payload){
+            if(!state.selectedTrapTypes.includes(payload)){
+                state.selectedTrapTypes.push(payload)
+            } else {
+                const index = state.selectedTrapTypes.indexOf(payload)
+                if(index !== -1){
+                    state.selectedTrapTypes.splice(index,1)
+                }
+            }
+        },
+        resetTraps(state){
+            state.selectedTrapTypes = []
         },
         addAtribute(state, payload){
             if(!state.selectedAtributes.includes(payload)){
@@ -192,31 +225,24 @@ const store =  createStore({
                 }
             }
         },
+        resetAtributes(state) {
+            state.selectedAtributes = []
+        },
 
         setDefaultForSelectedAtributes(state) {
-            if(state.selectedAtributes.length == 0){
-                state.selectedAtributes = state.atributes
-            }
+        
         },
         setDefaultForSelectedMonsterTypes(state) {
-            if(state.selectedMonsters.length == 0){
-                state.selectedMonsters = state.monsters
-            }
+            
         },
         setDefaultForSelectedCardTypes(state) {
-            if(state.selectedCardTypes.length == 0){
-                state.selectedCardTypes = state.types
-            }
+            
         },
         setDefaultForSelectedLevels(state) {
-            if(state.selectedLevels.length == 0){
-                state.selectedLevels = state.levels
-            }
+            
         },
         setDefaultForSelectedRaces(state) {
-            if(state.selectedRaces.leght == 0){
-                state.selectedLevels = state.levels
-            }
+            
         },
         populateAllFiltersArray(state) {
             state.allfiltersArray.push(state.selectedAtributes)
