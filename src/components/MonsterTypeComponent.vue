@@ -1,7 +1,9 @@
 <template>
 
 <div class="atribute-filters atribute-container">
-                        <div @click="openFilter" class="atribute-head">
+                        <div @click="!isSpellCardSelected && !isTrapCardSelected && openFilter()" 
+                        class="atribute-head" 
+                        :class="{'disabled' : (isSpellCardSelected || isTrapCardSelected)}">
                             <div class="atribute-name-count">
                                 <span  class="atribute-name">Monster Type</span>
                                 <div v-if="store.state.selectedMonsters.length > 0" class="atribute-count-clear">
@@ -11,7 +13,7 @@
                                 
                             </div>
                             
-                            <img :src="store.state.monsterTypeOpen ? NavigateOpen : NavigateClosed" />
+                            <img :src="store.state.monsterTypeOpen ? NavigateOpen : isSpellCardSelected ? NavigateClosedDisabled : isTrapCardSelected ? NavigateClosedDisabled : NavigateClosed " />
                         </div>
                         <div v-show="store.state.monsterTypeOpen" class="atribute-items">
                             <button class="atribute-button MonsterButton" @click="AtributeArrayMethod" v-for="monster in store.state.monsters" :class="isButtonActive(monster)"  >{{ monster }}</button>
@@ -24,11 +26,12 @@
     
     <script setup>
     
-    import { defineEmits, ref } from 'vue'
+    import { defineEmits, ref, computed } from 'vue'
     import { useStore } from 'vuex';
     const store = useStore();
     import NavigateClosed from '../assets/navigateClosed.png'
     import NavigateOpen from '../assets/navigateOpen.png'
+    import NavigateClosedDisabled from '../assets/NavigateClosedDisabled.png'
     const emits = defineEmits(['pass-atribute-array'])
     
     const isButtonActive = (monster) => {
@@ -62,6 +65,14 @@
     const clearThisFilter = () => {
         store.commit('resetMonsterTypes')
     };
+
+    const isSpellCardSelected = computed(() => {
+            return store.state.selectedMainCardTypes.includes('Spell Cards');
+        })
+
+    const isTrapCardSelected = computed(() => {
+        return store.state.selectedMainCardTypes.includes('Trap Cards');
+    });
     
     
     
@@ -76,6 +87,14 @@
         background-color: #2D61AF;
         border: 1px solid #2D61AF;
         color: white;
+    }
+
+    .disabled {
+            color : #D9D9D9;
+    }
+
+    .enabled {
+            color : black;
     }
     
     .atribute-filters {

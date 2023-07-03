@@ -241,21 +241,21 @@
   
   const searchByNameOrDescription = computed(() => {
     let filteredArray = [];
-    if(store.state.selectedMainCardTypes.includes('All Cards') || store.state.selectedMainCardTypes.length == 0){
+    if(store.state.selectedMainCardTypes.includes('') || store.state.selectedMainCardTypes.length == 0){
       filteredArray = props.preFilterProp.filter(card => {
         if (props.searchByWhat === 'true') {
-        return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && searchByLevelOnly(card) && searchByAtributeOnly(card) && searchByMonsterTypeOnly(card) && searchByCardTypeOnly(card) && searchByAttackAndDefenceOnly(card);
+        return card.name.toLowerCase().includes(props.searchText.toLowerCase()) || searchByLevelOnly(card) || searchByAtributeOnly(card) || searchByMonsterTypeOnly(card) || searchByCardTypeOnly(card) || searchByAttackAndDefenceOnly(card);
       } else if (props.searchByWhat === 'false') {
-        return card.desc.toLowerCase().includes(props.searchText.toLowerCase()) && searchByLevelOnly(card) && searchByAtributeOnly(card) && searchByMonsterTypeOnly(card) && searchByCardTypeOnly(card) && searchByAttackAndDefenceOnly(card);
+        return card.desc.toLowerCase().includes(props.searchText.toLowerCase()) || searchByLevelOnly(card) || searchByAtributeOnly(card) || searchByMonsterTypeOnly(card) || searchByCardTypeOnly(card) || searchByAttackAndDefenceOnly(card);
       }
       })
     }
     else if(store.state.selectedMainCardTypes.includes('Monster Cards')){
       filteredArray = props.preFilterProp.filter(card => {
       if (props.searchByWhat === 'true') {
-        return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && searchByLevelOnly(card) && searchByAtributeOnly(card) && searchByMonsterTypeOnly(card) && searchByCardTypeOnly(card) && searchByAttackAndDefenceOnly(card) && searchBySpellOnly(card) && searchByTrapOnly(card);
+        return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && searchByLevelOnly(card) && searchByAtributeOnly(card) && searchByMonsterTypeOnly(card) && searchByCardTypeOnly(card) && searchByAttackAndDefenceOnly(card);
       } else if (props.searchByWhat === 'false') {
-        return card.desc.toLowerCase().includes(props.searchText.toLowerCase()) && searchByLevelOnly(card) && searchByAtributeOnly(card) && searchByMonsterTypeOnly(card) && searchByCardTypeOnly(card) && searchByAttackAndDefenceOnly(card) && searchBySpellOnly(card) && searchByTrapOnly(card);
+        return card.desc.toLowerCase().includes(props.searchText.toLowerCase()) && searchByLevelOnly(card) && searchByAtributeOnly(card) && searchByMonsterTypeOnly(card) && searchByCardTypeOnly(card) && searchByAttackAndDefenceOnly(card);
       }
     });
     }

@@ -3,7 +3,7 @@ import { createStore} from 'vuex'
 const store =  createStore({
     state() {
         return {
-            mainCardTypes : ['All Cards', 'Monster Cards', 'Spell Cards', 'Trap Cards'],
+            mainCardTypes : ['Monster Cards', 'Spell Cards', 'Trap Cards'],
             selectedMainCardTypes : [],
 
             resetAtribute: false,

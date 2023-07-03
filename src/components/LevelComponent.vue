@@ -1,7 +1,8 @@
 <template>
 
 <div class="atribute-filters atribute-container">
-                        <div @click="openFilter" class="atribute-head">
+                        <div @click="!isSpellCardSelected && !isTrapCardSelected && openFilter()" class="atribute-head" 
+                        :class="{'disabled' : (isSpellCardSelected || isTrapCardSelected)}">
                             <div class="atribute-name-count">
                                 <span  class="atribute-name">Level / Rank</span>
                                 <div v-if="store.state.selectedLevels.length > 0" class="atribute-count-clear">
@@ -11,7 +12,7 @@
                                 
                             </div>
                             
-                            <img :src="store.state.levelOpen ? NavigateOpen : NavigateClosed" />
+                            <img :src="store.state.levelOpen ? NavigateOpen : isSpellCardSelected ? NavigateClosedDisabled : isTrapCardSelected ? NavigateClosedDisabled : NavigateClosed " />
                         </div>
                         <div v-show="store.state.levelOpen" class="atribute-items">
                             <button class="atribute-button LevelButton" @click="AtributeArrayMethod" v-for="level in store.state.levels" :class="isButtonActive(level)"  >{{ level }}</button>
@@ -24,11 +25,12 @@
     
     <script setup>
     
-    import { defineEmits} from 'vue'
+    import { defineEmits, computed} from 'vue'
     import { useStore } from 'vuex';
     const store = useStore();
     import NavigateClosed from '../assets/navigateClosed.png'
     import NavigateOpen from '../assets/navigateOpen.png'
+    import NavigateClosedDisabled from '../assets/NavigateClosedDisabled.png'
     const emits = defineEmits(['pass-atribute-array'])
     
     const isButtonActive = (level) => {
@@ -62,6 +64,14 @@
     const clearThisFilter = () => {
         store.commit('resetLevels')
     };
+
+    const isSpellCardSelected = computed(() => {
+            return store.state.selectedMainCardTypes.includes('Spell Cards');
+        })
+
+    const isTrapCardSelected = computed(() => {
+        return store.state.selectedMainCardTypes.includes('Trap Cards');
+    });
     
     
     </script>
@@ -75,6 +85,14 @@
         background-color: #2D61AF;
         border: 1px solid #2D61AF;
         color: white;
+    }
+
+    .disabled {
+            color : #D9D9D9;
+    }
+
+    .enabled {
+            color : black;
     }
     
     .atribute-filters {
