@@ -1,11 +1,13 @@
 <template>
 
 <div class="atribute-filters atribute-container">
-                        <div @click="!isMonsterCardSelected && openFilter()" class="atribute-head" 
+                        <div @click="!isMonsterCardSelected && !isTrapCardSelected && openFilter()" class="atribute-head" 
                              :class="{'disabled' : isMonsterCardSelected,
-                                      'enabled' : !isMonsterCardSelected}">
+                                     'enabled' : !isMonsterCardSelected,
+                                     'disabled' : isTrapCardSelected,
+                                     'enabled' : !isTrapCardSelected}">
                             <div class="atribute-name-count">
-                                <span  class="atribute-name">Spell Type</span>
+                                <span :class="{'disabled' : isMonsterCardSelected || isTrapCardSelected}"  class="atribute-name">Spell Type</span>
                                 <div v-if="store.state.selectedSpellTypes.length > 0" class="atribute-count-clear">
                                     <span class="atribute-count">{{ store.state.selectedSpellTypes.length }}</span>
                                     <img class="closeWhite" src="../assets/closeWhite.png" @click="clearThisFilter">
@@ -13,7 +15,7 @@
                                 
                             </div>
                             
-                            <img :src="store.state.spellOpen && !isMonsterCardSelected ? NavigateOpen : !store.state.spellOpen && !isMonsterCardSelected ? NavigateClosed : NavigateClosedDisabled"/>
+                            <img :src="store.state.spellOpen && !isMonsterCardSelected && !isTrapCardSelected ? NavigateOpen : !store.state.spellOpen && !isMonsterCardSelected && !isTrapCardSelected ? NavigateClosed : NavigateClosedDisabled"/>
                         </div>
                         <div v-show="store.state.spellOpen" class="atribute-items">
                             <button class="atribute-button SpellButton" @click="AtributeArrayMethod" v-for="spell in store.state.spellTypes" :class="isButtonActive(spell)"  >{{ spell }}</button>
@@ -69,6 +71,10 @@
     const isMonsterCardSelected = computed(() => {
             return store.state.selectedMainCardTypes.includes('Monster Cards');
         })
+
+    const isTrapCardSelected = computed (() => {
+            return store.state.selectedMainCardTypes.includes('Trap Cards')
+    })
     
     
     </script>

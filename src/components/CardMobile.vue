@@ -346,7 +346,7 @@
   const searchByTrapOnly = (card) => {
     const selectedRacesArray = Array.from(store.state.selectedTrapTypes)
     const selectedRacesLength = selectedRacesArray.length
-    const preSelectedRacesArray = Array.from(store.state.preSelectedRaces)
+    const preSelectedRacesArray = Array.from(store.state.preSelectedTrapTypes)
 
     if(selectedRacesLength === 0){
       return card.type.includes('Trap') && preSelectedRacesArray.some(type => card.race.includes(type))
@@ -358,7 +358,7 @@
   const searchBySpellOnly = (card) => {
     const selectedRacesArray = Array.from(store.state.selectedSpellTypes)
     const selectedRacesLength = selectedRacesArray.length
-    const preSelectedRacesArray = Array.from(store.state.preSelectedRaces)
+    const preSelectedRacesArray = Array.from(store.state.preSelectedSpellTypes)
 
     if(selectedRacesLength === 0){
       return card.type.includes('Spell') && preSelectedRacesArray.some(type => card.race.includes(type))

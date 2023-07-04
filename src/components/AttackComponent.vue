@@ -1,8 +1,8 @@
 <template>
 
-    <div class="atribute-filters atribute-container">
-                        <div @click="openFilter" class="atribute-head"><span>Attack</span><img :src="store.state.attackOpen ? NavigateOpen : NavigateClosed" /></div>
-                        <div v-if="store.state.attackOpen" class="atribute-items">
+    <div v-if="store.state.selectedMainCardTypes.includes('Monster Cards')" class="atribute-filters atribute-container">
+                        <div @click="openFilter" class="atribute-head"><span>Attack</span></div>
+                        <div class="atribute-items">
                             <span>From</span><input class="from" placeholder="0" /><span>To</span><input class="to" placeholder="9999"/>
                         </div>
                     </div>

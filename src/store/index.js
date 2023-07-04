@@ -11,11 +11,6 @@ const store =  createStore({
             selectedAtributes : [],
             preSelectedAtributes : ['DARK', 'LIGHT', 'EARTH', 'WATER', 'FIRE', 'WIND', 'DIVINE'],
 
-            resetRace : false,
-            races : ['Equip', 'Field', 'Quick-Play', 'Ritual', 'Continuous', 'Counter', 'Normal'],
-            selectedRaces : [],
-            preSelectedRaces : ['Equip', 'Field', 'Quick-Play', 'Ritual', 'Continuous', 'Counter', 'Normal'],
-
             spellType : false,
             spellTypes : ['Equip', 'Field', 'Quick-Play', 'Ritual', 'Continuous', 'Normal'],
             selectedSpellTypes : [],
@@ -148,6 +143,12 @@ const store =  createStore({
         },
         resetMainCardType(state) {
             state.selectedMainCardTypes = []
+            state.selectedAtributes = []
+            state.selectedMonsters = []
+            state.selectedCardTypes = []
+            state.selectedLevels = []
+            state.selectedSpellTypes = []
+            state.selectedTrapTypes = []
         },
 
         addLevel(state, payload){
@@ -159,6 +160,7 @@ const store =  createStore({
                     state.selectedLevels.splice(index,1)
                 }
             }
+            state.selectedMainCardTypes = ['Monster Cards']
         },
         resetLevels(state) {
             state.selectedLevels = []
@@ -172,6 +174,7 @@ const store =  createStore({
                     state.selectedCardTypes.splice(index,1)
                 }
             }
+            state.selectedMainCardTypes = ['Monster Cards']
         },
         resetCardTypes(state) {
             state.selectedCardTypes = []
@@ -185,6 +188,7 @@ const store =  createStore({
                     state.selectedMonsters.splice(index,1)
                 }
             }
+            state.selectedMainCardTypes = ['Monster Cards']
         },
         resetMonsterTypes(state){
             state.selectedMonsters = []
@@ -198,6 +202,7 @@ const store =  createStore({
                     state.selectedSpellTypes.splice(index,1)
                 }
             }
+            state.selectedMainCardTypes = ['Spell Cards']
         },
         resetSpells(state) {
             state.selectedSpellTypes = []
@@ -211,6 +216,7 @@ const store =  createStore({
                     state.selectedTrapTypes.splice(index,1)
                 }
             }
+            state.selectedMainCardTypes = ['Trap Cards']
         },
         resetTraps(state){
             state.selectedTrapTypes = []
@@ -224,6 +230,7 @@ const store =  createStore({
                     state.selectedAtributes.splice(index,1)
                 }
             }
+            state.selectedMainCardTypes = ['Monster Cards']
         },
         resetAtributes(state) {
             state.selectedAtributes = []
