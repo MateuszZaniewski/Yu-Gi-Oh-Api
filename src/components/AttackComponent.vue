@@ -1,9 +1,13 @@
 <template>
 
-    <div v-if="store.state.selectedMainCardTypes.includes('Monster Cards')" class="atribute-filters atribute-container">
+    <div @click="checkInputFrom(), checkInputTo()" v-if="store.state.selectedMainCardTypes.includes('Monster Cards')" class="atribute-filters atribute-container">
                         <div @click="openFilter" class="atribute-head"><span>Attack</span></div>
                         <div class="atribute-items">
-                            <span>From</span><input class="from" placeholder="0" /><span>To</span><input class="to" placeholder="9999"/>
+                            <span>From</span>
+                            <input v-model="attackFrom" class="from" type=
+                            'number' placeholder="0" />
+                            <span>To</span>
+                            <input v-model="attackTo" class="to" placeholder="9999" type="number"/>
                         </div>
                     </div>
     
@@ -13,32 +17,24 @@
     
     <script setup>
     
-    import { defineEmits, ref } from 'vue'
+    import { defineEmits, ref, computed } from 'vue'
     import { useStore } from 'vuex';
     const store = useStore();
-    import NavigateClosed from '../assets/navigateClosed.png'
-    import NavigateOpen from '../assets/navigateOpen.png'
     const emits = defineEmits(['pass-atribute-array'])
+    const attackFrom = ref(0)
+    const attackTo = ref(9999)
     
     const openFilter = () => {
         store.commit('openAndCloseAttackFilter')
     }
-    
-    // function that remove selected level if it is present in levelArray
-    
-    
-    // function that takes a button text and place it in levelArray, then
-    // check if that level exist in levelArray (if not add it, if yes remove it)
-    // then change color of button to indicate its pressed
-    // then pass levelArray to its parent
-    
-    const AtributeArrayMethod = () => {
-        const button = event.target
-        const buttonText = event.target.innerText
-    
-        button.classList.toggle('active')
-        
-    };
+    const checkInputFrom = () => {
+        console.log(attackFrom.value)
+        store.commit('handleAttackFrom', attackFrom.value)
+    }
+    const checkInputTo = () => {
+        console.log(attackTo.value)
+        store.commit('handleAttackTo', attackTo.value)
+    }
     
     
     </script>

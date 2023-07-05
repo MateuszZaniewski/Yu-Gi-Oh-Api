@@ -369,8 +369,8 @@
   }
   
   const searchByAttackAndDefenceOnly = (card) => {
-    return card.atk >= props.attackFrom && card.atk <= props.attackTo &&
-           card.def >= props.defenceFrom && card.def <= props.defenceTo
+    return card.atk >= store.state.attackFrom && card.atk <= store.state.attackTo &&
+           card.def >= store.state.defenceFrom && card.def <= store.state.defenceTo
   };
 
   const addToFavs = (name) => {

@@ -69,6 +69,11 @@ const store =  createStore({
             attackOpen : false,
             defenceOpen : false,
 
+            attackFrom: 0,
+            attackTo: 0,
+            defenceFrom: 0,
+            defenceTo: 0,
+
         }
         
     },
@@ -293,6 +298,23 @@ const store =  createStore({
                 }
             }
         },
+        handleAttackFrom(state, payload){
+            state.attackFrom = payload
+            state.selectedMainCardTypes = ['Monster Cards']
+        },
+        handleAttackTo(state, payload){
+            state.attackTo = payload
+            state.selectedMainCardTypes = ['Monster Cards']
+        },
+        handleDefenceFrom(state, payload){
+            state.defenceFrom = payload
+            state.selectedMainCardTypes = ['Monster Cards']
+        },
+        handleDefenceTo(state, payload){
+            state.defenceTo = payload
+            state.selectedMainCardTypes = ['Monster Cards']
+        },
+
         openAndCloseMainCardTypeFilter(state) {
             state.mainCardTypeOpen = !state.mainCardTypeOpen
             state.attributeOpen = false

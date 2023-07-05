@@ -1,9 +1,12 @@
 <template>
 
-    <div v-if="store.state.selectedMainCardTypes.includes('Monster Cards')" class="atribute-filters atribute-container">
+    <div @click="checkInputFrom(), checkInputTo() " v-if="store.state.selectedMainCardTypes.includes('Monster Cards')" class="atribute-filters atribute-container">
                         <div @click="openFilter" class="atribute-head"><span>Defence</span></div>
                         <div  class="atribute-items">
-                            <span>From</span><input class="from" placeholder="0" /><span>To</span><input class="to" placeholder="9999"/>
+                            <span>From</span>
+                            <input v-model="defenceFrom" class="from" placeholder="0"  type="number"/>
+                            <span>To</span>
+                            <input v-model="defenceTo" class="to" placeholder="9999" type="number"/>
                         </div>
                     </div>
     
@@ -16,29 +19,24 @@
     import { defineEmits, ref } from 'vue'
     import { useStore } from 'vuex';
     const store = useStore();
-    import NavigateClosed from '../assets/navigateClosed.png'
-    import NavigateOpen from '../assets/navigateOpen.png'
     const emits = defineEmits(['pass-atribute-array'])
+    const defenceFrom = ref(0)
+    const defenceTo = ref(9999)
     
     const openFilter = () => {
         store.commit('openAndCloseDefenceFilter')
     }
-    
-    // function that remove selected level if it is present in levelArray
-    
-    
-    // function that takes a button text and place it in levelArray, then
-    // check if that level exist in levelArray (if not add it, if yes remove it)
-    // then change color of button to indicate its pressed
-    // then pass levelArray to its parent
-    
-    const AtributeArrayMethod = () => {
-        const button = event.target
-        const buttonText = event.target.innerText
-    
-        button.classList.toggle('active')
+
+    const checkInputFrom = () => {
+        console.log(defenceFrom.value)
+        store.commit('handleDefenceFrom', defenceFrom.value)
         
-    };
+    }
+    const checkInputTo = () => {
+        console.log(defenceTo.value)
+        store.commit('handleDefenceTo', defenceTo.value)
+        
+    }
     
     
     </script>
