@@ -244,28 +244,43 @@
     if(store.state.selectedMainCardTypes.includes('') || store.state.selectedMainCardTypes.length == 0){
       filteredArray = props.preFilterProp.filter(card => {
         if (props.searchByWhat === 'true') {
-        return card.name.toLowerCase().includes(props.searchText.toLowerCase()) || searchByLevelOnly(card) || searchByAtributeOnly(card) || searchByMonsterTypeOnly(card) || searchByCardTypeOnly(card) || searchByAttackAndDefenceOnly(card);
+        return card.name.toLowerCase().includes(props.searchText.toLowerCase());
       } else if (props.searchByWhat === 'false') {
-        return card.desc.toLowerCase().includes(props.searchText.toLowerCase()) || searchByLevelOnly(card) || searchByAtributeOnly(card) || searchByMonsterTypeOnly(card) || searchByCardTypeOnly(card) || searchByAttackAndDefenceOnly(card);
+        return card.desc.toLowerCase().includes(props.searchText.toLowerCase());
       }
       })
+      console.log(filteredArray)
     }
     else if(store.state.selectedMainCardTypes.includes('Monster Cards')){
       filteredArray = props.preFilterProp.filter(card => {
       if (props.searchByWhat === 'true') {
-        return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && searchByLevelOnly(card) && searchByAtributeOnly(card) && searchByMonsterTypeOnly(card) && searchByCardTypeOnly(card) && searchByAttackAndDefenceOnly(card);
+        return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && 
+         ( searchByLevelOnly(card) &&
+          searchByAtributeOnly(card) && 
+          searchByMonsterTypeOnly(card) && 
+          searchByCardTypeOnly(card) && 
+          searchByAttackAndDefenceOnly(card));
       } else if (props.searchByWhat === 'false') {
-        return card.desc.toLowerCase().includes(props.searchText.toLowerCase()) && searchByLevelOnly(card) && searchByAtributeOnly(card) && searchByMonsterTypeOnly(card) && searchByCardTypeOnly(card) && searchByAttackAndDefenceOnly(card);
+        return card.desc.toLowerCase().includes(props.searchText.toLowerCase()) && 
+        searchByLevelOnly(card) && 
+        searchByAtributeOnly(card) && 
+        searchByMonsterTypeOnly(card) && 
+        searchByCardTypeOnly(card) && 
+        searchByAttackAndDefenceOnly(card);
       }
     });
     }
     else if(store.state.selectedMainCardTypes.includes('Spell Cards')){
      filteredArray = props.preFilterProp.filter(card => {
         if(props.searchByWhat === 'true'){
-          return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && searchBySpellOnly(card) && card.type.toLowerCase().includes('spell')
+          return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && 
+          searchBySpellOnly(card) && 
+          card.type.toLowerCase().includes('spell')
   
         } else if(props.searchByWhat === 'false') {
-          return card.desc.toLowerCase().includes(props.searchText.toLowerCase()) && searchBySpellpOnly(card) && card.type.toLowerCase().includes('spell')
+          return card.desc.toLowerCase().includes(props.searchText.toLowerCase()) && 
+          searchBySpellOnly(card) && 
+          card.type.toLowerCase().includes('spell')
   
         }
       });
@@ -273,15 +288,20 @@
     else if(store.state.selectedMainCardTypes.includes('Trap Cards')){
       filteredArray = props.preFilterProp.filter(card => {
         if(props.searchByWhat === 'true'){
-          return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && searchByTrapOnly(card) && card.type.toLowerCase().includes('trap')
+          return card.name.toLowerCase().includes(props.searchText.toLowerCase()) && 
+          searchByTrapOnly(card) && 
+          card.type.toLowerCase().includes('trap')
   
         } else if(props.searchByWhat === 'false') {
-          return card.desc.toLowerCase().includes(props.searchText.toLowerCase()) && searchByTrapOnly(card) && card.type.toLowerCase().includes('trap')
+          return card.desc.toLowerCase().includes(props.searchText.toLowerCase()) && 
+          searchByTrapOnly(card) && 
+          card.type.toLowerCase().includes('trap')
   
         }
       });
     }
-  
+
+
     pagesLength.value = Math.ceil(filteredArray.length/10);
     return store.state.ByAttackAscending ? filteredArray.sort((cardA, cardB) => cardA.atk - cardB.atk) :
            store.state.ByAttackDescending ? filteredArray.sort((cardA, cardB) => cardA.atk - cardB.atk).reverse() :

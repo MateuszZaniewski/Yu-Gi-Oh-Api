@@ -17,10 +17,9 @@
     
     <script setup>
     
-    import { defineEmits, ref, computed } from 'vue'
+    import {  ref  } from 'vue'
     import { useStore } from 'vuex';
     const store = useStore();
-    const emits = defineEmits(['pass-atribute-array'])
     const attackFrom = ref(0)
     const attackTo = ref(9999)
     

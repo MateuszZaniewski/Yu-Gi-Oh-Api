@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import MainView from '../components/HelloWorld.vue';
 import Register from '../components/Register.vue';
 import SignIn from '../components/SignIn.vue'
+import DetailsPageView from '../views/DetailsPageView.vue'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 const routes = [
@@ -27,7 +28,14 @@ const routes = [
     meta: {
       requiresAuth: true
     }
-  }
+  },
+  {
+    path: '/:name',
+    name: 'name',
+    component: DetailsPageView,
+    props: true
+
+  },
   // Add more routes here if needed
 ];
 

@@ -70,9 +70,9 @@ const store =  createStore({
             defenceOpen : false,
 
             attackFrom: 0,
-            attackTo: 0,
+            attackTo: 9999,
             defenceFrom: 0,
-            defenceTo: 0,
+            defenceTo: 9999,
 
         }
         
@@ -116,6 +116,10 @@ const store =  createStore({
             state.ByAttackDescending = false,
             state.ByDefenceAscending = false,
             state.ByDefenceDescending = false,
+            state.attackFrom = 0,
+            state.attackTo = 9999,
+            state.defenceFrom = 0,
+            state.defenceTo = 9999,
             console.log('Filtry zostały zresetowane')
         },
         setDefaultForAtributes(state) {
