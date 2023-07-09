@@ -126,7 +126,7 @@
     >
       <div class="uniqueCard">
         <div class="uniqueCard__image--wrapper">
-          <img :src="card.card_images[0].image_url" alt="cardImage" />
+          <img @click="navigateToDetails(card.name)" :src="card.card_images[0].image_url" alt="cardImage" />
         </div>
 
         <div class="uniqueCard__informations--wrapper">

@@ -224,9 +224,11 @@
       padding-top: 1.8rem;
       width: 90%;
       margin: 0 auto;
+      
       p {
         white-space: pre-line;
         line-height: 150%;
+        padding-bottom: 2rem;
       }
     }
   }
