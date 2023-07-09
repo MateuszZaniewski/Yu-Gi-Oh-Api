@@ -1,75 +1,73 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import MainView from '../components/HelloWorld.vue';
-import Register from '../components/Register.vue';
-import SignIn from '../components/SignIn.vue'
-import DetailsPageView from '../views/DetailsPageView.vue'
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { createRouter, createWebHistory } from "vue-router";
+import MainView from "../components/HelloWorld.vue";
+import Register from "../components/Register.vue";
+import SignIn from "../components/SignIn.vue";
+import DetailsPage from "../components/DetailsPage.vue";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
+    path: "/",
+    name: "Home",
     component: MainView,
   },
   {
-    path: '/register',
-    name: 'Register',
+    path: "/register",
+    name: "Register",
     component: Register,
   },
   {
-    path: '/signin',
-    name: 'Signin',
+    path: "/signin",
+    name: "Signin",
     component: SignIn,
   },
   {
-    path: '/Search',
-    name: 'Search',
+    path: "/Search",
+    name: "Search",
     component: MainView,
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
   {
-    path: '/:name',
+    path: '/details/:name',
     name: 'name',
-    component: DetailsPageView,
-    props: true
-
+    component: DetailsPage,
+    props: true,
   },
   // Add more routes here if needed
 ];
 
 const router = createRouter({
-  history: createWebHistory('/Yu-Gi-Oh-Api/'),
-  routes
+  history: createWebHistory("/Yu-Gi-Oh-Api/"),
+  routes,
 });
 
 const getCurrentUser = () => {
-  return new Promise ((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const removeListener = onAuthStateChanged(
       getAuth(),
       (user) => {
         removeListener();
-        resolve(user)
-        console.log(getAuth().currentUser)
+        resolve(user);
+        console.log(getAuth().currentUser);
       },
       reject
-    )
-  })
-}
+    );
+  });
+};
 
-router.beforeEach(async(to,from, next) => {
-  if(to.matched.some((record) => record.meta.requiresAuth)) {
-    if(await getCurrentUser()) {
+router.beforeEach(async (to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (await getCurrentUser()) {
       next();
-    }
-    else {
-      console.log('You dont have acces')
-      next('/signin')
+    } else {
+      console.log("You dont have acces");
+      next("/signin");
     }
   } else {
-    next()
+    next();
   }
-})
+});
 
 export default router;
