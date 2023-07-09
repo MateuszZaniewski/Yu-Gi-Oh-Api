@@ -111,7 +111,7 @@
           </div>
 
           <div class="learnMore">
-            <button @click="navigateToDetails(card.name)">Learn more</button>
+            <button @click="navigateToDetails(card.name)">Card details</button>
           </div>
         </div>
       </div>
@@ -242,8 +242,8 @@
   import wind from "../assets/WIND.png";
   import attack from "../assets/swords.png";
   import defence from "../assets/shield.png";
-  import notFav from "../assets/eyeNotStarred.png";
-  import Fav from "../assets/eyeAdded.png";
+  import notFav from "../assets/starDisabled.png";
+  import Fav from "../assets/star.png";
 
   // pagination methods
 
@@ -497,7 +497,7 @@
   };
 
   const navigateToDetails = (name) => {
-  router.push({ name: 'name', params: { name: name } });
+  router.push({ name: 'name', params: { cardName: name } });
 };
 
 
@@ -615,8 +615,8 @@
 
         .uniqueCard__image--wrapper {
           img {
-            height: 100%;
-            width: 42.308vw;
+            width: 10.3125rem;
+            height: 14.125rem;
           }
         }
 
@@ -630,8 +630,8 @@
             padding-bottom: 0.75rem;
 
             img {
-              height: 14vw;
-              width: 12vw;
+              width: 2.1875rem;
+              height: 2.1875rem;
             }
           }
 

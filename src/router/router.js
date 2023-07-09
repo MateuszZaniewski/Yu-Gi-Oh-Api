@@ -30,7 +30,7 @@ const routes = [
     },
   },
   {
-    path: '/details/:name',
+    path: '/details/:cardName',
     name: 'name',
     component: DetailsPage,
     props: true,
