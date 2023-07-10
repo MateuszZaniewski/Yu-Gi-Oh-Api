@@ -52,6 +52,7 @@
         <span>{{ cards[0].def }}</span>
       </div>
     </div>
+    
 
     <div
       v-if="cards[0].type.includes('Spell') || cards[0].type.includes('Trap')"
@@ -59,6 +60,7 @@
     >
       <div>
         <img
+          class="spellOrTrapImg"
           :src="
             cards[0].type == 'Spell Card'
               ? spellCardPath
@@ -101,11 +103,32 @@
         />
         <span>{{ cards[0].race }}</span>
       </div>
+      
     </div>
 
     <div class="cardDescription">
-      <!-- <p>{{ cards[0].desc.replaceAll('\r\n', '<br>') }}</p> -->
+      <h2>Card text:</h2>
       <p>{{ cards[0].desc }}</p>
+    </div>
+
+    <div class="cardPrice">
+      <h2>Card prices:</h2>
+      <p>Card Market Price: ${{ cards[0].card_prices[0].cardmarket_price }}</p>
+      <p>Ebay Price: ${{ cards[0].card_prices[0].ebay_price }}</p>
+      <p>Amazon Price: ${{ cards[0].card_prices[0].amazon_price }}</p>
+    </div>
+
+    <div class="simillarCards">
+      <h2>Related cards :</h2>
+      <div>
+        <h3>By name:</h3>
+        <p class="relatedName" v-for="card in relatedCardsByName">{{ card.name }}</p>
+      </div>
+      <div>
+        <h3>By text</h3>
+        <p class="relatedDesc" v-for="card in relatedCardsByDesc">{{ card.name }}</p>
+      </div>
+      
     </div>
 
   </div>
@@ -144,6 +167,8 @@
   const cards = ref([]);
 
   const cardName = props.cardName;
+  const relatedCardsByName = ref([])
+  const relatedCardsByDesc = ref([])
 
   const props = defineProps({
     cardName: {
@@ -167,14 +192,51 @@
     }
   };
 
+  const fetchAllCards = async (cardName) => {
+    try {
+      const response = await axios.get('https://db.ygoprodeck.com/api/v7/cardinfo.php')
+      const allCards = await response.data.data
+      
+      const cardsRelatedByName = []
+      const cardsRelatedByDesc = []
+
+      console.log(cardName)
+
+      allCards.forEach((el) => {
+       
+       if(el.name.toLowerCase().includes(cardName.toLowerCase()) && el.name.toLowerCase() !== cardName.toLowerCase()){
+        cardsRelatedByName.push(el)
+       }
+       else if(el.desc.toLowerCase().includes(cardName.toLowerCase())){
+        cardsRelatedByDesc.push(el)
+       }
+      })
+      console.log(allCards)
+      console.log('Cards by name', cardsRelatedByName)
+      console.log('Cards by desc', cardsRelatedByDesc)
+
+      relatedCardsByName.value = cardsRelatedByName
+      relatedCardsByDesc.value = cardsRelatedByDesc
+
+    } catch(error) {
+      console.log(error)
+    }
+  }
+
   onMounted(() => {
     fetchCards();
   });
+
+
+  fetchAllCards(cardName)
+
 
   const addToFavs = (name) => {
     store.commit("addToFavs", name);
   };
 
+
+  
 
 
 </script>
@@ -218,17 +280,54 @@
         align-items: center;
         font-size: 1rem;
       }
+
+      .spellOrTrapImg {
+        height: 30px;
+        width: 20px;
+      }
     }
 
     .cardDescription {
       padding-top: 1.8rem;
       width: 90%;
       margin: 0 auto;
+
+      h2 {
+        padding-bottom: 1rem;
+      }
       
       p {
         white-space: pre-line;
         line-height: 150%;
         padding-bottom: 2rem;
+      }
+    }
+
+    .cardPrice {
+      width: 90%;
+      margin: 0 auto;
+      font-size: 1rem;
+
+      h2 {
+        padding-bottom: 1rem;
+      }
+
+      p {
+        border-bottom: 1px solid grey;
+        width: fit-content;
+        padding-bottom: 0.5rem;
+        padding-top: 0.5rem;
+      }
+    }
+
+    .simillarCards {
+      width: 90%;
+      margin: 0 auto;
+      font-size: 1rem;
+      padding-top: 2rem;
+
+      div {
+        padding: 1rem 0;
       }
     }
   }
