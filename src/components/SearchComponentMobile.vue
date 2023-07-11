@@ -7,7 +7,7 @@
 </nav>
 
 <section class="searchBar">
-    <input v-model="searchText" type="search" placeholder="Search">
+    <input v-model="searchText" type="search" placeholder="Search" class="search">
     <select v-model="searchByName" name="card">
         <option selected value="true">in card name</option>
         <option value="false">in card text</option>
@@ -86,7 +86,7 @@
 <script setup>
 
 
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import axios from 'axios';
 import MainCardTypes from './MainCardTypesComponent.vue'
 import LevelComponent from './LevelComponent.vue'
@@ -168,18 +168,6 @@ const preFilter = computed(() => {
   return cards.value
 })
 
-const checkForAciveFilters = () => {
-    const htmlElements = document.querySelectorAll('.atribute-button')
-    console.log(htmlElements)
-
-    for(let i = 0 ; i < htmlElements.length ;i++){
-        if(store.state.allfiltersArray.includes(htmlElements[i].innerText)){
-            htmlElements[i].style.backgroundColor = 'rgb(76, 159, 112)' 
-        } else {
-            htmlElements[i].style.backgroundColor = 'rgb(73, 111, 93)'
-        }
-    }
-}
 
 
 // fetching cards from api = > https://db.ygoprodeck.com/api/v7/cardinfo.php
@@ -224,6 +212,11 @@ const fetchCards = async () => {
   
   onMounted(() => {
     fetchCards();
+    const storedSearchText = localStorage.getItem('SearchText');
+
+      if (storedSearchText && storedSearchText !== '') {
+        searchText.value = storedSearchText;
+      }
   });
 
 
@@ -247,6 +240,16 @@ const hideFilters = () => {
     document.querySelector('.visibleCards').style.filter = 'blur(0px)'
     document.querySelector('.popupFilters').style.display = 'none'
 }
+
+searchText
+
+watch(
+    () => searchText.value,
+    () => {
+      localStorage.setItem('SearchText', searchText.value);
+    }
+  );
+
 
 
 ;

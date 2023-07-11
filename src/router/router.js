@@ -35,6 +35,11 @@ const routes = [
     component: DetailsPage,
     props: true,
   },
+  {
+    path: '/:catchAll(.*)',
+    component: MainView
+  }
+  
   // Add more routes here if needed
 ];
 
