@@ -30,7 +30,7 @@ const routes = [
     },
   },
   {
-    path: '/details/:cardName',
+    path: '/Yu-Gi-Oh-Api/details/:cardName',
     name: 'name',
     component: DetailsPage,
     props: true,
@@ -44,7 +44,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory("/Yu-Gi-Oh-Api/"),
+  history: createWebHistory('/Yu-Gi-Oh-Api/'),
   routes,
 });
 

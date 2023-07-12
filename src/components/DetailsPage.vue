@@ -136,7 +136,7 @@
 
 <script setup>
   import { defineProps, ref, onMounted } from "vue";
-  import axios from "axios";
+  import axios, { all } from "axios";
   import { useRouter } from "vue-router";
   import { useStore } from "vuex";
 
@@ -169,6 +169,7 @@
   const cardName = props.cardName;
   const relatedCardsByName = ref([])
   const relatedCardsByDesc = ref([])
+  const relatedCardsByArch = ref([])
 
   const props = defineProps({
     cardName: {
@@ -183,10 +184,8 @@
         `https://db.ygoprodeck.com/api/v7/cardinfo.php?name=${cardName}`
       );
       const fetchedCards = response.data.data;
-
       cards.value = fetchedCards;
 
-      console.log(cards.value);
     } catch (error) {
       console.log(error);
     }
@@ -199,24 +198,34 @@
       
       const cardsRelatedByName = []
       const cardsRelatedByDesc = []
+      const cardsRelatedByArchetype = []
 
-      console.log(cardName)
+
+      let viewedCard = allCards.filter((el) => {
+        return el.name.toLowerCase() === cardName.toLowerCase()
+      })
+
+      console.log(viewedCard[0])
 
       allCards.forEach((el) => {
-       
        if(el.name.toLowerCase().includes(cardName.toLowerCase()) && el.name.toLowerCase() !== cardName.toLowerCase()){
         cardsRelatedByName.push(el)
        }
-       else if(el.desc.toLowerCase().includes(cardName.toLowerCase())){
-        cardsRelatedByDesc.push(el)
+
+       if(el.desc.toLowerCase().includes(cardName.toLowerCase())){
+          cardsRelatedByDesc.push(el)
+        }
+
+       if(el.archetype === viewedCard[0].archetype){
+          cardsRelatedByArchetype.push(el)
        }
+      
       })
-      console.log(allCards)
-      console.log('Cards by name', cardsRelatedByName)
-      console.log('Cards by desc', cardsRelatedByDesc)
+      console.log('Cards by archetype', cardsRelatedByArchetype)
 
       relatedCardsByName.value = cardsRelatedByName
       relatedCardsByDesc.value = cardsRelatedByDesc
+      relatedCardsByArch.value = cardsRelatedByArchetype
 
     } catch(error) {
       console.log(error)
