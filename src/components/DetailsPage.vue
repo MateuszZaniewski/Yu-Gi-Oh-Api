@@ -119,14 +119,19 @@
     </div>
 
     <div class="simillarCards">
-      <h2>Related cards :</h2>
-      <div>
-        <h3>By name:</h3>
-        <p class="relatedName" v-for="card in relatedCardsByName">{{ card.name }}</p>
-      </div>
-      <div>
-        <h3>By text</h3>
-        <p class="relatedDesc" v-for="card in relatedCardsByDesc">{{ card.name }}</p>
+      <h3>Related Cards: </h3>
+
+      <button @click="previousRelatedCard" >&lt;</button>
+      <button @click="nextRelatedCard" >></button>
+
+      <div class="relatedCardsWrapper">
+        
+        <div v-for="(relatedCard, index) in relatedCardsByArch" :key="relatedCard.name">
+          
+          <img v-if="index === currentIndex" :src="relatedCard.card_images[0].image_url" alt="cardImage"  />
+          
+        </div>
+        
       </div>
       
     </div>
@@ -165,6 +170,7 @@
   import notFav from "../assets/starDisabled.png";
   import Fav from "../assets/star.png";
   const cards = ref([]);
+  const currentIndex = ref(0)
 
   const cardName = props.cardName;
   const relatedCardsByName = ref([])
@@ -205,8 +211,6 @@
         return el.name.toLowerCase() === cardName.toLowerCase()
       })
 
-      console.log(viewedCard[0])
-
       allCards.forEach((el) => {
        if(el.name.toLowerCase().includes(cardName.toLowerCase()) && el.name.toLowerCase() !== cardName.toLowerCase()){
         cardsRelatedByName.push(el)
@@ -216,7 +220,7 @@
           cardsRelatedByDesc.push(el)
         }
 
-       if(el.archetype === viewedCard[0].archetype){
+       if((el.archetype && viewedCard[0].archetype) && el.archetype === viewedCard[0].archetype){
           cardsRelatedByArchetype.push(el)
        }
       
@@ -226,6 +230,7 @@
       relatedCardsByName.value = cardsRelatedByName
       relatedCardsByDesc.value = cardsRelatedByDesc
       relatedCardsByArch.value = cardsRelatedByArchetype
+      currentIndex.value = 0
 
     } catch(error) {
       console.log(error)
@@ -243,6 +248,15 @@
   const addToFavs = (name) => {
     store.commit("addToFavs", name);
   };
+
+  const nextRelatedCard = () => {
+    currentIndex.value++
+  }
+
+  const previousRelatedCard = () => {
+    currentIndex.value--
+    
+  }
 
 
   
@@ -335,8 +349,24 @@
       font-size: 1rem;
       padding-top: 2rem;
 
-      div {
-        padding: 1rem 0;
+      .relatedCardsWrapper {
+        width: 100%;
+        height: 300px;
+        border: 1px solid black;
+        display: flex;
+        
+
+        img {
+          position: absolute;
+          width :15.625rem;
+          height: 22.125rem;
+          left: 0; 
+          right: 0; 
+          margin-left: auto; 
+          margin-right: auto; 
+            }
+
+
       }
     }
   }
