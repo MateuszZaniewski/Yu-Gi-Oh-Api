@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import MainView from "../components/HelloWorld.vue";
 import Register from "../components/Register.vue";
 import SignIn from "../components/SignIn.vue";
@@ -44,10 +44,11 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory('/Yu-Gi-Oh-Api/'),
   mode: 'hash',
+  history: createWebHashHistory(),
   routes,
-});
+  
+})
 
 const getCurrentUser = () => {
   return new Promise((resolve, reject) => {

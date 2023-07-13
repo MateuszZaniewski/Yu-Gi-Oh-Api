@@ -4,8 +4,7 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/',
-  publicPath: "/",
+  base: '/Yu-Gi-Oh-Api/',
   plugins: [vue()],
   resolve: {
     alias: {

@@ -1,7 +1,7 @@
 <template>
   <div v-if="cards.length > 0" class="cardWrapper">
     <div class="topSection">
-      <img @click="router.go(-1)" src="../assets/backArrow.png" />
+      <img @click="navigateToHome" src="../assets/backArrow.png" />
       <span>{{ cards[0].name }}</span>
       <img @click="addToFavs(cards[0].name)"
               :src="store.state.favList.includes(cards[0].name) ? Fav : notFav" />
@@ -118,18 +118,15 @@
       <p>Amazon Price: ${{ cards[0].card_prices[0].amazon_price }}</p>
     </div>
 
+    <h3>Related Cards: </h3>
     <div class="simillarCards">
-      <h3>Related Cards: </h3>
-
-      <button @click="previousRelatedCard" >&lt;</button>
-      <button @click="nextRelatedCard" >></button>
-
+      
       <div class="relatedCardsWrapper">
         
         <div v-for="(relatedCard, index) in relatedCardsByArch" :key="relatedCard.name">
           
-          <img v-if="index === currentIndex" :src="relatedCard.card_images[0].image_url" alt="cardImage"  />
-          
+          <img @click="navigateToDetails(relatedCard.name)" :src="relatedCard.card_images[0].image_url" alt="cardImage"  />
+          <span>{{ relatedCard.name }}</span>
         </div>
         
       </div>
@@ -140,7 +137,7 @@
 </template>
 
 <script setup>
-  import { defineProps, ref, onMounted } from "vue";
+  import { defineProps, ref, onMounted, nextTick  } from "vue";
   import axios, { all } from "axios";
   import { useRouter } from "vue-router";
   import { useStore } from "vuex";
@@ -165,8 +162,6 @@
   import fire from "../assets/FIRE.png";
   import water from "../assets/WATER.png";
   import wind from "../assets/WIND.png";
-  import attack from "../assets/swords.png";
-  import defence from "../assets/shield.png";
   import notFav from "../assets/starDisabled.png";
   import Fav from "../assets/star.png";
   const cards = ref([]);
@@ -184,6 +179,8 @@
     },
   });
 
+  
+
   const fetchCards = async () => {
     try {
       const response = await axios.get(
@@ -198,6 +195,8 @@
   };
 
   const fetchAllCards = async (cardName) => {
+
+    
     try {
       const response = await axios.get('https://db.ygoprodeck.com/api/v7/cardinfo.php')
       const allCards = await response.data.data
@@ -205,6 +204,7 @@
       const cardsRelatedByName = []
       const cardsRelatedByDesc = []
       const cardsRelatedByArchetype = []
+      
 
 
       let viewedCard = allCards.filter((el) => {
@@ -232,6 +232,14 @@
       relatedCardsByArch.value = cardsRelatedByArchetype
       currentIndex.value = 0
 
+
+      nextTick(() => {
+    const targetElement = document.querySelector('.cardWrapper');
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+
     } catch(error) {
       console.log(error)
     }
@@ -239,6 +247,7 @@
 
   onMounted(() => {
     fetchCards();
+    
   });
 
 
@@ -249,14 +258,23 @@
     store.commit("addToFavs", name);
   };
 
-  const nextRelatedCard = () => {
-    currentIndex.value++
+  const navigateToHome = () => {
+    router.push({name : "Home"})
   }
 
-  const previousRelatedCard = () => {
-    currentIndex.value--
+  const navigateToDetails = (name) => {
+  const route = router.push({ name: 'name', params: { cardName: name } })
+  
+  route.then(newRoute => {
+  const url = newRoute
+  router.go(url)
+    }).catch(error => {
+      console.error('Error navigating to the details page:', error);
+    });
     
-  }
+  
+  
+};
 
 
   
@@ -288,6 +306,8 @@
       img {
         width: 15.625rem;
         height: 22.125rem;
+        box-shadow: 2px 2px 5px black;
+        border-radius: 0.5rem;
       }
     }
 
@@ -343,31 +363,48 @@
       }
     }
 
+    h3 {
+        padding: 1.5rem 0;
+        width: 90%;
+        margin: 0 auto;
+      }
+
     .simillarCards {
-      width: 90%;
+      width: 100%;
       margin: 0 auto;
       font-size: 1rem;
-      padding-top: 2rem;
+      overflow-x: scroll;
+      margin-bottom: 1rem; 
 
       .relatedCardsWrapper {
         width: 100%;
         height: 300px;
-        border: 1px solid black;
         display: flex;
+        gap: 2rem;
+        padding: 2% 5%;
+        
+        
         
 
         img {
-          position: absolute;
-          width :15.625rem;
-          height: 22.125rem;
-          left: 0; 
-          right: 0; 
+          display: flex;
+          width :11.625rem;
+          height: 15.125rem;
           margin-left: auto; 
           margin-right: auto; 
+          box-shadow: 2px 2px 5px black;
+          border-radius: 0.5rem;
+          margin-bottom: 0.5rem;
             }
+
+        
 
 
       }
     }
+
+    .simillarCards::-webkit-scrollbar{
+        display: none;
+      }
   }
 </style>
