@@ -1,5 +1,14 @@
 <template>
-  <div v-if="cards.length > 0" class="cardWrapper">
+
+  <div v-if="cards.length === 0" class="loading-container">
+    <div class="loading-card">
+      <div class="loading-card-image"></div>
+      
+    </div>
+    <p class="loading-text">{{randomNumber === 0 ? store.state.loadingPhrases[0] : randomNumber === 1 ? store.state.loadingPhrases[1] : randomNumber === 2 ? store.state.loadingPhrases[2] : randomNumber === 3 ? store.state.loadingPhrases[3] : randomNumber === 4 ? store.state.loadingPhrases[4] : randomNumber === 5 ? store.state.loadingPhrases[5] : randomNumber === 6 ? store.state.loadingPhrases[6] : store.state.loadingPhrases[7]}}</p>
+  </div>
+
+  <div v-if="cards.length !== 0" class="cardWrapper">
     <div class="topSection">
       <img @click="navigateToHome" src="../assets/backArrow.png" />
       <span>{{ cards[0].name }}</span>
@@ -106,19 +115,21 @@
       
     </div>
 
-    <div class="cardDescription">
+    <div v-if="cards.length !== 0" class="cardDescription">
       <h2>Card text:</h2>
       <p>{{ cards[0].desc }}</p>
     </div>
 
-    <div class="cardPrice">
+    <div v-if="cards.length !== 0" class="cardPrice">
       <h2>Card prices:</h2>
       <p>Card Market Price: ${{ cards[0].card_prices[0].cardmarket_price }}</p>
       <p>Ebay Price: ${{ cards[0].card_prices[0].ebay_price }}</p>
       <p>Amazon Price: ${{ cards[0].card_prices[0].amazon_price }}</p>
     </div>
 
-    <h3>Related Cards: </h3>
+
+    <div v-if="cards.archetype">
+      <h3>Related Cards: </h3>
     <div class="simillarCards">
       
       <div class="relatedCardsWrapper">
@@ -134,12 +145,14 @@
     </div>
 
   </div>
+</div>
+    
 </template>
 
 <script setup>
   import { defineProps, ref, onMounted, nextTick  } from "vue";
   import axios, { all } from "axios";
-  import { useRouter } from "vue-router";
+  import { useRouter, onBeforeRouteLeave } from "vue-router";
   import { useStore } from "vuex";
 
   const router = useRouter();
@@ -166,6 +179,7 @@
   import Fav from "../assets/star.png";
   const cards = ref([]);
   const currentIndex = ref(0)
+  let randomNumber = 0
 
   const cardName = props.cardName;
   const relatedCardsByName = ref([])
@@ -183,11 +197,14 @@
 
   const fetchCards = async () => {
     try {
+      const randomNumber0to7 = Math.floor(Math.random() * 8);
+      randomNumber = randomNumber0to7
       const response = await axios.get(
         `https://db.ygoprodeck.com/api/v7/cardinfo.php?name=${cardName}`
       );
       const fetchedCards = response.data.data;
       cards.value = fetchedCards;
+      console.log(cards.value)
 
     } catch (error) {
       console.log(error);
@@ -205,6 +222,12 @@
       const cardsRelatedByDesc = []
       const cardsRelatedByArchetype = []
       
+      nextTick(() => {
+    const targetElement = document.querySelector('.cardWrapper');
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
 
 
       let viewedCard = allCards.filter((el) => {
@@ -232,13 +255,6 @@
       relatedCardsByArch.value = cardsRelatedByArchetype
       currentIndex.value = 0
 
-
-      nextTick(() => {
-    const targetElement = document.querySelector('.cardWrapper');
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth' });
-    }
-  });
 
     } catch(error) {
       console.log(error)
@@ -276,6 +292,16 @@
   
 };
 
+
+onMounted(() => {
+  window.onpopstate = () => {
+    const currentURL = window.location.href;
+    if (currentURL.includes('#/') && !currentURL.endsWith('/')) {
+      const cardName = currentURL.substring(currentURL.lastIndexOf('/') + 1);
+      navigateToDetails(decodeURIComponent(cardName));
+    }
+  };
+});
 
   
 
@@ -407,4 +433,70 @@
         display: none;
       }
   }
+
+
+  .loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loading-card {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+
+.loading-card-image {
+  width: 120px;
+  height: 160px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  animation: pulse 2s ease-in-out infinite;
+  background-image: url('../assets/Loading.jpeg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  
+}
+
+.loading-card-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.loading-card-title {
+  width: 200px;
+  height: 1rem;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.loading-card-description {
+  width: 300px;
+  height: 1rem;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.loading-text {
+  font-weight: bold;
+  color: #666;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
 </style>
