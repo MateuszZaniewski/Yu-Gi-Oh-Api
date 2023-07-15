@@ -128,7 +128,7 @@
     </div>
 
 
-    <div v-if="cards.archetype">
+    <div v-if="cards[0].archetype">
       <h3>Related Cards: </h3>
     <div class="simillarCards">
       

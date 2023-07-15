@@ -23,8 +23,8 @@
         <div class="uniqueCard__informations--wrapper">
           <div class="favs">
             <img
-              @click="addToFavs(card.name)"
               class="default"
+              @click="addToFavs(card.name)"
               :src="store.state.favList.includes(card.name) ? Fav : notFav"
             />
           </div>
@@ -146,7 +146,7 @@
           <div class="favs">
             <img
               class="default"
-              @click="addToFavs(card)"
+              @click="addToFavs(card.name)"
               :src="store.state.favList.includes(card.name) ? Fav : notFav"
             />
           </div>
@@ -558,11 +558,13 @@
     gap: 1.25rem;
     justify-content: center;
     padding-bottom: 1.25rem;
+    padding-top: 2rem;
 
     .card__card {
       display: flex;
       width: 45%;
       justify-content: center;
+      max-width: 500px;
 
       .uniqueCard {
         display: flex;
@@ -576,6 +578,8 @@
           img {
             height: 100%;
             width: 100%;
+            max-height: 500px;
+            max-width: 400px;
           }
         }
 
@@ -618,6 +622,8 @@
     flex-flow: column nowrap;
     width: 90%;
     margin: 0 auto;
+    max-width: 1000px;
+    padding-top: 2rem;
 
     .cardList {
       .uniqueCardList {
@@ -629,8 +635,10 @@
 
         .uniqueCard__image--wrapper {
           img {
-            width: 10.3125rem;
-            height: 14.125rem;
+            width: 42.308vw;
+            height: 57.949vw;
+            max-width: 200px;
+            max-height: 300px;
           }
         }
 
