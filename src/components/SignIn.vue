@@ -1,5 +1,12 @@
 <template>
     <main>
+            <img id="ankh" src="../assets/signInPage/ankh-removed.png" />
+            <img id="eye" src="../assets/signInPage/eye-removed.png" />
+            <img id="neclace" src="../assets/signInPage/neclace-removed.png" />
+            <img id="puzzle" src="../assets/signInPage/puzzle-removed.png" />
+            <img id="ring" src="../assets/signInPage/ring-removed.png" />
+            <img id="rod" src="../assets/signInPage/rod-removed.png" />
+            <img id="scale" src="../assets/signInPage/scale-removed.png" />
         <div class="mainText">
             <h1>Yu-Gi-Oh!</h1>
         </div>
@@ -16,17 +23,7 @@
         </div> -->
 
         <div class="createNewAccount">
-            <button id="create" >Create new account</button>
-        </div>
-
-        <div class="backgroundImages">
-            <img id="ankh" src="../assets/signInPage/ankh-removed.png" />
-            <img id="eye" src="../assets/signInPage/eye-removed.png" />
-            <img id="neclace" src="../assets/signInPage/neclace-removed.png" />
-            <img id="puzzle" src="../assets/signInPage/puzzle-removed.png" />
-            <img id="ring" src="../assets/signInPage/ring-removed.png" />
-            <img id="rod" src="../assets/signInPage/rod-removed.png" />
-            <img id="scale" src="../assets/signInPage/scale-removed.png" />
+            <button @click="goToRegisterPage" id="create" >Create new account</button>
         </div>
     </main>
     
@@ -53,13 +50,13 @@
             console.log(error)
             switch (error.code){
                 case 'auth/invalid-email':
-                    errorMsg.value = 'Invalid email'
+                    errorMsg.value = 'Email or password are incorrect'
                     break;
                 case 'auth/user-not-found':
                     errorMsg.value = 'User not found'
                     break;
                 case 'auth/wrong-password':
-                    errorMsg.value = 'Incorrenct Password'
+                    errorMsg.value = 'Email or password are incorrect'
                     break;
                 default :
                     errorMsg.value = 'Email or password are incorrect'
@@ -88,8 +85,13 @@
         signOut(getAuth()).then(() => {
             router.push('/signin')
         })
-    }
-    ;
+    };
+
+    const goToRegisterPage = () => {
+        router.push('/register')
+    };
+
+
     </script>
 
 <style lang="scss" scoped >
@@ -98,18 +100,20 @@
 
 * {
     background-color: transparent;
+    
 }
 
 main {
     background-color: #fff;
     height: 100vh;
+    max-height: 800px;
     position: relative;
     
 }
 
 .mainText {
     text-align: center;
-    padding-top: 30%;
+    padding-top: 5vh;
 
      h1 {
         color: #FFF;
@@ -130,7 +134,7 @@ main {
         align-items: center;
         flex-flow: column nowrap;
 
-        #email, #password, #submit {
+        #email, #password, #submit, #error {
             width: 60%;
             margin: 0 auto;
             font-size: 0.875rem;
@@ -142,7 +146,7 @@ main {
         }
 
         #email {
-            margin-top: 8rem;
+            margin-top: 12rem;
             text-indent: 1rem;
         }
 
@@ -176,7 +180,7 @@ main {
 
     display: flex;
     justify-content: center;
-    padding-top: 10rem;
+    padding-top: 4rem;
 
     button {
         padding: 0.5rem 1.25rem 0.625rem 1.25rem;
@@ -185,26 +189,14 @@ main {
         background: #FFF;
     }
 }
-.backgroundImages{
 
     #puzzle{
         position: absolute;
-        top: 22%;
+        top: 15%;
         left: 0;
         right: 0;
         margin: auto;
         z-index: 1;
-        animation: rotateHorizontal 4s infinite linear;
-        transform-style: preserve-3d;
-    }
-
-    @keyframes rotateHorizontal {
-        from {
-            transform: rotateY(0deg);
-        }
-        to {
-            transform: rotateY(360deg);
-        }
     }
 
     #ankh {
@@ -214,7 +206,7 @@ main {
         margin: auto;
         z-index: 1;
         rotate: -25deg;
-        animation: rotateAnkh 4s infinite linear;
+        animation: rotateAnkh 10s infinite linear;
     }
 
     @keyframes rotateAnkh {
@@ -250,7 +242,38 @@ main {
         right: 5%;
         margin: auto;
         z-index: 1;
+        animation: rotateEye 10s infinite linear;
     }
+
+
+    @keyframes rotateEye {
+        0% {
+            top: 3%;
+            right: 5%;
+        }
+
+        25% {
+            top: 5%;
+            right: 10%;
+        }
+
+        50% {
+            top: 12%;
+            right: 13%;
+        }
+
+        75% {
+            top: 10%;
+            right: 7%;
+        }
+
+        100% {
+            top: 3%;
+            right: 5%;
+        }
+    }
+
+
 
     #rod {
         position: absolute;
@@ -258,7 +281,39 @@ main {
         left: 10%;
         margin: auto;
         z-index: 1;
+        animation: rotateRod 10s infinite linear;
     }
+
+
+    @keyframes rotateRod {
+        0% {
+            top: 30%;
+            left: 10%;
+        }
+
+        25% {
+            top: 38%;
+            left: 15%;
+        }
+
+        50% {
+            top: 41%;
+            left: 19%;
+        }
+
+        75% {
+            top: 36%;
+            left: 13%;
+        }
+
+        100% {
+            top: 30%;
+            left: 10%;
+        }
+    }
+
+
+
 
     #neclace {
         position: absolute;
@@ -267,25 +322,111 @@ main {
         margin: auto;
         z-index: 1;
         rotate: 15deg;
+        animation: rotateNeclace 10s infinite linear;
     }
+
+
+    @keyframes rotateNeclace {
+        0% {
+            top: 30%;
+            right: 10%;
+        }
+
+        25% {
+            top: 38%;
+            right: 7%;
+        }
+
+        50% {
+            top: 41%;
+            right: 13%;
+        }
+
+        75% {
+            top: 36%;
+            right: 3%;
+        }
+
+        100% {
+            top: 30%;
+            right: 10%;
+        }
+    }
+
 
     #scale {
         position: absolute;
-        bottom: 20%;
-        left: 10%;
+        bottom: 16%;
+        left: 4%;
         margin: auto;
         z-index: 1;
+        animation: rotateScale 10s infinite linear;
+    }
+
+
+    @keyframes rotateScale {
+        0% {
+            bottom: 16%;
+            left: 4%;
+        }
+
+        25% {
+            bottom: 12%;
+            left: 8%;
+        }
+
+        50% {
+            bottom: 4%;
+            left: 13%;
+        }
+
+        75% {
+            bottom: 9%;
+            left: 10%;
+        }
+
+        100% {
+            bottom: 16%;
+            left: 4%;
+        }
     }
 
     #ring {
         position: absolute;
-        bottom: 23%;
-        right: 10%;
+        bottom: 25%;
+        right: 12%;
         margin: auto;
         z-index: 1;
         rotate: 12deg;
+        animation: rotateRing 10s infinite linear;
     }
 
 
-}
+    @keyframes rotateRing {
+        0% {
+            bottom: 25%;
+            right: 12%;
+        }
+
+        25% {
+            bottom: 12%;
+            right: 8%;
+        }
+
+        50% {
+            bottom: 4%;
+            right: 13%;
+        }
+
+        75% {
+            bottom: 9%;
+            right: 10%;
+        }
+
+        100% {
+            bottom: 25%;
+            right: 12%;
+        }
+    }
+
 </style>
