@@ -22,6 +22,27 @@
             <p><button @click="handleSignOut">Logout</button></p>
         </div> -->
 
+        <div class="breakspace">
+            <div class="breakline"></div>
+            <span class="breakSpan">or</span>
+            <div class="breakline"></div>
+        </div>
+
+        <div class="signInWithGoogle">
+            <div @click="signInWithGoogle" class="button">
+                <img src="../assets/signInPage/google.png" class="bcgImage" />
+                <span>Continue with Google</span>
+            </div>
+        </div>
+
+        <div class="signInWithFacebook">
+            <div class="button">
+                <img src="../assets/signInPage/facebook.png" class="bcgImage" />
+                <span>Continue with Facebook</span>
+            </div>
+        </div>
+
+
         <div class="createNewAccount">
             <button @click="goToRegisterPage" id="create" >Create new account</button>
         </div>
@@ -31,7 +52,7 @@
     
     <script setup>
     import { ref } from 'vue';
-    import { getAuth, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+    import { getAuth, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider  } from 'firebase/auth'
     import { useRouter } from 'vue-router';
 
     
@@ -80,6 +101,9 @@
         console.log(error)
     })
 }
+
+
+
     
     const handleSignOut = () => {
         signOut(getAuth()).then(() => {
@@ -135,7 +159,7 @@ main {
         flex-flow: column nowrap;
 
         #email, #password, #submit, #error {
-            width: 60%;
+            width: 80%;
             margin: 0 auto;
             font-size: 0.875rem;
             margin-bottom: 1rem;
@@ -180,7 +204,7 @@ main {
 
     display: flex;
     justify-content: center;
-    padding-top: 4rem;
+    padding-top: 2rem;
 
     button {
         padding: 0.5rem 1.25rem 0.625rem 1.25rem;
@@ -206,7 +230,7 @@ main {
         margin: auto;
         z-index: 1;
         rotate: -25deg;
-        animation: rotateAnkh 10s infinite linear;
+        animation: rotateAnkh 9s infinite linear;
     }
 
     @keyframes rotateAnkh {
@@ -242,7 +266,7 @@ main {
         right: 5%;
         margin: auto;
         z-index: 1;
-        animation: rotateEye 10s infinite linear;
+        animation: rotateEye 9.5s infinite linear;
     }
 
 
@@ -322,7 +346,7 @@ main {
         margin: auto;
         z-index: 1;
         rotate: 15deg;
-        animation: rotateNeclace 10s infinite linear;
+        animation: rotateNeclace 10.5s infinite linear;
     }
 
 
@@ -360,7 +384,7 @@ main {
         left: 4%;
         margin: auto;
         z-index: 1;
-        animation: rotateScale 10s infinite linear;
+        animation: rotateScale 11s infinite linear;
     }
 
 
@@ -398,7 +422,7 @@ main {
         margin: auto;
         z-index: 1;
         rotate: 12deg;
-        animation: rotateRing 10s infinite linear;
+        animation: rotateRing 9s infinite linear;
     }
 
 
@@ -427,6 +451,54 @@ main {
             bottom: 25%;
             right: 12%;
         }
+}
+
+.breakspace {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 2rem;
+
+        .breakline {
+            border-bottom: 1px solid black;
+            width: 100%;
+            margin: 0 1rem;
+        }
+
+        span {
+            width: fit-content;
+        }
     }
+
+.signInWithGoogle, .signInWithFacebook {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.125rem;
+    
+    
+    .button {
+        border-radius: 1.25rem;
+        border: 1px solid black;
+        padding: 0.5rem 1.25rem;
+        width: 80%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .bcgImage {
+        width: 1.375rem;
+        height: 1.4375rem;
+    }
+
+
+}
+
+.signInWithGoogle {
+    padding: 1rem 0;
+
+}
 
 </style>
