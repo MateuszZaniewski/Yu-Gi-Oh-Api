@@ -608,6 +608,7 @@
             img {
               width: 40px;
               height: 40px;
+              cursor: pointer;
             }
           }
         }
@@ -654,6 +655,7 @@
             img {
               width: 2.1875rem;
               height: 2.1875rem;
+              cursor: pointer;
             }
           }
 

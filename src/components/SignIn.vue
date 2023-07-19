@@ -29,7 +29,7 @@
         </div>
 
         <div class="signInWithGoogle">
-            <div @click="signInWithGoogle" class="button">
+            <div @touchstart="signInWithGoogle" @click="signInWithGoogle" class="button">
                 <img src="../assets/signInPage/google.png" class="bcgImage" />
                 <span>Continue with Google</span>
             </div>

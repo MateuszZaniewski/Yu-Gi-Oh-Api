@@ -100,15 +100,15 @@ import DefenceComponent from './DefenceComponent.vue'
 import AtributeComponent from './AtributeComponent.vue'
 import CardMobile from './CardMobile.vue'
 import { useStore } from 'vuex';
-import GalleryView from '../assets/gallery.png'
-import GalleryViewInactive from '../assets/galleryInactive.png'
-import ListView from '../assets/list.png'
-import ListViewInactive from '../assets/listInactive.png'
+import GalleryViewInactive from '../assets/gallery.svg'
+import GalleryView from '../assets/galleryActive.svg'
+import ListViewInactive from '../assets/list.svg'
+import ListView from '../assets/listActive.svg'
 import TopArrowInactive from '../assets/topArrow.png'
 import TopArrorActive from '../assets/topArrowActive.png'
 import BottomArrowInactive from '../assets/bottomArrow.png'
 import BottomArrowActive from '../assets/bottomArrowActive.png'
-import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { getAuth, signOut } from 'firebase/auth'
 import { useRouter } from 'vue-router';
 const store = useStore();
 const router = useRouter()
@@ -276,6 +276,7 @@ nav {
         background-color: #2D61AF;
         height: 30px;
         width: 30px;
+        cursor: pointer;
     }
 
     h1 {
@@ -353,6 +354,12 @@ nav {
         flex-flow: row;
         align-items: center;
         gap: 1.25rem;
+        cursor: pointer;
+
+        img {
+            height: 30px;
+            width: 30px;
+        }
     }
     
     .filters-button {
@@ -368,6 +375,7 @@ nav {
         align-items: center;
         justify-content: center;
         color: white;
+        cursor: pointer;
     }
     }
 
@@ -419,9 +427,16 @@ nav {
                 gap: 1rem;
             }
 
+            .topupRight {
+                 button {
+                    cursor: pointer;
+                 }
+            }
+
             img {
                 height: auto;
                 width: auto;
+                cursor: pointer;
             }
 
             span {
@@ -452,6 +467,7 @@ nav {
                 justify-content: center;
                 align-items: center;
                 gap: 1rem;
+                cursor: pointer;
             }
         }
 
