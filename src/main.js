@@ -3,8 +3,8 @@ import App from './App.vue'
 import store from './store'
 import router from '../src/router/router';
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { initializeApp  } from "firebase/app";
+import { getAuth, signInWithPopup, FacebookAuthProvider } from 'firebase/auth';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -32,4 +32,5 @@ app.use(store)
 app.use(router)
 app.mount('#app');
 
-const analytics = getAnalytics(firebaseApp);
+
+export const authentication = getAuth(app)

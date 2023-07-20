@@ -14,7 +14,7 @@
             <input id="email" type="text" placeholder="EMAIL" v-model="email"/>
             <input id="password" type="password" placeholder="PASSWORD" v-model="password"/>
             <p id="error" v-if="errorMsg">{{ errorMsg }}</p>
-            <button id="submit" @click="register">Log in</button>
+            <button type="submit" id="submit" @click="register">Log in</button>
         </div>
         <span class="passwordRecovery"><a>Forgot password?</a></span>
         <!-- <div class="googleLogin">
@@ -29,7 +29,7 @@
         </div>
 
         <div class="signInWithGoogle">
-            <div @touchstart="signInWithGoogle" @click="signInWithGoogle" class="button">
+            <div @click="signInWithGoogle" class="button">
                 <img src="../assets/signInPage/google.png" class="bcgImage" />
                 <span>Continue with Google</span>
             </div>
@@ -38,7 +38,7 @@
         <div class="signInWithFacebook">
             <div class="button">
                 <img src="../assets/signInPage/facebook.png" class="bcgImage" />
-                <span>Continue with Facebook</span>
+                <span @click="signFacebook">Continue with Facebook</span>
             </div>
         </div>
 
@@ -52,7 +52,8 @@
     
     <script setup>
     import { ref } from 'vue';
-    import { getAuth, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider  } from 'firebase/auth'
+    import { getAuth, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider } from 'firebase/auth'
+    import {authentication} from '../main.js'
     import { useRouter } from 'vue-router';
 
     
@@ -60,7 +61,19 @@
     const password = ref('')
     const errorMsg = ref()
     const router = useRouter()
-    
+
+    const signFacebook = () => {
+        var provider = new FacebookAuthProvider();
+        signInWithPopup(authentication, provider)
+        .then((re) => {
+            console.log(re)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    }
+
+
     const register = () => {
         signInWithEmailAndPassword(getAuth(), email.value, password.value)
         .then((data) => {
@@ -90,7 +103,7 @@
         }, 3000);
     }
 
-    const signInWithGoogle = () => {
+const signInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(getAuth(), provider)
     .then((result) => {
@@ -101,9 +114,6 @@
         console.log(error)
     })
 }
-
-
-
     
     const handleSignOut = () => {
         signOut(getAuth()).then(() => {
