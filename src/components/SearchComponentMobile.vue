@@ -1,10 +1,23 @@
 <template>
 <nav>
-    <img src="../assets/hamburger.png"/>
+    <img @click="showMenu" class="hamburger" src="../assets/hamburger.png"/>
     <h1>Yu-Gi-Oh!</h1>
     <img @click="handleSignOut" id="userFace" src="../assets/user.png" />
     
 </nav>
+
+<aside class="menu">
+    <div class="menu-wrapper">
+        <ul class="menu-list">
+            <li id="close"><img @click="hideMenu" src="../assets/close.png" /></li>
+            <li>My Account</li>
+            <li class="searchPage">Search Cards</li>
+            <li>Favourites</li>
+            <li>Deck Builder</li>
+            <li @click="handleSignOut">Logout</li>
+        </ul>
+    </div>
+</aside>
 
 <section class="searchBar">
     <input v-model="searchText" type="search" placeholder="Search" class="search">
@@ -241,7 +254,18 @@ const hideFilters = () => {
     document.querySelector('.popupFilters').style.display = 'none'
 }
 
-searchText
+const showMenu = () => {
+    const menu = document.querySelector('.menu')
+    menu.style.display = 'block'
+    menu.style.position = 'absolute'
+    menu.style.left = '0'
+}
+
+const hideMenu = () => {
+    console.log('elko')
+    const menu = document.querySelector('.menu')
+    menu.style.display = 'none'
+}
 
 watch(
     () => searchText.value,
@@ -260,6 +284,44 @@ watch(
 
 .blur {
     filter: blur(5px);
+}
+
+.searchPage {
+    background-color: #2D61AF;
+    color: white;
+}
+
+aside {
+    display: none;
+    position: absolute;
+    width: 50%;
+    height: fit-content;
+    left: -50%;
+    top: 0;
+    z-index: 99;
+    box-shadow: 0px 0px 0px 0px rgba(36, 26, 26, 0.10), 0px 1px 2px 0px rgba(36, 26, 26, 0.10), 0px 4px 4px 0px rgba(36, 26, 26, 0.09), 0px 10px 6px 0px rgba(36, 26, 26, 0.05), 0px 17px 7px 0px rgba(36, 26, 26, 0.01), 0px 26px 7px 0px rgba(36, 26, 26, 0.00);
+    
+
+    .menu-wrapper {
+        
+
+        .menu-list {
+            display: flex;
+            flex-flow: column nowrap;
+            gap: 1rem;
+            
+
+            #close {
+                text-align: left;
+                font-size: large;
+            }
+
+            li {
+                padding: 0.5rem 1rem;
+                
+            }
+        }
+    }
 }
 
 
@@ -354,11 +416,12 @@ nav {
         flex-flow: row;
         align-items: center;
         gap: 1.25rem;
-        cursor: pointer;
+        
 
         img {
             height: 30px;
             width: 30px;
+            cursor: pointer;
         }
     }
     

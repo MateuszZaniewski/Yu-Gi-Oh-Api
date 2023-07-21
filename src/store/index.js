@@ -75,7 +75,9 @@ const store =  createStore({
             defenceTo: 9999,
 
 
-            loadingPhrases : ["Preparing the Duel...", "Summoning Cards...", "Shuffling the Deck...", "Activating Spell Cards...", "Checking Trap Cards...", "Preparing for Battle...", "Searching for Rare Cards...", "Entering the Shadow Realm..."]
+            loadingPhrases : ["Preparing the Duel...", "Summoning Cards...", "Shuffling the Deck...", "Activating Spell Cards...", "Checking Trap Cards...", "Preparing for Battle...", "Searching for Rare Cards...", "Entering the Shadow Realm..."],
+
+            aciveSite : ['Account', 'Search', 'Favourites', 'Builder', 'Logout']
         }
         
     },

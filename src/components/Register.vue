@@ -19,8 +19,11 @@
             <h1>Yu-Gi-Oh!</h1>
         </div>
         <div class="inputFields">
+            <input id="name" type="text" placeholder="NAME" v-model="name"/>
             <input id="email" type="text" placeholder="EMAIL" v-model="email"/>
             <input id="password" type="password" placeholder="PASSWORD" v-model="password"/>
+            <input :class="errorClassCheck(password, confirmpassword)" id="confirmpassword" type="password" placeholder="CONFIRM PASSWORD" v-model="confirmpassword"/>
+            <p id="passwordError" v-if="password !== confirmpassword">The passwords are different</p>
             <p id="error" v-if="errorMsg">{{ errorMsg }}</p>
             <button id="submit" @click="register">Create an account</button>
         </div>
@@ -31,7 +34,7 @@
         </div> -->
 
         <div class="createNewAccount">
-            <button @click="goToRegisterPage" id="create" >Create new account</button>
+            <button @click="goToSignInPage" id="back" >Already have an account?</button>
         </div>
     </main>
     
@@ -45,8 +48,14 @@ import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWith
 import { useRouter } from 'vue-router';
 const email = ref('')
 const password = ref('')
+const name = ref('')
+const confirmpassword = ref('')
 const errorMsg = ref()
 const router = useRouter()
+
+const errorClassCheck = (pass, confpass) => {
+    return pass !== confpass ? 'passwordError' : ''
+};
 
 const register = () => {
     createUserWithEmailAndPassword(getAuth(), email.value, password.value)
@@ -68,20 +77,13 @@ const register = () => {
                     break;
             }
         })
-}
+};
 
-const signInWithGoogle = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(getAuth(), provider)
-    .then((result) => {
-        console.log(result.user)
-        router.push('/Search')
-    })
-    .catch((error) => {
-        console.log(error)
-    })
-}
-;
+
+const goToSignInPage = () => {
+        router.push('/signin')
+    };
+
 </script>
 
 <style lang="scss" scoped >
@@ -91,6 +93,15 @@ const signInWithGoogle = () => {
 * {
     background-color: transparent;
     
+}
+
+.passwordError {
+    border: 1px solid red;
+    outline: none;
+
+    &:focus {
+        border: 1px solid red;
+    }
 }
 
 main {
@@ -124,7 +135,7 @@ main {
         align-items: center;
         flex-flow: column nowrap;
 
-        #email, #password, #submit, #error {
+        #email, #password, #submit, #error, #name, #confirmpassword {
             width: 60%;
             margin: 0 auto;
             font-size: 0.875rem;
@@ -135,12 +146,16 @@ main {
             z-index: 99;
         }
 
-        #email {
+        #name {
             margin-top: 12rem;
             text-indent: 1rem;
         }
 
-        #password {
+        #passwordError {
+            padding-bottom: 1rem;
+        }
+
+        #password, #name, #confirmpassword, #email {
             text-indent: 1rem;
         }
 

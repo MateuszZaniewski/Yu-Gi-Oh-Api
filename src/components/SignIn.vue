@@ -12,7 +12,7 @@
         </div>
         <div class="inputFields">
             <input id="email" type="text" placeholder="EMAIL" v-model="email"/>
-            <input id="password" type="password" placeholder="PASSWORD" v-model="password"/>
+            <input @keyup.enter.native="register" id="password" type="password" placeholder="PASSWORD" v-model="password"/>
             <p id="error" v-if="errorMsg">{{ errorMsg }}</p>
             <button type="submit" id="submit" @click="register">Log in</button>
         </div>
@@ -38,7 +38,7 @@
         <div class="signInWithFacebook">
             <div class="button">
                 <img src="../assets/signInPage/facebook.png" class="bcgImage" />
-                <span @click="signFacebook">Continue with Facebook</span>
+                <span @click="signInWithFacebook">Continue with Facebook</span>
             </div>
         </div>
 
@@ -52,8 +52,7 @@
     
     <script setup>
     import { ref } from 'vue';
-    import { getAuth, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider } from 'firebase/auth'
-    import {authentication} from '../main.js'
+    import { getAuth, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup, signInWithRedirect, FacebookAuthProvider } from 'firebase/auth'
     import { useRouter } from 'vue-router';
 
     
@@ -62,16 +61,19 @@
     const errorMsg = ref()
     const router = useRouter()
 
-    const signFacebook = () => {
-        var provider = new FacebookAuthProvider();
-        signInWithPopup(authentication, provider)
-        .then((re) => {
-            console.log(re)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-    }
+    const signInWithFacebook = async () => {
+  try {
+    const provider = new FacebookAuthProvider()
+    await signInWithPopup(getAuth(), provider);
+    // Sign-in successful, handle the user data if needed
+    then(
+        console.log(auth.currentUser)
+    )
+    
+  } catch (error) {
+    console.error('Error signing in with Facebook:', error);
+  }
+};
 
 
     const register = () => {
@@ -105,9 +107,10 @@
 
 const signInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(getAuth(), provider)
+    signInWithRedirect(getAuth(), provider)
     .then((result) => {
-        console.log(result.user)
+        const user = result.user;
+        console.log(user)
         router.push('/Search')
     })
     .catch((error) => {
@@ -510,5 +513,9 @@ main {
     padding: 1rem 0;
 
 }
+
+
+
+
 
 </style>
