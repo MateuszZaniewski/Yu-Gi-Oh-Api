@@ -1,22 +1,38 @@
 <template>
 <nav>
-    <img @click="showMenu" class="hamburger" src="../assets/hamburger.png"/>
+    <img @click="showMenu" class="hamburger" :src="hamburger"/>
     <h1>Yu-Gi-Oh!</h1>
-    <img @click="handleSignOut" id="userFace" src="../assets/user.png" />
+    <img id="userFace" src="../assets/user.png" />
     
 </nav>
 
 <aside class="menu">
-    <div class="menu-wrapper">
-        <ul class="menu-list">
-            <li id="close"><img @click="hideMenu" src="../assets/close.png" /></li>
-            <li>My Account</li>
-            <li class="searchPage">Search Cards</li>
-            <li>Favourites</li>
-            <li>Deck Builder</li>
-            <li @click="handleSignOut">Logout</li>
-        </ul>
+    <div class="menu-close">
+        <img @click="showMenu" class="hamburger" :src="menuOpen ? exit : hamburger"/>
     </div>
+    
+    <ul>
+        <li>
+            <img :src="hoverUser ? userLogoHover : userLogo" />
+            <a @mouseover="hoverUser = true" @mouseleave="hoverUser = false" href="#">My Account</a>
+        </li>
+        <li>
+            <img :src="hoverSearch || currentPage === 'search' ? searchLogoHover : searchLogo" />
+            <a :class="currentPage === 'search' ? 'activePage' : ''" @mouseover="hoverSearch = true" @mouseleave="hoverSearch = false" href="#">Search Cards</a>
+        </li>
+        <li>
+            <img :src="hoverBuilder ? builderLogoHover : builderLogo" />
+            <a @mouseover="hoverBuilder = true" @mouseleave="hoverBuilder = false" href="#">Deck Builder</a>
+        </li>
+        <li>
+            <img :src="hoverFavs ? favsLogoHover : favsLogo" />
+            <a @mouseover="hoverFavs = true" @mouseleave="hoverFavs = false" href="#">Favourites</a>
+        </li>
+        <li @click="handleSignOut">
+            <img :src="hoverLogout ? logoutLogoHover : logoutLogo" />
+            <a @mouseover="hoverLogout = true" @mouseleave="hoverLogout = false" href="#">Logout</a>
+        </li>
+    </ul>
 </aside>
 
 <section class="searchBar">
@@ -105,7 +121,6 @@ import MainCardTypes from './MainCardTypesComponent.vue'
 import LevelComponent from './LevelComponent.vue'
 import CardTypeComponent from './CardTypeComponent.vue';
 import MonsterTypeComponent from './MonsterTypeComponent.vue'
-import RaceComponent from './RaceComponent.vue'
 import SpellComponent from './SpellTypesComponent.vue'
 import TrapComponent from './TrapTypesComponent.vue'
 import AttackComponent from './AttackComponent.vue'
@@ -121,17 +136,36 @@ import TopArrowInactive from '../assets/topArrow.png'
 import TopArrorActive from '../assets/topArrowActive.png'
 import BottomArrowInactive from '../assets/bottomArrow.png'
 import BottomArrowActive from '../assets/bottomArrowActive.png'
+import hamburger from "../assets/hamburger.png"
+import exit from '../assets/closeWhite.png'
+import userLogo from '../assets/user.png'
+import userLogoHover from '../assets/userHover.png'
+import builderLogo from '../assets/builder.png'
+import builderLogoHover from '../assets/builderHover.png'
+import favsLogo from '../assets/favourites.png'
+import favsLogoHover from '../assets/favouritesHover.png'
+import logoutLogo from '../assets/logout.png'
+import logoutLogoHover from '../assets/logoutHover.png'
+import searchLogo from '../assets/search.png'
+import searchLogoHover from '../assets/searchHover.png'
 import { getAuth, signOut } from 'firebase/auth'
 import { useRouter } from 'vue-router';
 const store = useStore();
 const router = useRouter()
+
+const menuOpen = ref(false)
+const hoverUser = ref(false)
+const hoverBuilder = ref(false)
+const hoverFavs = ref(false)
+const hoverLogout = ref(false)
+const hoverSearch = ref(false)
+const currentPage = 'search'
 
 const searchText = ref('')
 const attackFrom = ref(0)
 const attackTo = ref(15000)
 const defenceFrom = ref(0)
 const defenceTo = ref(15000)
-const reveal = ref('block')
 const cards = ref([]);
 let searchByName = ref('true')
 const cardsLength = ref(0)
@@ -141,21 +175,6 @@ const allCards = ref(true)
 const monsters = ref(false)
 const spells = ref(false)
 const traps = ref(false)
-
-
-const atributeBox = ref(false)
-const raceBox = ref(false)
-const monsterTypeBox = ref(false)
-const cardTypeBox = ref(false)
-const levelBox = ref(false)
-const atkBox = ref(false)
-const defBox = ref(false)
-
-let levelArray = ref(store.state.levels)
-let cardTypeArray = ref(store.state.types)
-let monstertypeArray = ref(store.state.monsters)
-let raceArray = ref(store.state.races)
-let atributeArray = ref(store.state.atributes)
 
 const sortAtkAscending = () => {
     store.commit('sortByAttackAscending')
@@ -255,16 +274,17 @@ const hideFilters = () => {
 }
 
 const showMenu = () => {
+    menuOpen.value = !menuOpen.value
     const menu = document.querySelector('.menu')
-    menu.style.display = 'block'
-    menu.style.position = 'absolute'
-    menu.style.left = '0'
-}
-
-const hideMenu = () => {
-    console.log('elko')
-    const menu = document.querySelector('.menu')
-    menu.style.display = 'none'
+    console.log(menu.style.display)
+    if(menuOpen.value){
+        menu.style.display = 'flex'
+        menu.style.left = '0'
+    } else {
+        menu.style.display = 'none'
+        menu.style.left = '-50%'
+    }
+    
 }
 
 watch(
@@ -273,8 +293,6 @@ watch(
       localStorage.setItem('SearchText', searchText.value);
     }
   );
-
-
 
 ;
 </script>
@@ -291,36 +309,83 @@ watch(
     color: white;
 }
 
+.activePage {
+    color : orange
+}
+
 aside {
+
+    * {
+        background-color: #2D61AF;
+    }
+
     display: none;
-    position: absolute;
-    width: 50%;
-    height: fit-content;
     left: -50%;
+    flex-flow: column nowrap;
+    position: absolute;
+    height: fit-content;
     top: 0;
-    z-index: 99;
-    box-shadow: 0px 0px 0px 0px rgba(36, 26, 26, 0.10), 0px 1px 2px 0px rgba(36, 26, 26, 0.10), 0px 4px 4px 0px rgba(36, 26, 26, 0.09), 0px 10px 6px 0px rgba(36, 26, 26, 0.05), 0px 17px 7px 0px rgba(36, 26, 26, 0.01), 0px 26px 7px 0px rgba(36, 26, 26, 0.00);
+    width: 50%;
+    border: 1px solid #2D61AF;
+    background-color: #2D61AF;
+    box-shadow: 5px 5px 5px 1px #000000;
+    animation: moveRight 1s ease;
     
 
-    .menu-wrapper {
-        
 
-        .menu-list {
+    .menu-close {
+        padding: 1rem 0;
+        padding-left: 41.6px;
+
+        img {
+            height: 30px;
+            width: 30px;
+        }
+    }
+
+    ul {
+        display: flex;
+        flex-flow: column nowrap;
+        gap: 1rem;
+
+        li {
+            border-bottom: 1px solid white;
+            padding: .5rem .5rem;
             display: flex;
-            flex-flow: column nowrap;
-            gap: 1rem;
-            
+            gap: 0.5rem;
 
-            #close {
-                text-align: left;
-                font-size: large;
+            a {
+                color: white;
             }
 
-            li {
-                padding: 0.5rem 1rem;
-                
+            img {
+                height: 20px;
+                width: 20px;
             }
         }
+
+        li:last-child {
+            border: none;
+        }
+
+        a:hover {
+            color: orange;
+
+            img {
+                height: 50px;
+                width: 50%;
+            }
+        }
+    }
+}
+
+@keyframes moveRight {
+    0% {
+        left : -50%
+    }
+
+    100% {
+        left: 0%;
     }
 }
 
