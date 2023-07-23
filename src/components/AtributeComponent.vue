@@ -70,7 +70,7 @@ const isButtonActive = (atribute) => {
 
     const isTrapCardSelected = computed(() => {
         return store.state.selectedMainCardTypes.includes('Trap Cards');
-    })
+    });
 
 
 </script>

@@ -1,6 +1,6 @@
 <template>
 
-<div v-if="searchByNameOrDescription.length < 1" class="loading-container">
+<div v-if="searchByNameOrDescription.length == 0" class="loading-container">
     <div class="loading-card">
       <div class="loading-card-image"></div>
       
@@ -178,6 +178,9 @@
   import { computed, ref, watch } from "vue";
   import { useStore } from "vuex";
   import { useRouter } from "vue-router";
+  import { getDatabase, set } from 'firebase/database'
+  import { ref as storageRef } from 'firebase/database'
+
   const router = useRouter();
   const store = useStore();
 
@@ -506,8 +509,21 @@
     );
   };
 
+  const writeUserData = (userId, name, email, imageUrl) => {
+  const db = getDatabase()
+  const reference = storageRef(db, 'users/' + userId)
+
+  set(reference, {
+    username: name,
+    email: email,
+    profile_picture: imageUrl
+  })
+}
+
   const addToFavs = (name) => {
     store.commit("addToFavs", name);
+    writeUserData('2', 'Ernest', 'ernest@gmail.com', name)
+
   };
 
   const navigateToDetails = (name) => {
@@ -530,6 +546,13 @@
       () => props.spells,
       () => props.allCards,
       () => props.traps,
+      () => store.state.selectedMainCardTypes,
+      () => store.state.selectedAtributes,
+      () => store.state.selectedSpellTypes,
+      () => store.state.selectedTrapTypes,
+      () => store.state.selectedMonsters,
+      () => store.state.selectedCardTypes,
+      () => store.state.selectedLevels
     ],
     () => {
       gotoPage.value = 1;
@@ -770,7 +793,6 @@
   height: 160px;
   background-color: #f0f0f0;
   border-radius: 4px;
-  animation: pulse 2s ease-in-out infinite;
   background-image: url('../assets/Loading.jpeg');
   background-size: contain;
   background-repeat: no-repeat;
@@ -788,7 +810,6 @@
   background-color: #f0f0f0;
   border-radius: 4px;
   margin-bottom: 0.5rem;
-  animation: pulse 2s ease-in-out infinite;
 }
 
 .loading-card-description {
@@ -796,13 +817,20 @@
   height: 1rem;
   background-color: #f0f0f0;
   border-radius: 4px;
-  animation: pulse 1.5s ease-in-out infinite;
 }
 
 .loading-text {
   font-weight: bold;
   color: #666;
-  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.loading-card-image,
+.loading-card-title,
+.loading-card-description,
+.loading-text {
+  animation: 3s pulse 3s ease-in-out;
+  animation-iteration-count: 1;
+  animation-duration: 3s;
 }
 
 @keyframes pulse {

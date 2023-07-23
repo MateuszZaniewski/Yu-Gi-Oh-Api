@@ -7,11 +7,10 @@
 </nav>
 
 <aside class="menu">
-    <div class="menu-close">
-        <img @click="showMenu" class="hamburger" :src="menuOpen ? exit : hamburger"/>
-    </div>
-    
     <ul>
+        <div class="menu-close">
+        <img @click="showMenu" class="hamburger" :src="menuOpen ? exit : hamburger"/>
+        </div>
         <li>
             <img :src="hoverUser ? userLogoHover : userLogo" />
             <a @mouseover="hoverUser = true" @mouseleave="hoverUser = false" href="#">My Account</a>
@@ -33,6 +32,7 @@
             <a @mouseover="hoverLogout = true" @mouseleave="hoverLogout = false" href="#">Logout</a>
         </li>
     </ul>
+    <p>Created by <span>Mateusz</span> in collaboration with the spirit of <span>Yami Yugi</span>, the King of Games!</p>
 </aside>
 
 <section class="searchBar">
@@ -117,6 +117,14 @@
 
 import { ref, onMounted, computed, watch } from 'vue';
 import axios from 'axios';
+import { useStore } from 'vuex';
+import { getAuth, signOut } from 'firebase/auth'
+import { useRouter } from 'vue-router';
+import { getDatabase, set } from 'firebase/database'
+import { ref as storageRef } from 'firebase/database'
+
+
+
 import MainCardTypes from './MainCardTypesComponent.vue'
 import LevelComponent from './LevelComponent.vue'
 import CardTypeComponent from './CardTypeComponent.vue';
@@ -127,7 +135,7 @@ import AttackComponent from './AttackComponent.vue'
 import DefenceComponent from './DefenceComponent.vue'
 import AtributeComponent from './AtributeComponent.vue'
 import CardMobile from './CardMobile.vue'
-import { useStore } from 'vuex';
+
 import GalleryViewInactive from '../assets/gallery.svg'
 import GalleryView from '../assets/galleryActive.svg'
 import ListViewInactive from '../assets/list.svg'
@@ -148,8 +156,7 @@ import logoutLogo from '../assets/logout.png'
 import logoutLogoHover from '../assets/logoutHover.png'
 import searchLogo from '../assets/search.png'
 import searchLogoHover from '../assets/searchHover.png'
-import { getAuth, signOut } from 'firebase/auth'
-import { useRouter } from 'vue-router';
+
 const store = useStore();
 const router = useRouter()
 
@@ -276,13 +283,16 @@ const hideFilters = () => {
 const showMenu = () => {
     menuOpen.value = !menuOpen.value
     const menu = document.querySelector('.menu')
+    const page = document.querySelector('body')
     console.log(menu.style.display)
     if(menuOpen.value){
         menu.style.display = 'flex'
         menu.style.left = '0'
+        page.style.overflow = 'hidden'
     } else {
         menu.style.display = 'none'
         menu.style.left = '-50%'
+        page.style.overflow = 'auto'
     }
     
 }
@@ -320,12 +330,14 @@ aside {
     }
 
     display: none;
-    left: -50%;
+    left: -100%;
     flex-flow: column nowrap;
+    justify-content: space-between;
     position: absolute;
-    height: fit-content;
+    z-index: 99;
+    height: 100vh;
     top: 0;
-    width: 50%;
+    width: 100%;
     border: 1px solid #2D61AF;
     background-color: #2D61AF;
     box-shadow: 5px 5px 5px 1px #000000;
@@ -377,11 +389,24 @@ aside {
             }
         }
     }
+
+    p {
+        color: white;
+        padding: 1rem 0.5rem;
+
+        span {
+            color: orange;
+        }
+
+        span + span {
+            color: yellow;
+        }
+    }
 }
 
 @keyframes moveRight {
     0% {
-        left : -50%
+        left : -100%
     }
 
     100% {
@@ -511,7 +536,7 @@ nav {
 
 .popupFilters {
     position: absolute;
-    z-index: 99;
+    z-index: 90;
     display: none;
     top: 4rem;
     left: 0;
