@@ -2,7 +2,7 @@
 <nav>
     <img @click="showMenu" class="hamburger" :src="hamburger"/>
     <h1>Yu-Gi-Oh!</h1>
-    <img id="userFace" src="../assets/user.png" />
+    <img @click="goToDashboard" id="userFace" src="../assets/user.png" />
     
 </nav>
 
@@ -11,9 +11,9 @@
         <div class="menu-close">
         <img @click="showMenu" class="hamburger" :src="menuOpen ? exit : hamburger"/>
         </div>
-        <li>
+        <li @click="goToDashboard">
             <img :src="hoverUser ? userLogoHover : userLogo" />
-            <a @mouseover="hoverUser = true" @mouseleave="hoverUser = false" href="#">My Account</a>
+            <a @mouseover="hoverUser = true" @mouseleave="hoverUser = false" >My Account</a>
         </li>
         <li>
             <img :src="hoverSearch || currentPage === 'search' ? searchLogoHover : searchLogo" />
@@ -107,8 +107,6 @@
     :traps="traps"/>
 </div>
 
-
-
 </template>
 
 
@@ -135,6 +133,7 @@ import AttackComponent from './AttackComponent.vue'
 import DefenceComponent from './DefenceComponent.vue'
 import AtributeComponent from './AtributeComponent.vue'
 import CardMobile from './CardMobile.vue'
+import UserDashboard from './UserDashboard.vue'
 
 import GalleryViewInactive from '../assets/gallery.svg'
 import GalleryView from '../assets/galleryActive.svg'
@@ -201,6 +200,10 @@ const handleSignOut = () => {
             router.push('/signin')
         })
     }
+
+const goToDashboard = () => {
+    router.push('/dashboard')
+}
 
 
 const preFilter = computed(() => {
@@ -303,6 +306,9 @@ watch(
       localStorage.setItem('SearchText', searchText.value);
     }
   );
+
+  
+ 
 
 ;
 </script>

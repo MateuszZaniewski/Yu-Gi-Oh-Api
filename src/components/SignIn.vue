@@ -79,6 +79,12 @@
     const register = () => {
         signInWithEmailAndPassword(getAuth(), email.value, password.value)
         .then((data) => {
+            console.log(data)
+            console.log('Name', data.displayName)
+            console.log('Email', data.email)
+            // user id : data.uid
+            // user name : data.displayName
+            // user email : data.email
             console.log('Zalogowano pomyślnie')
             router.push('/Search')
         })

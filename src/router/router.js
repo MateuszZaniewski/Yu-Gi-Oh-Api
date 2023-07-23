@@ -3,6 +3,7 @@ import MainView from "../components/HelloWorld.vue";
 import Register from "../components/Register.vue";
 import SignIn from "../components/SignIn.vue";
 import DetailsPage from "../components/DetailsPage.vue";
+import UserDashboard from '../components/UserDashboard.vue'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const routes = [
@@ -10,6 +11,11 @@ const routes = [
     path: "/",
     name: "Home",
     component: MainView,
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: UserDashboard
   },
   {
     path: "/register",
